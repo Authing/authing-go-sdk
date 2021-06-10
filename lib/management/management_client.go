@@ -1,13 +1,13 @@
 package management
 
 import (
-	"authing-go-sdk/lib/constant"
-	"authing-go-sdk/lib/model"
-	"authing-go-sdk/lib/util/cacheutil"
 	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/Authing/authing-go-sdk/lib/constant"
+	"github.com/Authing/authing-go-sdk/lib/model"
+	"github.com/Authing/authing-go-sdk/lib/util/cacheutil"
 	"github.com/kelvinji2009/graphql"
 	"github.com/valyala/fasthttp"
 	"golang.org/x/oauth2"

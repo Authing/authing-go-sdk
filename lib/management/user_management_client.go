@@ -1,7 +1,7 @@
 package management
 
 import (
-	"authing-go-sdk/lib/model"
+	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
 )
 

@@ -1,4 +1,4 @@
-module authing-go-sdk
+module github.com/Authing/authing-go-sdk
 
 require (
 	github.com/json-iterator/go v1.1.11
