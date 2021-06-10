@@ -1,9 +1,9 @@
 package management
 
 import (
-	"authing-golang-sdk/lib/constant"
-	"authing-golang-sdk/lib/model"
-	"authing-golang-sdk/lib/util/cacheutil"
+	"authing-go-sdk/lib/constant"
+	"authing-go-sdk/lib/model"
+	"authing-go-sdk/lib/util/cacheutil"
 	"bytes"
 	"context"
 	"encoding/json"

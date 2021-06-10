@@ -1,14 +1,14 @@
 package management
 
 import (
-	"authing-golang-sdk/lib/model"
+	"authing-go-sdk/lib/model"
 	"log"
 	"testing"
 )
 
 const (
-	userPoolId  = "60a6f97f3f50c7a9483e313d"
-	appSecret = "d254623f808ba850d5d5ea7b07bead60"
+	userPoolId = "60a6f97f3f50c7a9483e313d"
+	appSecret  = "d254623f808ba850d5d5ea7b07bead60"
 )
 
 func TestClient_ExportAll(t *testing.T) {

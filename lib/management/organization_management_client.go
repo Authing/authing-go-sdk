@@ -1,8 +1,8 @@
 package management
 
 import (
-	"authing-golang-sdk/lib/constant"
-	"authing-golang-sdk/lib/model"
+	"authing-go-sdk/lib/constant"
+	"authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
 )
 
