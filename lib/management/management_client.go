@@ -155,9 +155,8 @@ func (c *Client) SendHttpRequest(url string, method string, query string, variab
 	req.Header.Add("x-authing-app-id", ""+constant.AppId)
 
 	res, err := c.HttpClient.Do(req)
-	//defer res.Body.Close()
+	defer res.Body.Close()
 	body, err := ioutil.ReadAll(res.Body)
-	fmt.Println(string(body))
 	return body, nil
 }
 
@@ -184,7 +183,6 @@ func (c *Client) httpGet(url string, client *http.Client) (string, error) {
 		return "", err
 	}
 	result := string(body)
-	fmt.Printf(result)
 	return result, nil
 }
 

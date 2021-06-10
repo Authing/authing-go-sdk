@@ -6,9 +6,9 @@ import (
 	jsoniter "github.com/json-iterator/go"
 )
 
-func (c *Client) ExportAll() ([]model.Node,error) {
+func (c *Client) ExportAll() ([]model.Node, error) {
 	var q []model.Node
-	b, err := c.SendHttpRequestV2(c.Host +"/api/v2/orgs/export", constant.HttpMethodGet, "", nil)
+	b, err := c.SendHttpRequest(c.Host+"/api/v2/orgs/export", constant.HttpMethodGet, "", nil)
 	if err != nil {
 		return q, err
 	}
@@ -17,9 +17,9 @@ func (c *Client) ExportAll() ([]model.Node,error) {
 	return response.Data, nil
 }
 
-func (c *Client) ListMembers(req *model.ListMemberRequest) (*model.Node, error)  {
+func (c *Client) ListMembers(req *model.ListMemberRequest) (*model.Node, error) {
 	variables := map[string]interface{}{
-		"id":     req.NodeId,
+		"id": req.NodeId,
 	}
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, constant.HttpMethodPost, constant.NodeByIdWithMembersDocument, variables)
 	if err != nil {
