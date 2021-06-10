@@ -21,18 +21,17 @@ import (
 
 // Client is a client for interacting with the GraphQL API of `Authing`
 type Client struct {
-	Client *graphql.Client
+	Client     *graphql.Client
 	HttpClient *http.Client
 	userPoolId string
-	secret string
-	Host string
+	secret     string
+	Host       string
 
 	// Log is called with various debug information.
 	// To log to standard out, use:
 	//  client.Log = func(s string) { log.Println(s) }
 	Log func(s string)
 }
-
 
 func NewClient(userPoolId string, secret string, host ...string) *Client {
 	var clientHost string
@@ -43,10 +42,11 @@ func NewClient(userPoolId string, secret string, host ...string) *Client {
 	}
 	c := &Client{
 		userPoolId: userPoolId,
-		secret: secret,
-		Host: clientHost,
+		secret:     secret,
+		Host:       clientHost,
 	}
 	if c.HttpClient == nil {
+		c.HttpClient = &http.Client{}
 		accessToken, err := GetAccessToken(c)
 		if err != nil {
 			log.Println(err)
@@ -59,7 +59,6 @@ func NewClient(userPoolId string, secret string, host ...string) *Client {
 	}
 	return c
 }
-
 
 // NewHttpClient creates a new Authing user endpoint GraphQL API client
 func NewHttpClient(userPoolId string, appSecret string, isDev bool) *Client {
@@ -127,9 +126,7 @@ func NewOauthClient(userPoolId string, appSecret string, isDev bool) *Client {
 	return c
 }
 
-func (c *Client)SendHttpRequest(url string, method string, query string, variables map[string]interface{}) ([]byte, error) {
-	client := &http.Client {
-	}
+func (c *Client) SendHttpRequest(url string, method string, query string, variables map[string]interface{}) ([]byte, error) {
 	in := struct {
 		Query     string                 `json:"query"`
 		Variables map[string]interface{} `json:"variables,omitempty"`
@@ -150,49 +147,48 @@ func (c *Client)SendHttpRequest(url string, method string, query string, variabl
 	//增加header选项
 	if !strings.HasPrefix(query, "query accessToken") {
 		token, _ := GetAccessToken(c)
-		req.Header.Add("Authorization", "Bearer " + token)
+		req.Header.Add("Authorization", "Bearer "+token)
 	}
-	req.Header.Add("x-authing-userpool-id", "" + c.userPoolId)
+	req.Header.Add("x-authing-userpool-id", ""+c.userPoolId)
 	req.Header.Add("x-authing-request-from", constant.SdkType)
 	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
-	req.Header.Add("x-authing-app-id", "" + constant.AppId)
+	req.Header.Add("x-authing-app-id", ""+constant.AppId)
 
-	res, err := client.Do(req)
-	defer res.Body.Close()
+	res, err := c.HttpClient.Do(req)
+	//defer res.Body.Close()
 	body, err := ioutil.ReadAll(res.Body)
 	fmt.Println(string(body))
 	return body, nil
 }
 
-
-func (c *Client)httpGet(url string, client *http.Client) (string,error)  {
-	reqest, err := http.NewRequest(constant.HttpMethodGet, c.Host +url, nil)
+func (c *Client) httpGet(url string, client *http.Client) (string, error) {
+	reqest, err := http.NewRequest(constant.HttpMethodGet, c.Host+url, nil)
 	if err != nil {
-		return "",err
+		return "", err
 	}
 
 	//增加header选项
 	token, _ := GetAccessToken(c)
-	reqest.Header.Add("Authorization", "Bearer " + token)
-	reqest.Header.Add("x-authing-userpool-id", "" + c.userPoolId)
+	reqest.Header.Add("Authorization", "Bearer "+token)
+	reqest.Header.Add("x-authing-userpool-id", ""+c.userPoolId)
 	reqest.Header.Add("x-authing-request-from", constant.SdkType)
 	reqest.Header.Add("x-authing-sdk-version", constant.SdkVersion)
-	reqest.Header.Add("x-authing-app-id", "" + constant.AppId)
+	reqest.Header.Add("x-authing-app-id", ""+constant.AppId)
 
 	resp, err := client.Do(reqest)
 	if err != nil {
-		return "",err
+		return "", err
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return "",err
+		return "", err
 	}
 	result := string(body)
 	fmt.Printf(result)
-	return result,nil
+	return result, nil
 }
 
-func (c *Client)SendHttpRequestV2(url string, method string, query string, variables map[string]interface{}) ([]byte, error) {
+func (c *Client) SendHttpRequestV2(url string, method string, query string, variables map[string]interface{}) ([]byte, error) {
 	in := struct {
 		Query     string                 `json:"query"`
 		Variables map[string]interface{} `json:"variables,omitempty"`
@@ -210,11 +206,11 @@ func (c *Client)SendHttpRequestV2(url string, method string, query string, varia
 
 	req.SetRequestURI(url)
 	token, _ := GetAccessToken(c)
-	req.Header.Add("Authorization", "Bearer " + token)
-	req.Header.Add("x-authing-userpool-id", "" + c.userPoolId)
+	req.Header.Add("Authorization", "Bearer "+token)
+	req.Header.Add("x-authing-userpool-id", ""+c.userPoolId)
 	req.Header.Add("x-authing-request-from", constant.SdkType)
 	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
-	req.Header.Add("x-authing-app-id", "" + constant.AppId)
+	req.Header.Add("x-authing-app-id", ""+constant.AppId)
 	req.Header.SetMethod(method)
 	req.SetBody(buf.Bytes())
 
@@ -222,9 +218,8 @@ func (c *Client)SendHttpRequestV2(url string, method string, query string, varia
 	client := &fasthttp.Client{}
 	client.Do(req, resp)
 	body := resp.Body()
-	return body,err
+	return body, err
 }
-
 
 func QueryAccessToken(client *Client) (*model.AccessTokenRes, error) {
 	type Data struct {
@@ -235,11 +230,11 @@ func QueryAccessToken(client *Client) (*model.AccessTokenRes, error) {
 	}
 
 	variables := map[string]interface{}{
-		"userPoolId":     client.userPoolId,
-		"secret": 		client.secret,
+		"userPoolId": client.userPoolId,
+		"secret":     client.secret,
 	}
 
-	b, err := client.SendHttpRequest(client.Host + constant.CoreAuthingGraphqlPath,constant.HttpMethodPost, constant.AccessTokenDocument, variables)
+	b, err := client.SendHttpRequest(client.Host+constant.CoreAuthingGraphqlPath, constant.HttpMethodPost, constant.AccessTokenDocument, variables)
 	if err != nil {
 		return nil, err
 	}
@@ -270,7 +265,6 @@ func GetAccessToken(client *Client) (string, error) {
 		return "", err
 	}
 	var expire = *(token.Exp) - time.Now().Unix() - 43200
-	cacheutil.SetCache(constant.TokenCacheKeyPrefix + client.userPoolId, *token.AccessToken, time.Duration(expire * int64(time.Second)))
+	cacheutil.SetCache(constant.TokenCacheKeyPrefix+client.userPoolId, *token.AccessToken, time.Duration(expire*int64(time.Second)))
 	return *token.AccessToken, nil
 }
-
