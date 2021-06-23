@@ -60,11 +60,11 @@ func (c *Client) GetOrganizationById(orgId string) (*model.Org, error) {
 	return &response.Data.Org, nil
 }
 
-func (c *Client) GetOrganizationFirstLevel(orgId string, depth int) (*[]model.Org, error) {
+func (c *Client) GetOrganizationChildren(nodeId string, depth int) (*[]model.Org, error) {
 	var result *[]model.Org
 	variables := map[string]interface{}{
-		"orgId": orgId,
-		"depth": depth,
+		"nodeId": nodeId,
+		"depth":  depth,
 	}
 	b, err := c.SendHttpRequest(c.Host+"/api/v2/orgs/children", constant.HttpMethodGet, "", variables)
 	if err != nil {

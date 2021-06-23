@@ -48,9 +48,9 @@ func TestClient_GetOrganizationById(t *testing.T) {
 	log.Printf("%+v\n", resp)
 }
 
-func TestClient_GetOrganizationFirstLevel(t *testing.T) {
+func TestClient_GetOrganizationChildren(t *testing.T) {
 	client := NewClient("59f86b4832eb28071bdd9214", "1673592cc11972d6fcb8253e67544ead", "http://localhost:3000")
 	log.Println("==========获取第一层组织机构==========")
-	resp, _ := client.GetOrganizationFirstLevel("60d1dd1b78f21158277c4b4c", 0)
+	resp, _ := client.GetOrganizationChildren("60d1dd1b2d625618036eb539", 1)
 	log.Printf("%+v\n", resp)
 }
