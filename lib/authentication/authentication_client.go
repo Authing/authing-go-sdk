@@ -64,7 +64,7 @@ type OidcParams struct {
 	codeChallenge       string
 }
 
-func (c *Client) buildAuthorizeUrl(params OidcParams) (string, error) {
+func (c *Client) BuildAuthorizeUrlByOidc(params OidcParams) (string, error) {
 	if c.AppId == "" {
 		return constant.StringEmpty, errors.New("请在初始化 AuthenticationClient 时传入 appId")
 	}
@@ -88,5 +88,9 @@ func (c *Client) buildAuthorizeUrl(params OidcParams) (string, error) {
 		"redirect_uri":  util.GetValidValue(params.redirectUri, c.RedirectUri),
 		"prompt":        util.GetValidValue(scope),
 	}
-	return "", nil
+	return c.Host + "/oidc/auth?" + util.GetQueryString(dataMap), nil
+}
+
+func (c *Client) getAccessTokenByCode(code string) {
+
 }

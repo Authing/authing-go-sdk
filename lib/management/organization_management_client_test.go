@@ -1,7 +1,9 @@
 package management
 
 import (
+	"fmt"
 	"github.com/Authing/authing-go-sdk/lib/model"
+	"github.com/Authing/authing-go-sdk/lib/util"
 	"log"
 	"testing"
 )
@@ -28,4 +30,12 @@ func TestClient_ExportAll(t *testing.T) {
 	log.Println("==========通过 ID 获取用户信息==========")
 	resp2, _ := client.Detail("60a6f9ad5bcccc51834950c5")
 	log.Printf("%+v\n", resp2)
+}
+
+func TestClient_ListMembers(t *testing.T) {
+	dataMap := map[string]string{
+		"a": "1",
+		"b": "2",
+	}
+	fmt.Println(util.GetQueryString(dataMap))
 }

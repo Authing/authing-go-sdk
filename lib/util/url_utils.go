@@ -1,9 +1,20 @@
 package util
 
-import "net/url"
+import (
+	"github.com/Authing/authing-go-sdk/lib/constant"
+	"net/url"
+)
 
-func GetQueryString(queryMap map[string]string) {
-	value := url.Values{}
-	val
-
+func GetQueryString(queryMap map[string]string) string {
+	if queryMap == nil || len(queryMap) == 0 {
+		return constant.StringEmpty
+	}
+	queryValue := url.Values{}
+	for key, value := range queryMap {
+		if value == "" {
+			continue
+		}
+		queryValue.Add(key, value)
+	}
+	return queryValue.Encode()
 }
