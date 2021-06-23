@@ -49,8 +49,8 @@ func TestClient_GetOrganizationById(t *testing.T) {
 }
 
 func TestClient_GetOrganizationChildren(t *testing.T) {
-	client := NewClient("59f86b4832eb28071bdd9214", "1673592cc11972d6fcb8253e67544ead", "http://localhost:3000")
+	client := NewClient(userPoolId, appSecret)
 	log.Println("==========获取第一层组织机构==========")
-	resp, _ := client.GetOrganizationChildren("60d1dd1b2d625618036eb539", 1)
+	resp, _ := client.GetOrganizationChildren("60cd9d3a4b96cfff16e7e5f4", 1)
 	log.Printf("%+v\n", resp)
 }
