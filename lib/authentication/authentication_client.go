@@ -11,12 +11,13 @@ import (
 )
 
 type Client struct {
-	HttpClient  *http.Client
-	AppId       string
-	Protocol    constant.ProtocolEnum
-	Secret      string
-	Host        string
-	RedirectUri string
+	HttpClient              *http.Client
+	AppId                   string
+	Protocol                constant.ProtocolEnum
+	Secret                  string
+	Host                    string
+	RedirectUri             string
+	TokenEndPointAuthMethod constant.AuthMethodEnum
 
 	Log func(s string)
 }
@@ -91,6 +92,16 @@ func (c *Client) BuildAuthorizeUrlByOidc(params OidcParams) (string, error) {
 	return c.Host + "/oidc/auth?" + util.GetQueryString(dataMap), nil
 }
 
-func (c *Client) getAccessTokenByCode(code string) {
+func (c *Client) GetAccessTokenByCode(code string) (string, error) {
+	if c.AppId == "" {
+		return constant.StringEmpty, errors.New("请在初始化 AuthenticationClient 时传入 appId")
+	}
+	if c.Secret == "" && c.TokenEndPointAuthMethod != constant.None {
+		return constant.StringEmpty, errors.New("请在初始化 AuthenticationClient 时传入 Secret")
+	}
+	url := c.Host + "/oidc/token"
+	switch c.TokenEndPointAuthMethod {
+	case constant.TokenEndPointAuthMethod:
 
+	}
 }

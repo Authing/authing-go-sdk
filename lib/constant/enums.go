@@ -1,10 +1,6 @@
 package constant
 
 const (
-	ClientSecretPost = "client_secret_post"
-)
-
-const (
 	HttpMethodGet  = "GET"
 	HttpMethodPost = "POST"
 )
@@ -54,4 +50,12 @@ const (
 	OIDC  ProtocolEnum = "oidc"
 	CAS   ProtocolEnum = "cas"
 	SAML  ProtocolEnum = "saml"
+)
+
+type AuthMethodEnum string
+
+const (
+	ClientSecretPost  = "client_secret_post"
+	ClientSecretBasic = "client_secret_basic"
+	None              = "none"
 )
