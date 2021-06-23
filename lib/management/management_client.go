@@ -127,23 +127,34 @@ func NewOauthClient(userPoolId string, appSecret string, isDev bool) *Client {
 }
 
 func (c *Client) SendHttpRequest(url string, method string, query string, variables map[string]interface{}) ([]byte, error) {
-	in := struct {
-		Query     string                 `json:"query"`
-		Variables map[string]interface{} `json:"variables,omitempty"`
-	}{
-		Query:     query,
-		Variables: variables,
+	var req *http.Request
+	if method == constant.HttpMethodGet {
+		req, _ = http.NewRequest(http.MethodGet, url, nil)
+		if variables != nil && len(variables) > 0 {
+			q := req.URL.Query()
+			for key, value := range variables {
+				q.Add(key, fmt.Sprintf("%v", value))
+			}
+			req.URL.RawQuery = q.Encode()
+		}
+
+	} else {
+		in := struct {
+			Query     string                 `json:"query"`
+			Variables map[string]interface{} `json:"variables,omitempty"`
+		}{
+			Query:     query,
+			Variables: variables,
+		}
+		var buf bytes.Buffer
+		err := json.NewEncoder(&buf).Encode(in)
+		if err != nil {
+			return nil, err
+		}
+		req, err = http.NewRequest(method, url, &buf)
+		req.Header.Add("Content-Type", "application/json")
 	}
-	var buf bytes.Buffer
-	err := json.NewEncoder(&buf).Encode(in)
-	if err != nil {
-		return nil, err
-	}
-	req, err := http.NewRequest(method, url, &buf)
-	if err != nil {
-		fmt.Println(err)
-	}
-	req.Header.Add("Content-Type", "application/json")
+
 	//增加header选项
 	if !strings.HasPrefix(query, "query accessToken") {
 		token, _ := GetAccessToken(c)
@@ -155,6 +166,9 @@ func (c *Client) SendHttpRequest(url string, method string, query string, variab
 	req.Header.Add("x-authing-app-id", ""+constant.AppId)
 
 	res, err := c.HttpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
 	defer res.Body.Close()
 	body, err := ioutil.ReadAll(res.Body)
 	return body, nil
@@ -265,4 +279,11 @@ func GetAccessToken(client *Client) (string, error) {
 	var expire = *(token.Exp) - time.Now().Unix() - 43200
 	cacheutil.SetCache(constant.TokenCacheKeyPrefix+client.userPoolId, *token.AccessToken, time.Duration(expire*int64(time.Second)))
 	return *token.AccessToken, nil
+}
+
+func CreateRequestParam(param struct{}) map[string]interface{} {
+	data, _ := json.Marshal(&param)
+	variables := make(map[string]interface{})
+	json.Unmarshal(data, &variables)
+	return variables
 }

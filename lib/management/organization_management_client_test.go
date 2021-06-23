@@ -29,3 +29,28 @@ func TestClient_ExportAll(t *testing.T) {
 	resp2, _ := client.Detail("60a6f9ad5bcccc51834950c5")
 	log.Printf("%+v\n", resp2)
 }
+
+func TestClient_GetOrganizationList(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========获取用户池组织机构列表==========")
+	req := model.QueryListRequest{
+		Page:  1,
+		Limit: 10,
+	}
+	resp, _ := client.GetOrganizationList(req)
+	log.Printf("%+v\n", resp)
+}
+
+func TestClient_GetOrganizationById(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========获取组织机构详情==========")
+	resp, _ := client.GetOrganizationById("60cd9d3ab98280ce211bc834")
+	log.Printf("%+v\n", resp)
+}
+
+func TestClient_GetOrganizationFirstLevel(t *testing.T) {
+	client := NewClient("59f86b4832eb28071bdd9214", "1673592cc11972d6fcb8253e67544ead", "http://localhost:3000")
+	log.Println("==========获取第一层组织机构==========")
+	resp, _ := client.GetOrganizationFirstLevel("60d1dd1b78f21158277c4b4c", 0)
+	log.Printf("%+v\n", resp)
+}
