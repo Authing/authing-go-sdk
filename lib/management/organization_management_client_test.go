@@ -1,6 +1,7 @@
 package management
 
 import (
+	"github.com/Authing/authing-go-sdk/lib/enum"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	"log"
 	"testing"
@@ -36,6 +37,7 @@ func TestClient_GetOrganizationList(t *testing.T) {
 	req := model.QueryListRequest{
 		Page:  1,
 		Limit: 10,
+		SortBy: enum.SortByCreatedAtAsc,
 	}
 	resp, _ := client.GetOrganizationList(req)
 	log.Printf("%+v\n", resp)
