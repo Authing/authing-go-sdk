@@ -1,16 +1,13 @@
 package authentication
 
 import (
-	"bytes"
 	"encoding/base64"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/Authing/authing-go-sdk/lib/constant"
+	"github.com/Authing/authing-go-sdk/lib/model"
 	"github.com/Authing/authing-go-sdk/lib/util"
-	"golang.org/x/oauth2"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 )
@@ -45,15 +42,6 @@ func NewClient(appId string, secret string, host ...string) *Client {
 	}
 	if c.HttpClient == nil {
 		c.HttpClient = &http.Client{}
-		accessToken, err := GetAccessToken(c)
-		if err != nil {
-			log.Println(err)
-			return nil
-		}
-		src := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: accessToken},
-		)
-		c.HttpClient = oauth2.NewClient(context.Background(), src)
 	}
 	return c
 }
@@ -111,6 +99,8 @@ func (c *Client) GetAccessTokenByCode(code string) (string, error) {
 	}
 
 	body := map[string]string{
+		"client_id": c.AppId,
+		"client_secret": c.Secret,
 		"grant_type": "authorization_code",
 		"code": code,
 		"redirect_uri": c.RedirectUri,
@@ -126,8 +116,96 @@ func (c *Client) GetAccessTokenByCode(code string) (string, error) {
 	default:
 		body["client_id"] = c.AppId
 	}
-	c.SendHttpRequest(url,constant.HttpMethodPost,header,body)
-	return "",nil
+	resp, err := c.SendHttpRequest(url,constant.HttpMethodPost,header,body)
+	return string(resp), err
+}
+
+func (c *Client) GetUserInfoByAccessToken(accessToken string) (string, error) {
+	if accessToken == constant.StringEmpty {
+		return constant.StringEmpty, errors.New("accessToken 不能为空")
+	}
+	url := c.Host + "/oidc/me?access_token=" + accessToken
+	resp, err := c.SendHttpRequest(url, constant.HttpMethodGet, nil, nil)
+	return string(resp), err
+}
+
+func (c *Client) GetNewAccessTokenByRefreshToken (refreshToken string) (string, error) {
+	if c.Protocol != constant.OIDC || c.Protocol != constant.OAUTH {
+		return constant.StringEmpty, errors.New("初始化 AuthenticationClient 时传入的 protocol 参数必须为 ProtocolEnum.OAUTH 或 ProtocolEnum.OIDC，请检查参数")
+	}
+	if c.Secret == "" && c.TokenEndPointAuthMethod != constant.None {
+		return constant.StringEmpty, errors.New("请在初始化 AuthenticationClient 时传入 Secret")
+	}
+
+	url := c.Host + fmt.Sprintf("/%s/token", c.Protocol)
+
+	header := map[string]string{
+		"Content-Type": "application/x-www-form-urlencoded",
+	}
+
+	body := map[string]string{
+		"client_id": c.AppId,
+		"client_secret": c.Secret,
+		"grant_type": "refresh_token",
+		"refresh_token": refreshToken,
+	}
+
+	switch c.TokenEndPointAuthMethod {
+	case constant.ClientSecretPost:
+		body["client_id"] = c.AppId
+		body["client_secret"] = c.Secret
+	case constant.ClientSecretBasic:
+		base64String := "Basic " + base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s",c.AppId, c.Secret)))
+		header["Authorization"] = base64String
+	default:
+		body["client_id"] = c.AppId
+	}
+	resp, err := c.SendHttpRequest(url,constant.HttpMethodPost,header,body)
+	return string(resp), err
+}
+
+func (c *Client) IntrospectToken (req model.ValidateTokenRequest) (string, error) {
+	if req.IdToken == constant.StringEmpty && req.AccessToken == constant.StringEmpty {
+		return constant.StringEmpty, errors.New("请传入 AccessToken 或 IdToken")
+	}
+	if req.IdToken != constant.StringEmpty && req.AccessToken != constant.StringEmpty {
+		return constant.StringEmpty, errors.New("AccessToken 和 IdToken 不能同时传入")
+	}
+
+	url := c.Host + "/api/v2/oidc/validate_token?"
+	if req.IdToken != constant.StringEmpty {
+		url += "id_token=" + req.IdToken
+	} else if req.AccessToken != constant.StringEmpty {
+		url += "access_token=" + req.AccessToken
+	}
+
+	resp, err := c.SendHttpRequest(url,constant.HttpMethodGet,nil,nil)
+	return string(resp), err
+}
+
+func (c *Client) GetAccessTokenByClientCredentials (req model.GetAccessTokenByClientCredentialsRequest) (string, error) {
+	if req.Scope == constant.StringEmpty {
+		return constant.StringEmpty, errors.New("请传入 scope 参数，请看文档：https://docs.authing.cn/v2/guides/authorization/m2m-authz.html")
+	}
+	if req.ClientCredentialInput == nil {
+		return constant.StringEmpty, errors.New("请在调用本方法时传入 ClientCredentialInput 参数，请看文档：https://docs.authing.cn/v2/guides/authorization/m2m-authz.html")
+	}
+
+	url := c.Host + "/oidc/token"
+
+	header := map[string]string{
+		"Content-Type": "application/x-www-form-urlencoded",
+	}
+
+	body := map[string]string{
+		"client_id": req.ClientCredentialInput.AccessKey,
+		"client_secret": req.ClientCredentialInput.SecretKey,
+		"grant_type": "client_credentials",
+		"scope": req.Scope,
+	}
+
+	resp, err := c.SendHttpRequest(url,constant.HttpMethodPost,header,body)
+	return string(resp), err
 }
 
 func (c *Client) SendHttpRequest(url string, method string, header map[string]string, body map[string]string) ([]byte, error) {
@@ -143,7 +221,7 @@ func (c *Client) SendHttpRequest(url string, method string, header map[string]st
 	if err != nil {
 		fmt.Println(err)
 	}
-	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	//req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	//增加header选项
 	if header != nil && len(header) != 0 {
 		for key, value := range header {

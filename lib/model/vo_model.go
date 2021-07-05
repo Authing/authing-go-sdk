@@ -82,3 +82,19 @@ type GetRoleUserListRequest struct {
 	Code      string `json:"code"`
 	Namespace string `json:"namespace"`
 }
+
+type ValidateTokenRequest struct {
+	AccessToken      string    `json:"accessToken"`
+	IdToken     string    `json:"idToken"`
+}
+
+type ClientCredentialInput struct {
+	AccessKey string `json:"access_key"`
+	SecretKey string `json:"secret_key"`
+}
+
+type GetAccessTokenByClientCredentialsRequest struct {
+	Scope string `json:"scope"`
+	ClientCredentialInput *ClientCredentialInput `json:"client_credential_input"`
+}
+
