@@ -1,10 +1,15 @@
 package authentication
 
 import (
+	"bytes"
+	"encoding/base64"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/util"
 	"golang.org/x/oauth2"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -100,8 +105,53 @@ func (c *Client) GetAccessTokenByCode(code string) (string, error) {
 		return constant.StringEmpty, errors.New("请在初始化 AuthenticationClient 时传入 Secret")
 	}
 	url := c.Host + "/oidc/token"
-	switch c.TokenEndPointAuthMethod {
-	case constant.TokenEndPointAuthMethod:
 
+	header := map[string]string{
+		"Content-Type": "application/x-www-form-urlencoded",
 	}
+
+	body := map[string]string{
+		"grant_type": "authorization_code",
+		"code": code,
+		"redirect_uri": c.RedirectUri,
+	}
+
+	switch c.TokenEndPointAuthMethod {
+	case constant.ClientSecretPost:
+		body["client_id"] = c.AppId
+		body["client_secret"] = c.Secret
+	case constant.ClientSecretBasic:
+		base64String := "Basic " + base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s",c.AppId, c.Secret)))
+		header["Authorization"] = base64String
+	default:
+		body["client_id"] = c.AppId
+	}
+	c.SendHttpRequest(url,constant.HttpMethodPost,header,body)
+	return "",nil
+}
+
+func (c *Client) SendHttpRequest(url string, method string, header map[string]string, body map[string]string) ([]byte, error) {
+	var form http.Request
+	form.ParseForm()
+	if body != nil && len(body) != 0 {
+		for key, value := range body {
+			form.Form.Add(key, value)
+		}
+	}
+	reqBody := strings.TrimSpace(form.Form.Encode())
+	req, err := http.NewRequest(method, url, strings.NewReader(reqBody))
+	if err != nil {
+		fmt.Println(err)
+	}
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	//增加header选项
+	if header != nil && len(header) != 0 {
+		for key, value := range header {
+			req.Header.Add(key, value)
+		}
+	}
+	res, err := c.HttpClient.Do(req)
+	defer res.Body.Close()
+	respBody, err := ioutil.ReadAll(res.Body)
+	return respBody, nil
 }
