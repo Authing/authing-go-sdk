@@ -30,7 +30,6 @@ func TestClient_ExportAll(t *testing.T) {
 	resp2, _ := client.Detail("60a6f9ad5bcccc51834950c5")
 	log.Printf("%+v\n", resp2)
 }
-
 func TestClient_GetOrganizationList(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========获取用户池组织机构列表==========")

@@ -1,22 +1,14 @@
 package constant
 
 const (
-	ClientSecretPost = "client_secret_post"
-)
-
-const (
-	HttpMethodGet = "GET"
+	HttpMethodGet  = "GET"
 	HttpMethodPost = "POST"
 )
 
 const (
-	//GraphqlServiceUrl = "https://core.authing.cn/graphql/v2"
-	CoreEndPointProdUrl = "https://core.authing.cn"
-	//CoreEndPointDevUrl = "https://core.authing.cn"
-	CoreAuthingDefaultUrl = "https://core.authing.cn"
+	CoreAuthingDefaultUrl  = "https://core.authing.cn"
 	CoreAuthingGraphqlPath = "/graphql/v2"
-	PublicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC4xKeUgQ+Aoz7TLfAfs9+paePb5KIofVthEopwrXFkp8OCeocaTHt9ICjTT2QeJh6cZaDaArfZ873GPUn00eOIZ7Ae+TiA2BKHbCvloW3w5Lnqm70iSsUi5Fmu9/2+68GZRH9L7Mlh8cFksCicW2Y2W2uMGKl64GDcIq3au+aqJQIDAQAB"
-
+	PublicKey              = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC4xKeUgQ+Aoz7TLfAfs9+paePb5KIofVthEopwrXFkp8OCeocaTHt9ICjTT2QeJh6cZaDaArfZ873GPUn00eOIZ7Ae+TiA2BKHbCvloW3w5Lnqm70iSsUi5Fmu9/2+68GZRH9L7Mlh8cFksCicW2Y2W2uMGKl64GDcIq3au+aqJQIDAQAB"
 
 	/**
 	 * token 过期时间
@@ -44,9 +36,26 @@ const (
 	//Websocket 服务器域名
 	WebsocketHost = ""
 
-	SdkType = "SDK"
+	SdkType    = "SDK"
 	SdkVersion = "go:2.0.0"
 
 	// TokenCacheKeyPrefix token缓存key前缀
 	TokenCacheKeyPrefix = "token_"
+)
+
+type ProtocolEnum string
+
+const (
+	OAUTH ProtocolEnum = "oauth"
+	OIDC  ProtocolEnum = "oidc"
+	CAS   ProtocolEnum = "cas"
+	SAML  ProtocolEnum = "saml"
+)
+
+type AuthMethodEnum string
+
+const (
+	ClientSecretPost  = "client_secret_post"
+	ClientSecretBasic = "client_secret_basic"
+	None              = "none"
 )
