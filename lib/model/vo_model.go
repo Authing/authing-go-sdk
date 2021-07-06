@@ -98,3 +98,14 @@ type GetAccessTokenByClientCredentialsRequest struct {
 	ClientCredentialInput *ClientCredentialInput `json:"client_credential_input"`
 }
 
+type OidcParams struct {
+	AppId               string
+	RedirectUri         string
+	ResponseType        string
+	ResponseMode        string
+	State               string
+	Nonce               string
+	Scope               string
+	CodeChallengeMethod string
+	CodeChallenge       string
+}

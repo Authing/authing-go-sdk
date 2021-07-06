@@ -46,40 +46,28 @@ func NewClient(appId string, secret string, host ...string) *Client {
 	return c
 }
 
-type OidcParams struct {
-	appId               string
-	redirectUri         string
-	responseType        string
-	responseMode        string
-	state               string
-	nonce               string
-	scope               string
-	codeChallengeMethod string
-	codeChallenge       string
-}
-
-func (c *Client) BuildAuthorizeUrlByOidc(params OidcParams) (string, error) {
+func (c *Client) BuildAuthorizeUrlByOidc(params model.OidcParams) (string, error) {
 	if c.AppId == "" {
 		return constant.StringEmpty, errors.New("请在初始化 AuthenticationClient 时传入 appId")
 	}
-	if c.Protocol == constant.OIDC {
+	if c.Protocol != constant.OIDC {
 		return constant.StringEmpty, errors.New("初始化 AuthenticationClient 传入的 protocol 应为 ProtocolEnum.OIDC")
 	}
-	if params.redirectUri == "" {
+	if params.RedirectUri == "" {
 		return constant.StringEmpty, errors.New("redirectUri 不能为空")
 	}
 	var scope = ""
-	if strings.Contains(params.scope, "offline_access") {
+	if strings.Contains(params.Scope, "offline_access") {
 		scope = "consent"
 	}
 	dataMap := map[string]string{
-		"client_id":     util.GetValidValue(params.appId, c.AppId),
-		"scope":         util.GetValidValue(params.scope, "openid profile email phone address"),
-		"state":         util.GetValidValue(params.state, util.RandomString(12)),
-		"nonce":         util.GetValidValue(params.nonce, util.RandomString(12)),
-		"response_mode": util.GetValidValue(params.responseMode, constant.StringEmpty),
-		"response_type": util.GetValidValue(params.responseType, "code"),
-		"redirect_uri":  util.GetValidValue(params.redirectUri, c.RedirectUri),
+		"client_id":     util.GetValidValue(params.AppId, c.AppId),
+		"scope":         util.GetValidValue(params.Scope, "openid profile email phone address"),
+		"state":         util.GetValidValue(params.State, util.RandomString(12)),
+		"nonce":         util.GetValidValue(params.Nonce, util.RandomString(12)),
+		"response_mode": util.GetValidValue(params.ResponseMode, constant.StringEmpty),
+		"response_type": util.GetValidValue(params.ResponseType, "code"),
+		"redirect_uri":  util.GetValidValue(params.RedirectUri, c.RedirectUri),
 		"prompt":        util.GetValidValue(scope),
 	}
 	return c.Host + "/oidc/auth?" + util.GetQueryString(dataMap), nil
@@ -130,7 +118,7 @@ func (c *Client) GetUserInfoByAccessToken(accessToken string) (string, error) {
 }
 
 func (c *Client) GetNewAccessTokenByRefreshToken (refreshToken string) (string, error) {
-	if c.Protocol != constant.OIDC || c.Protocol != constant.OAUTH {
+	if c.Protocol != constant.OIDC && c.Protocol != constant.OAUTH {
 		return constant.StringEmpty, errors.New("初始化 AuthenticationClient 时传入的 protocol 参数必须为 ProtocolEnum.OAUTH 或 ProtocolEnum.OIDC，请检查参数")
 	}
 	if c.Secret == "" && c.TokenEndPointAuthMethod != constant.None {
@@ -164,7 +152,32 @@ func (c *Client) GetNewAccessTokenByRefreshToken (refreshToken string) (string, 
 	return string(resp), err
 }
 
-func (c *Client) IntrospectToken (req model.ValidateTokenRequest) (string, error) {
+func (c *Client) IntrospectToken (token string) (string, error) {
+	url := c.Host + fmt.Sprintf("/%s/token/introspection", c.Protocol)
+
+	header := map[string]string{
+		"Content-Type": "application/x-www-form-urlencoded",
+	}
+
+	body := map[string]string{
+		"token": token,
+	}
+
+	switch c.TokenEndPointAuthMethod {
+	case constant.ClientSecretPost:
+		body["client_id"] = c.AppId
+		body["client_secret"] = c.Secret
+	case constant.ClientSecretBasic:
+		base64String := "Basic " + base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s",c.AppId, c.Secret)))
+		header["Authorization"] = base64String
+	default:
+		body["client_id"] = c.AppId
+	}
+	resp, err := c.SendHttpRequest(url,constant.HttpMethodPost,header,body)
+	return string(resp), err
+}
+
+func (c *Client) ValidateToken (req model.ValidateTokenRequest) (string, error) {
 	if req.IdToken == constant.StringEmpty && req.AccessToken == constant.StringEmpty {
 		return constant.StringEmpty, errors.New("请传入 AccessToken 或 IdToken")
 	}
@@ -180,6 +193,39 @@ func (c *Client) IntrospectToken (req model.ValidateTokenRequest) (string, error
 	}
 
 	resp, err := c.SendHttpRequest(url,constant.HttpMethodGet,nil,nil)
+	return string(resp), err
+}
+
+func (c *Client) RevokeToken (token string) (string, error) {
+	if c.Protocol != constant.OIDC && c.Protocol != constant.OAUTH {
+		return constant.StringEmpty, errors.New("初始化 AuthenticationClient 时传入的 protocol 参数必须为 ProtocolEnum.OAUTH 或 ProtocolEnum.OIDC，请检查参数")
+	}
+	if c.Secret == "" && c.TokenEndPointAuthMethod != constant.None {
+		return constant.StringEmpty, errors.New("请在初始化 AuthenticationClient 时传入 Secret")
+	}
+
+	url := c.Host + fmt.Sprintf("/%s/token/revocation", c.Protocol)
+
+	header := map[string]string{
+		"Content-Type": "application/x-www-form-urlencoded",
+	}
+
+	body := map[string]string{
+		"client_id": c.AppId,
+		"token": token,
+	}
+
+	switch c.TokenEndPointAuthMethod {
+	case constant.ClientSecretPost:
+		body["client_id"] = c.AppId
+		body["client_secret"] = c.Secret
+	case constant.ClientSecretBasic:
+		base64String := "Basic " + base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s",c.AppId, c.Secret)))
+		header["Authorization"] = base64String
+	default:
+		body["client_id"] = c.AppId
+	}
+	resp, err := c.SendHttpRequest(url,constant.HttpMethodPost,header,body)
 	return string(resp), err
 }
 
