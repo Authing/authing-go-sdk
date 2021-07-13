@@ -60,21 +60,18 @@ func (c *Client) GetOrganizationById(orgId string) (*model.Org, error) {
 	return &response.Data.Org, nil
 }
 
-func (c *Client) GetOrganizationChildren(nodeId string, depth int) (*[]model.Org, error) {
-	var result *[]model.Org
+func (c *Client) GetOrganizationChildren(nodeId string, depth int) (*[]model.Node, error) {
+	var result *[]model.Node
 	variables := map[string]interface{}{
 		"nodeId": nodeId,
 		"depth":  depth,
 	}
 	b, err := c.SendHttpRequest(c.Host+"/api/v2/orgs/children", constant.HttpMethodGet, "", variables)
 	if err != nil {
-		return nil, err
-	}
-	if err != nil {
 		return result, err
 	}
 	log.Println(string(b))
-	var response model.ListOrganizationResponse
+	var response model.GetOrganizationChildrenResponse
 	jsoniter.Unmarshal(b, &response)
-	return result, nil
+	return &response.Data, nil
 }

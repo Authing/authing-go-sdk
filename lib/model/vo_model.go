@@ -48,10 +48,28 @@ type ListUserResponse struct {
 	Data Users `json:"data"`
 }
 
+/*type OrganizationChildren struct {
+	Id	string	`json:"id"`
+	CreatedAt *string `json:"createdAt"`
+	UpdateAt *string `json:"updateAt"`
+	UserPoolId *string `json:"userPoolId"`
+	OrgId *string `json:"orgId"`
+	Name string `json:"name"`
+	Description *string `json:"description"`
+	Order *int64 `json:"order"`
+	Code *string `json:"code"`
+}*/
+
 type ListOrganizationResponse struct {
 	Message string        `json:"message"`
 	Code    int64         `json:"code"`
 	Data    PaginatedOrgs `json:"data"`
+}
+
+type GetOrganizationChildrenResponse struct {
+	Message string `json:"message"`
+	Code    int64  `json:"code"`
+	Data    []Node `json:"data"`
 }
 
 type GetOrganizationByIdData struct {
@@ -84,8 +102,8 @@ type GetRoleUserListRequest struct {
 }
 
 type ValidateTokenRequest struct {
-	AccessToken      string    `json:"accessToken"`
-	IdToken     string    `json:"idToken"`
+	AccessToken string `json:"accessToken"`
+	IdToken     string `json:"idToken"`
 }
 
 type ClientCredentialInput struct {
@@ -94,7 +112,7 @@ type ClientCredentialInput struct {
 }
 
 type GetAccessTokenByClientCredentialsRequest struct {
-	Scope string `json:"scope"`
+	Scope                 string                 `json:"scope"`
 	ClientCredentialInput *ClientCredentialInput `json:"client_credential_input"`
 }
 

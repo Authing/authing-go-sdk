@@ -34,8 +34,8 @@ func TestClient_GetOrganizationList(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========获取用户池组织机构列表==========")
 	req := model.QueryListRequest{
-		Page:  1,
-		Limit: 10,
+		Page:   1,
+		Limit:  10,
 		SortBy: enum.SortByCreatedAtAsc,
 	}
 	resp, _ := client.GetOrganizationList(req)
@@ -51,7 +51,7 @@ func TestClient_GetOrganizationById(t *testing.T) {
 
 func TestClient_GetOrganizationChildren(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
-	log.Println("==========获取第一层组织机构==========")
+	log.Println("==========获取第 n 层组织机构==========")
 	resp, _ := client.GetOrganizationChildren("60cd9d3a4b96cfff16e7e5f4", 1)
 	log.Printf("%+v\n", resp)
 }
