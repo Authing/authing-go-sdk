@@ -3,6 +3,7 @@ package management
 import (
 	"encoding/json"
 	"github.com/Authing/authing-go-sdk/lib/constant"
+	"github.com/Authing/authing-go-sdk/lib/enum"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
 	"log"
@@ -20,13 +21,27 @@ func (c *Client) ExportAll() ([]model.Node, error) {
 }
 
 func (c *Client) ListMembers(req *model.ListMemberRequest) (*model.Node, error) {
+	if req.SortBy == "" {
+		req.SortBy = enum.SortByCreatedAtAsc
+	}
+	if req.Page == 0 {
+		req.Page = 1
+	}
+	if req.Limit == 0 {
+		req.Limit = 10
+	}
 	variables := map[string]interface{}{
-		"id": req.NodeId,
+		"id":                   req.NodeId,
+		"limit":                req.Limit,
+		"sortBy":               req.SortBy,
+		"page":                 req.Page,
+		"includeChildrenNodes": req.IncludeChildrenNodes,
 	}
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, constant.HttpMethodPost, constant.NodeByIdWithMembersDocument, variables)
 	if err != nil {
 		return nil, err
 	}
+	log.Println("___" + string(b))
 	var response model.NodeByIdResponse
 	jsoniter.Unmarshal(b, &response)
 	return &response.Data.NodeById, nil

@@ -5,10 +5,11 @@ import (
 )
 
 type ListMemberRequest struct {
-	NodeId               string `json:"nodeId"`
-	Page                 int    `json:"page"`
-	Limit                int    `json:"limit"`
-	IncludeChildrenNodes bool   `json:"includeChildrenNodes"`
+	NodeId               string          `json:"nodeId"`
+	Page                 int             `json:"page"`
+	Limit                int             `json:"limit"`
+	SortBy               enum.SortByEnum `json:"sortBy"`
+	IncludeChildrenNodes bool            `json:"includeChildrenNodes"`
 }
 
 type UserDetailData struct {

@@ -19,10 +19,10 @@ func TestClient_ExportAll(t *testing.T) {
 	log.Printf("%+v\n", resp)
 	log.Println("==========获取节点成员==========")
 	var req = &model.ListMemberRequest{
-		NodeId:               "60bdde221e3d90c0ac5efd16",
-		Page:                 0,
-		Limit:                0,
-		IncludeChildrenNodes: false,
+		NodeId:               "60cd9d3a4b96cfff16e7e5f4",
+		Page:                 1,
+		Limit:                10,
+		IncludeChildrenNodes: true,
 	}
 	resp1, _ := client.ListMembers(req)
 	log.Printf("%+v\n", resp1)
