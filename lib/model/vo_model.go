@@ -23,9 +23,9 @@ type UserDetailResponse struct {
 }
 
 type ExportAllOrganizationResponse struct {
-	Message string `json:"message"`
-	Code    int64  `json:"code"`
-	Data    []Node `json:"data"`
+	Message string    `json:"message"`
+	Code    int64     `json:"code"`
+	Data    []OrgNode `json:"data"`
 }
 
 type NodeByIdDetail struct {
@@ -127,4 +127,20 @@ type OidcParams struct {
 	Scope               string
 	CodeChallengeMethod string
 	CodeChallenge       string
+}
+
+type OrgNode struct {
+	Id              string    `json:"id"`
+	OrgId           *string   `json:"orgId"`
+	CreatedAt       *string   `json:"createdAt"`
+	UpdatedAt       *string   `json:"updatedAt"`
+	UserPoolId      *string   `json:"userPoolId"`
+	Name            string    `json:"name"`
+	NameI18n        *string   `json:"nameI18n"`
+	Description     *string   `json:"description"`
+	DescriptionI18n *string   `json:"descriptionI18n"`
+	Order           *int64    `json:"order"`
+	Code            *string   `json:"code"`
+	Members         []User    `json:"members"`
+	Children        []OrgNode `json:"children"`
 }

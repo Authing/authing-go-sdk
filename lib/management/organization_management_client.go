@@ -9,13 +9,14 @@ import (
 	"log"
 )
 
-func (c *Client) ExportAll() ([]model.Node, error) {
-	var q []model.Node
+func (c *Client) ExportAll() ([]model.OrgNode, error) {
+	var q []model.OrgNode
 	b, err := c.SendHttpRequest(c.Host+"/api/v2/orgs/export", constant.HttpMethodGet, "", nil)
 	if err != nil {
 		return q, err
 	}
 	var response model.ExportAllOrganizationResponse
+	log.Println(string(b))
 	jsoniter.Unmarshal(b, &response)
 	return response.Data, nil
 }
