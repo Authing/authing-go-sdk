@@ -18,3 +18,14 @@ func TestClient_GetUserList(t *testing.T) {
 	resp, _ := client.GetUserList(req)
 	log.Printf("%+v\n", resp)
 }
+
+func TestClient_GetUserDepartments(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========获取用户部门列表==========")
+	req := model.GetUserDepartmentsRequest{
+		Id:    "60e400c1701ea5b98dae628d",
+		OrgId: nil,
+	}
+	resp, _ := client.GetUserDepartments(req)
+	log.Printf("%+v\n", resp)
+}

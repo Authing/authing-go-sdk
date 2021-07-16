@@ -144,3 +144,19 @@ type OrgNode struct {
 	Members         []User    `json:"members"`
 	Children        []OrgNode `json:"children"`
 }
+
+type GetUserDepartmentsRequest struct {
+	Id    string  `json:"id"`
+	OrgId *string `json:"orgId"`
+}
+
+type UserDepartments struct {
+	Departments *PaginatedDepartments `json:"departments"`
+}
+
+type UserDepartmentsData struct {
+	User UserDepartments `json:"user"`
+}
+type GetUserDepartmentsResponse struct {
+	Data UserDepartmentsData `json:"data"`
+}

@@ -5,6 +5,7 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
+	"log"
 )
 
 func (c *Client) Detail(userId string) (*model.User, error) {
@@ -31,4 +32,21 @@ func (c *Client) GetUserList(request model.QueryListRequest) (*model.PaginatedUs
 		return nil, err
 	}
 	return &result.Data.Users, nil
+}
+
+func (c *Client) GetUserDepartments(request model.GetUserDepartmentsRequest) (*model.PaginatedDepartments, error) {
+	data, _ := json.Marshal(&request)
+	variables := make(map[string]interface{})
+	json.Unmarshal(data, &variables)
+	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, constant.HttpMethodPost, constant.GetUserDepartmentsDocument, variables)
+	if err != nil {
+		return nil, err
+	}
+	log.Println(string(b))
+	result := model.GetUserDepartmentsResponse{}
+	err = json.Unmarshal(b, &result)
+	if err != nil {
+		return nil, err
+	}
+	return result.Data.User.Departments, nil
 }

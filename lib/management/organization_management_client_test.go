@@ -17,7 +17,7 @@ func TestClient_ExportAll(t *testing.T) {
 	log.Println("==========导出所有组织机构数据==========")
 	resp, _ := client.ExportAll()
 	log.Printf("%+v\n", resp)
-	/*log.Println("==========获取节点成员==========")
+	log.Println("==========获取节点成员==========")
 	var req = &model.ListMemberRequest{
 		NodeId:               "60cd9d3a4b96cfff16e7e5f4",
 		Page:                 1,
@@ -28,7 +28,7 @@ func TestClient_ExportAll(t *testing.T) {
 	log.Printf("%+v\n", resp1)
 	log.Println("==========通过 ID 获取用户信息==========")
 	resp2, _ := client.Detail("60a6f9ad5bcccc51834950c5")
-	log.Printf("%+v\n", resp2)*/
+	log.Printf("%+v\n", resp2)
 }
 func TestClient_GetOrganizationList(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
