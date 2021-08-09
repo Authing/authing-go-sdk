@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
+	"log"
 	"testing"
 )
 
 const (
-	AppId = "60a6f980dd9a9a7642da768a"
+	AppId  = "60a6f980dd9a9a7642da768a"
 	Secret = "5cd4ea7b3603b792aea9a00da9e18f44"
 )
 
@@ -17,9 +18,9 @@ func TestClient_BuildAuthorizeUrlByOidc(t *testing.T) {
 	authenticationClient.Protocol = constant.OIDC
 	authenticationClient.TokenEndPointAuthMethod = constant.None
 	req := model.OidcParams{
-		AppId:               AppId,
-		RedirectUri:         "https://mvnrepository.com/",
-		Nonce:               "test",
+		AppId:       AppId,
+		RedirectUri: "https://mvnrepository.com/",
+		Nonce:       "test",
 	}
 	resp, err := authenticationClient.BuildAuthorizeUrlByOidc(req)
 	if err != nil {
@@ -30,7 +31,7 @@ func TestClient_BuildAuthorizeUrlByOidc(t *testing.T) {
 }
 
 func TestClient_GetAccessTokenByCode(t *testing.T) {
-	authenticationClient := NewClient("60a6f980dd9a9a7642da768a","5cd4ea7b3603b792aea9a00da9e18f44")
+	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
 	authenticationClient.Host = "https://32l5hb-demo.authing.cn"
 	authenticationClient.RedirectUri = "https://mvnrepository.com/"
 	authenticationClient.Protocol = constant.OIDC
@@ -45,7 +46,7 @@ func TestClient_GetAccessTokenByCode(t *testing.T) {
 }
 
 func TestClient_GetUserInfoByAccessToken(t *testing.T) {
-	authenticationClient := NewClient("60a6f980dd9a9a7642da768a","5cd4ea7b3603b792aea9a00da9e18f44")
+	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
 	authenticationClient.Host = "https://32l5hb-demo.authing.cn"
 	authenticationClient.RedirectUri = "https://mvnrepository.com/"
 	authenticationClient.Protocol = constant.OIDC
@@ -59,7 +60,7 @@ func TestClient_GetUserInfoByAccessToken(t *testing.T) {
 }
 
 func TestClient_IntrospectToken(t *testing.T) {
-	authenticationClient := NewClient("60a6f980dd9a9a7642da768a","5cd4ea7b3603b792aea9a00da9e18f44")
+	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
 	authenticationClient.Host = "https://32l5hb-demo.authing.cn"
 	authenticationClient.RedirectUri = "https://mvnrepository.com/"
 	authenticationClient.Protocol = constant.OIDC
@@ -74,7 +75,7 @@ func TestClient_IntrospectToken(t *testing.T) {
 }
 
 func TestClient_ValidateToken(t *testing.T) {
-	authenticationClient := NewClient("60a6f980dd9a9a7642da768a","5cd4ea7b3603b792aea9a00da9e18f44")
+	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
 	authenticationClient.Host = "https://32l5hb-demo.authing.cn"
 	authenticationClient.RedirectUri = "https://mvnrepository.com/"
 	authenticationClient.Protocol = constant.OIDC
@@ -92,7 +93,7 @@ func TestClient_ValidateToken(t *testing.T) {
 }
 
 func TestClient_GetAccessTokenByClientCredentials(t *testing.T) {
-	authenticationClient := NewClient("60a6f980dd9a9a7642da768a","5cd4ea7b3603b792aea9a00da9e18f44")
+	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
 	authenticationClient.Host = "https://32l5hb-demo.authing.cn"
 	authenticationClient.RedirectUri = "https://mvnrepository.com/"
 	authenticationClient.Protocol = constant.OIDC
@@ -114,7 +115,7 @@ func TestClient_GetAccessTokenByClientCredentials(t *testing.T) {
 }
 
 func TestClient_RevokeToken(t *testing.T) {
-	authenticationClient := NewClient("60a6f980dd9a9a7642da768a","5cd4ea7b3603b792aea9a00da9e18f44")
+	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
 	authenticationClient.Host = "https://32l5hb-demo.authing.cn"
 	authenticationClient.RedirectUri = "https://mvnrepository.com/"
 	authenticationClient.Protocol = constant.OIDC
@@ -126,3 +127,78 @@ func TestClient_RevokeToken(t *testing.T) {
 		fmt.Println(resp)
 	}
 }
+
+func TestClient_LoginByUserName(t *testing.T) {
+	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
+	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
+	req := model.LoginByUsernameInput{
+		Username:     "luojielin",
+		Password:     "12341",
+		CaptchaCode:  nil,
+		AutoRegister: nil,
+		ClientIp:     nil,
+		Params:       nil,
+		Context:      nil,
+	}
+	resp, err := authenticationClient.LoginByUserName(req)
+	log.Println(resp, err)
+}
+
+func TestClient_LoginByEmail(t *testing.T) {
+	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
+	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
+	req := model.LoginByEmailInput{
+		Email:        "luojielin@authing.cn",
+		Password:     "1234",
+		CaptchaCode:  nil,
+		AutoRegister: nil,
+		ClientIp:     nil,
+		Params:       nil,
+		Context:      nil,
+	}
+	resp, err := authenticationClient.LoginByEmail(req)
+	log.Println(resp, err)
+}
+
+func TestClient_LoginByPhonePassword(b *testing.T) {
+	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
+	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
+	req := model.LoginByPhonePasswordInput{
+		Phone:        "18310641137",
+		Password:     "1234",
+		CaptchaCode:  nil,
+		AutoRegister: nil,
+		ClientIp:     nil,
+		Params:       nil,
+		Context:      nil,
+	}
+	resp, err := authenticationClient.LoginByPhonePassword(req)
+	log.Println(resp, err)
+}
+
+/*func TestClient_LoginByPhoneCode(b *testing.T) {
+	authenticationClient := NewClient("60a6f980dd9a9a7642da768a","5cd4ea7b3603b792aea9a00da9e18f44")
+	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
+	req := model.LoginByPhoneCodeInput{
+		Phone:        "18310641137",
+		Code:         "7458",
+		AutoRegister: nil,
+		ClientIp:     nil,
+		Params:       nil,
+		Context:      nil,
+	}
+	resp,err := authenticationClient.LoginByPhoneCode(req)
+	log.Println(resp,err)
+}
+
+func TestClient_SendSmsCode(t *testing.T) {
+	authenticationClient := NewClient("60a6f980dd9a9a7642da768a","5cd4ea7b3603b792aea9a00da9e18f44")
+	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
+	resp,err := authenticationClient.SendSmsCode("15566416161")
+	log.Println(resp,err)
+}*/

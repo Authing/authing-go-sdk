@@ -29,3 +29,18 @@ func TestClient_GetUserDepartments(t *testing.T) {
 	resp, _ := client.GetUserDepartments(req)
 	log.Printf("%+v\n", resp)
 }
+
+func TestClient_CheckUserExists(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========检查用户是否存在==========")
+	//email := "t041gyqw0b@gmail.com"
+	phone := "15761403457"
+	req := model.CheckUserExistsRequest{
+		Email:      nil,
+		Phone:      &phone,
+		Username:   nil,
+		ExternalId: nil,
+	}
+	resp, _ := client.CheckUserExists(req)
+	log.Println(resp)
+}

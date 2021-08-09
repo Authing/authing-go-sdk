@@ -150,6 +150,19 @@ type GetUserDepartmentsRequest struct {
 	OrgId *string `json:"orgId"`
 }
 
+type CheckUserExistsRequest struct {
+	Email      *string `json:"email"`
+	Phone      *string `json:"phone"`
+	Username   *string `json:"username"`
+	ExternalId *string `json:"externalId"`
+}
+
+type CheckUserExistsResponse struct {
+	Message string `json:"message"`
+	Code    int64  `json:"code"`
+	Data    bool   `json:"data"`
+}
+
 type UserDepartments struct {
 	Departments *PaginatedDepartments `json:"departments"`
 }

@@ -50,3 +50,16 @@ func (c *Client) GetUserDepartments(request model.GetUserDepartmentsRequest) (*m
 	}
 	return result.Data.User.Departments, nil
 }
+
+func (c *Client) CheckUserExists(request model.CheckUserExistsRequest) (bool, error) {
+	data, _ := json.Marshal(&request)
+	variables := make(map[string]interface{})
+	json.Unmarshal(data, &variables)
+	b, err := c.SendHttpRequest(c.Host+"/api/v2/users/is-user-exists", constant.HttpMethodGet, constant.StringEmpty, variables)
+	result := model.CheckUserExistsResponse{}
+	err = json.Unmarshal(b, &result)
+	if err != nil {
+		return false, err
+	}
+	return result.Data, err
+}

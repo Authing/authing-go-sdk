@@ -1,6 +1,8 @@
 module github.com/Authing/authing-go-sdk
 
 require (
+	github.com/bitly/go-simplejson v0.5.0
+	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
 	github.com/json-iterator/go v1.1.11
 	github.com/kelvinji2009/ctxhttp v0.0.0-20190723014959-778a004eb7c4 // indirect
 	github.com/kelvinji2009/graphql v0.0.0-20190723015100-e537b5df1797
