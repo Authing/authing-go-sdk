@@ -6,16 +6,17 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/Authing/authing-go-sdk/lib/constant"
-	"github.com/Authing/authing-go-sdk/lib/model"
-	"github.com/Authing/authing-go-sdk/lib/util"
-	"github.com/Authing/authing-go-sdk/lib/util/cacheutil"
-	simplejson "github.com/bitly/go-simplejson"
 	"io/ioutil"
 	"net/http"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/Authing/authing-go-sdk/lib/constant"
+	"github.com/Authing/authing-go-sdk/lib/model"
+	"github.com/Authing/authing-go-sdk/lib/util"
+	"github.com/Authing/authing-go-sdk/lib/util/cacheutil"
+	"github.com/bitly/go-simplejson"
 )
 
 type Client struct {
@@ -25,7 +26,7 @@ type Client struct {
 	Secret                  string
 	Host                    string
 	RedirectUri             string
-	userPoolId              string
+	UserPoolId              string
 	TokenEndPointAuthMethod constant.AuthMethodEnum
 
 	Log func(s string)
@@ -412,7 +413,7 @@ func (c *Client) SendHttpRequestManage(url string, method string, query string, 
 		token, _ := GetAccessToken(c)
 		req.Header.Add("Authorization", "Bearer "+token)
 	}
-	req.Header.Add("x-authing-userpool-id", ""+c.userPoolId)
+	req.Header.Add("x-authing-userpool-id", ""+c.UserPoolId)
 	req.Header.Add("x-authing-request-from", constant.SdkType)
 	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
 	req.Header.Add("x-authing-app-id", ""+constant.AppId)
@@ -435,7 +436,7 @@ func QueryAccessToken(client *Client) (*model.AccessTokenRes, error) {
 	}
 
 	variables := map[string]interface{}{
-		"userPoolId": client.userPoolId,
+		"userPoolId": client.UserPoolId,
 		"secret":     client.Secret,
 	}
 
@@ -452,7 +453,7 @@ func QueryAccessToken(client *Client) (*model.AccessTokenRes, error) {
 
 func GetAccessToken(client *Client) (string, error) {
 	// 从缓存获取token
-	cacheToken, b := cacheutil.GetCache(constant.TokenCacheKeyPrefix + client.userPoolId)
+	cacheToken, b := cacheutil.GetCache(constant.TokenCacheKeyPrefix + client.UserPoolId)
 	if b && cacheToken != nil {
 		return cacheToken.(string), nil
 	}
@@ -460,7 +461,7 @@ func GetAccessToken(client *Client) (string, error) {
 	var mutex sync.Mutex
 	mutex.Lock()
 	defer mutex.Unlock()
-	cacheToken, b = cacheutil.GetCache(constant.TokenCacheKeyPrefix + client.userPoolId)
+	cacheToken, b = cacheutil.GetCache(constant.TokenCacheKeyPrefix + client.UserPoolId)
 	if b && cacheToken != nil {
 		return cacheToken.(string), nil
 	}
@@ -469,6 +470,6 @@ func GetAccessToken(client *Client) (string, error) {
 		return "", err
 	}
 	var expire = *(token.Exp) - time.Now().Unix() - 43200
-	cacheutil.SetCache(constant.TokenCacheKeyPrefix+client.userPoolId, *token.AccessToken, time.Duration(expire*int64(time.Second)))
+	cacheutil.SetCache(constant.TokenCacheKeyPrefix+client.UserPoolId, *token.AccessToken, time.Duration(expire*int64(time.Second)))
 	return *token.AccessToken, nil
 }

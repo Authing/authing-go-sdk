@@ -2,10 +2,11 @@ package authentication
 
 import (
 	"fmt"
-	"github.com/Authing/authing-go-sdk/lib/constant"
-	"github.com/Authing/authing-go-sdk/lib/model"
 	"log"
 	"testing"
+
+	"github.com/Authing/authing-go-sdk/lib/constant"
+	"github.com/Authing/authing-go-sdk/lib/model"
 )
 
 const (
@@ -130,7 +131,7 @@ func TestClient_RevokeToken(t *testing.T) {
 
 func TestClient_LoginByUserName(t *testing.T) {
 	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
-	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.UserPoolId = "60e043f8cd91b87d712b6365"
 	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
 	req := model.LoginByUsernameInput{
 		Username:     "luojielin",
@@ -147,7 +148,7 @@ func TestClient_LoginByUserName(t *testing.T) {
 
 func TestClient_LoginByEmail(t *testing.T) {
 	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
-	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.UserPoolId = "60e043f8cd91b87d712b6365"
 	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
 	req := model.LoginByEmailInput{
 		Email:        "luojielin@authing.cn",
@@ -164,7 +165,7 @@ func TestClient_LoginByEmail(t *testing.T) {
 
 func TestClient_LoginByPhonePassword(b *testing.T) {
 	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
-	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.UserPoolId = "60e043f8cd91b87d712b6365"
 	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
 	req := model.LoginByPhonePasswordInput{
 		Phone:        "18310641137",
@@ -181,7 +182,7 @@ func TestClient_LoginByPhonePassword(b *testing.T) {
 
 /*func TestClient_LoginByPhoneCode(b *testing.T) {
 	authenticationClient := NewClient("60a6f980dd9a9a7642da768a","5cd4ea7b3603b792aea9a00da9e18f44")
-	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.UserPoolId = "60e043f8cd91b87d712b6365"
 	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
 	req := model.LoginByPhoneCodeInput{
 		Phone:        "18310641137",
@@ -197,7 +198,7 @@ func TestClient_LoginByPhonePassword(b *testing.T) {
 
 func TestClient_SendSmsCode(t *testing.T) {
 	authenticationClient := NewClient("60a6f980dd9a9a7642da768a","5cd4ea7b3603b792aea9a00da9e18f44")
-	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.UserPoolId = "60e043f8cd91b87d712b6365"
 	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
 	resp,err := authenticationClient.SendSmsCode("15566416161")
 	log.Println(resp,err)
