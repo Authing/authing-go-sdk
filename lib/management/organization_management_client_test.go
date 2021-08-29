@@ -8,11 +8,23 @@ import (
 )
 
 const (
-	userPoolId = "60e043f8cd91b87d712b6365"
-	appSecret  = "158c7679333bc196b524d78d745813e5"
+	//userPoolId = "60e043f8cd91b87d712b6365"
+	//appSecret  = "158c7679333bc196b524d78d745813e5"
+	userPoolId = "6114ea3b25851f2e44db357f"
+	appSecret  = "4f673a16f53cbbf54633212b1a882a2a"
 )
 
 func TestClient_ExportAll(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========导出所有组织机构数据==========")
+	resp, err := client.ExportAll()
+	if err != nil {
+		log.Println(err)
+	}
+	log.Printf("%+v\n", resp)
+}
+
+func TestClient_All(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========导出所有组织机构数据==========")
 	resp, _ := client.ExportAll()

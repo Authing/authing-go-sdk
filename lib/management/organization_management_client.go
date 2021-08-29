@@ -17,7 +17,10 @@ func (c *Client) ExportAll() ([]model.OrgNode, error) {
 	}
 	var response model.ExportAllOrganizationResponse
 	log.Println(string(b))
-	jsoniter.Unmarshal(b, &response)
+	err = jsoniter.Unmarshal(b, &response)
+	if err != nil {
+		log.Println(err)
+	}
 	return response.Data, nil
 }
 
