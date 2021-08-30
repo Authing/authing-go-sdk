@@ -136,7 +136,6 @@ type OrgNode struct {
 	UpdatedAt       *string   `json:"updatedAt"`
 	UserPoolId      *string   `json:"userPoolId"`
 	Name            string    `json:"name"`
-	NameI18n        *string   `json:"nameI18n"`
 	Description     *string   `json:"description"`
 	DescriptionI18n *string   `json:"descriptionI18n"`
 	Order           *int64    `json:"order"`
