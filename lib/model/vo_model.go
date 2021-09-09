@@ -172,3 +172,44 @@ type UserDepartmentsData struct {
 type GetUserDepartmentsResponse struct {
 	Data UserDepartmentsData `json:"data"`
 }
+
+type ListUserAuthorizedResourcesRequest struct {
+	UserId       string  `json:"id"`
+	Namespace    string  `json:"namespace"`
+	ResourceType *string `json:"resourceType"`
+}
+
+type ListUserAuthorizedResourcesResponse struct {
+	User User `json:"user"`
+}
+
+type IsAllowedRequest struct {
+	Resource  string  `json:"resource"`
+	Action    string  `json:"action"`
+	UserId    string  `json:"userId"`
+	Namespace *string `json:"namespace"`
+}
+
+type AllowRequest struct {
+	Resource  string `json:"resource"`
+	Action    string `json:"action"`
+	UserId    string `json:"userId"`
+	UserIds   string `json:"userIds"`
+	RoleCode  string `json:"roleCode"`
+	RoleCodes string `json:"roleCodes"`
+	Namespace string `json:"namespace"`
+}
+
+type AuthorizeResourceRequest struct {
+	Namespace    string                 `json:"namespace"`
+	Resource     string                 `json:"resource"`
+	ResourceType EnumResourceType       `json:"resourceType"`
+	Opts         []AuthorizeResourceOpt `json:"opts"`
+}
+
+type RevokeResourceRequest struct {
+	Namespace    string                 `json:"namespace"`
+	Resource     string                 `json:"resource"`
+	ResourceType EnumResourceType       `json:"resourceType"`
+	Opts         []AuthorizeResourceOpt `json:"opts"`
+}

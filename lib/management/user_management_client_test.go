@@ -44,3 +44,16 @@ func TestClient_CheckUserExists(t *testing.T) {
 	resp, _ := client.CheckUserExists(req)
 	log.Println(resp)
 }
+
+func TestClient_ListAuthorizedResources(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========获取用户被授权的所有资源列表==========")
+
+	req := model.ListUserAuthorizedResourcesRequest{
+		UserId:       "611b2ff477d701441c25e29e",
+		Namespace:    "6123528118b7794b2420b311",
+		ResourceType: nil,
+	}
+	resp, _ := client.ListAuthorizedResources(req)
+	log.Printf("%+v\n", resp.AuthorizedResources)
+}
