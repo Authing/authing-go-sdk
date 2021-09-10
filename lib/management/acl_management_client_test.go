@@ -27,9 +27,6 @@ func TestClient_Allow(t *testing.T) {
 		Resource:  "7629:read",
 		Action:    "add",
 		UserId:    "611b2ff477d701441c25e29e",
-		UserIds:   "",
-		RoleCode:  "",
-		RoleCodes: "",
 		Namespace: "6123528118b7794b2420b311",
 	}
 	resp, _ := client.Allow(req)

@@ -6,7 +6,7 @@ const (
 )
 
 const (
-	CoreAuthingDefaultUrl  = "http://localhost:3000" //"https://core.authing.cn"
+	CoreAuthingDefaultUrl  = "https://core.authing.cn"
 	CoreAuthingGraphqlPath = "/graphql/v2"
 
 	/**

@@ -194,9 +194,6 @@ type AllowRequest struct {
 	Resource  string `json:"resource"`
 	Action    string `json:"action"`
 	UserId    string `json:"userId"`
-	UserIds   string `json:"userIds"`
-	RoleCode  string `json:"roleCode"`
-	RoleCodes string `json:"roleCodes"`
 	Namespace string `json:"namespace"`
 }
 
