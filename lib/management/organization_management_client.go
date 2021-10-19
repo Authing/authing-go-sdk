@@ -9,6 +9,8 @@ import (
 	"log"
 )
 
+// ExportAll
+// 导出所有组织机构
 func (c *Client) ExportAll() ([]model.OrgNode, error) {
 	var q []model.OrgNode
 	b, err := c.SendHttpRequest(c.Host+"/api/v2/orgs/export", constant.HttpMethodGet, "", nil)
@@ -24,6 +26,8 @@ func (c *Client) ExportAll() ([]model.OrgNode, error) {
 	return response.Data, nil
 }
 
+// ListMembers
+// 获取节点成员
 func (c *Client) ListMembers(req *model.ListMemberRequest) (*model.Node, error) {
 	if req.SortBy == "" {
 		req.SortBy = enum.SortByCreatedAtAsc
@@ -51,6 +55,7 @@ func (c *Client) ListMembers(req *model.ListMemberRequest) (*model.Node, error) 
 	return &response.Data.NodeById, nil
 }
 
+// TODO
 func (c *Client) GetOrganizationList(request model.QueryListRequest) (model.PaginatedOrgs, error) {
 	var result model.PaginatedOrgs
 	data, _ := json.Marshal(&request)
@@ -65,6 +70,8 @@ func (c *Client) GetOrganizationList(request model.QueryListRequest) (model.Pagi
 	return response.Data, nil
 }
 
+// GetOrganizationById
+// 获取组织机构详情
 func (c *Client) GetOrganizationById(orgId string) (*model.Org, error) {
 	variables := map[string]interface{}{
 		"id": orgId,
@@ -79,6 +86,8 @@ func (c *Client) GetOrganizationById(orgId string) (*model.Org, error) {
 	return &response.Data.Org, nil
 }
 
+// GetOrganizationChildren
+// 获取子节点列表
 func (c *Client) GetOrganizationChildren(nodeId string, depth int) (*[]model.Node, error) {
 	var result *[]model.Node
 	variables := map[string]interface{}{

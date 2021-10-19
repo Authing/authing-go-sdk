@@ -58,3 +58,13 @@ const (
 	ClientSecretBasic = "client_secret_basic"
 	None              = "none"
 )
+
+type ResourceTypeEnum string
+
+const (
+	DATA   ResourceTypeEnum = "DATA"
+	API    ResourceTypeEnum = "API"
+	MENU   ResourceTypeEnum = "MENU"
+	UI     ResourceTypeEnum = "UI"
+	BUTTON ResourceTypeEnum = "BUTTON"
+)
