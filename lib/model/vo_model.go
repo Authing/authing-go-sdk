@@ -81,27 +81,6 @@ type GetOrganizationByIdResponse struct {
 	Data GetOrganizationByIdData `json:"data"`
 }
 
-type GetRoleListRequest struct {
-	Page      int             `json:"page"`
-	Limit     int             `json:"limit"`
-	SortBy    enum.SortByEnum `json:"sortBy"`
-	Namespace string          `json:"namespace"`
-}
-
-type Roles struct {
-	Roles PaginatedRoles `json:"roles"`
-}
-type GetRoleListResponse struct {
-	Data Roles `json:"data"`
-}
-
-type GetRoleUserListRequest struct {
-	Page      int    `json:"page"`
-	Limit     int    `json:"limit"`
-	Code      string `json:"code"`
-	Namespace string `json:"namespace"`
-}
-
 type ValidateTokenRequest struct {
 	AccessToken string `json:"accessToken"`
 	IdToken     string `json:"idToken"`
@@ -171,4 +150,30 @@ type UserDepartmentsData struct {
 }
 type GetUserDepartmentsResponse struct {
 	Data UserDepartmentsData `json:"data"`
+}
+
+type CommonPageRequest struct {
+	Page  int `json:"page"`
+	Limit int `json:"limit"`
+}
+
+type ListPoliciesResponse struct {
+	TotalCount int `json:"totalCount"`
+	List       []struct {
+		Code             string `json:"code"`
+		TargetType       string `json:"targetType"`
+		TargetIdentifier string `json:"targetIdentifier"`
+	} `json:"list"`
+}
+
+type ListPoliciesRequest struct {
+	Code  string `json:"targetIdentifier"`
+	Page  int    `json:"page"`
+	Limit int    `json:"limit"`
+}
+
+type ListPoliciesOnIdRequest struct {
+	Id    string `json:"targetIdentifier"`
+	Page  int    `json:"page"`
+	Limit int    `json:"limit"`
 }
