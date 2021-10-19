@@ -183,85 +183,6 @@ const OrgDocument = `
 }
     `
 
-const RolesDocument = `
-    query roles($namespace: String, $page: Int, $limit: Int, $sortBy: SortByEnum) {
-  roles(namespace: $namespace, page: $page, limit: $limit, sortBy: $sortBy) {
-    totalCount
-    list {
-      id
-      namespace
-      code
-      arn
-      description
-      createdAt
-      updatedAt
-    }
-  }
-}
-    `
-
-const RoleWithUsersDocument = `
-    query roleWithUsers($code: String!, $namespace: String, $page: Int, $limit: Int) {
-  role(code: $code, namespace: $namespace) {
-    users(page: $page, limit: $limit) {
-      totalCount
-      list {
-        id
-        arn
-        status
-        userPoolId
-        username
-        email
-        emailVerified
-        phone
-        phoneVerified
-        unionid
-        openid
-        nickname
-        registerSource
-        photo
-        password
-        oauth
-        token
-        tokenExpiredAt
-        loginsCount
-        lastLogin
-        lastIP
-        signedUp
-        blocked
-        isDeleted
-        device
-        browser
-        company
-        name
-        givenName
-        familyName
-        middleName
-        profile
-        preferredUsername
-        website
-        gender
-        birthdate
-        zoneinfo
-        locale
-        address
-        formatted
-        streetAddress
-        locality
-        region
-        postalCode
-        city
-        province
-        country
-        createdAt
-        updatedAt
-        externalId
-      }
-    }
-  }
-}
-    `
-
 const GetUserDepartmentsDocument = `
     query getUserDepartments($id: String!, $orgId: String) {
   user(id: $id) {
@@ -577,6 +498,83 @@ const LoginByUsernameDocument = `
     externalId
   }
 }
+    `
+
+const UsersWithCustomDocument = `
+ query usersWithCustomData($page: Int, $limit: Int, $sortBy: SortByEnum, $excludeUsersInOrg: Boolean) {
+  users(page: $page, limit: $limit, sortBy: $sortBy, excludeUsersInOrg: $excludeUsersInOrg) {
+    totalCount
+    list {
+      id
+      identities {
+        openid
+        userIdInIdp
+        userId
+        connectionId
+        isSocial
+        provider
+        type
+        userPoolId
+      }
+      arn
+      userPoolId
+      status
+      username
+      email
+      emailVerified
+      phone
+      phoneVerified
+      unionid
+      openid
+      nickname
+      registerSource
+      photo
+      password
+      oauth
+      token
+      tokenExpiredAt
+      loginsCount
+      lastLogin
+      lastIP
+      signedUp
+      blocked
+      isDeleted
+      device
+      browser
+      company
+      name
+      givenName
+      familyName
+      middleName
+      profile
+      preferredUsername
+      website
+      gender
+      birthdate
+      zoneinfo
+      locale
+      address
+      formatted
+      streetAddress
+      locality
+      region
+      postalCode
+      city
+      province
+      country
+      createdAt
+      updatedAt
+      externalId
+      customData {
+        key
+        value
+        dataType
+        label
+      }
+    }
+  }
+}
+
     `
 
 const ListUserAuthorizedResourcesDocument = `

@@ -50,9 +50,12 @@ func NewClient(appId string, secret string, host ...string) *Client {
 	if c.HttpClient == nil {
 		c.HttpClient = &http.Client{}
 	}
+
+	//c.AuthingRequest = util.NewAuthingRequest(appId,secret,clientHost)
 	return c
 }
 
+// TODO
 func (c *Client) BuildAuthorizeUrlByOidc(params model.OidcParams) (string, error) {
 	if c.AppId == "" {
 		return constant.StringEmpty, errors.New("请在初始化 AuthenticationClient 时传入 appId")
@@ -80,6 +83,8 @@ func (c *Client) BuildAuthorizeUrlByOidc(params model.OidcParams) (string, error
 	return c.Host + "/oidc/auth?" + util.GetQueryString(dataMap), nil
 }
 
+// GetAccessTokenByCode
+// @desc code 换取 accessToken
 func (c *Client) GetAccessTokenByCode(code string) (string, error) {
 	if c.AppId == "" {
 		return constant.StringEmpty, errors.New("请在初始化 AuthenticationClient 时传入 appId")
@@ -112,9 +117,13 @@ func (c *Client) GetAccessTokenByCode(code string) (string, error) {
 		body["client_id"] = c.AppId
 	}
 	resp, err := c.SendHttpRequest(url, constant.HttpMethodPost, header, body)
+
+	//resp, err := c.AuthingRequest.SendRequest(url, constant.HttpMethodPost, header, body)
 	return string(resp), err
 }
 
+// GetUserInfoByAccessToken
+// @desc accessToken 换取用户信息
 func (c *Client) GetUserInfoByAccessToken(accessToken string) (string, error) {
 	if accessToken == constant.StringEmpty {
 		return constant.StringEmpty, errors.New("accessToken 不能为空")
@@ -124,6 +133,8 @@ func (c *Client) GetUserInfoByAccessToken(accessToken string) (string, error) {
 	return string(resp), err
 }
 
+// GetNewAccessTokenByRefreshToken
+// @desc 使用 Refresh token 获取新的 Access token
 func (c *Client) GetNewAccessTokenByRefreshToken(refreshToken string) (string, error) {
 	if c.Protocol != constant.OIDC && c.Protocol != constant.OAUTH {
 		return constant.StringEmpty, errors.New("初始化 AuthenticationClient 时传入的 protocol 参数必须为 ProtocolEnum.OAUTH 或 ProtocolEnum.OIDC，请检查参数")
@@ -159,6 +170,8 @@ func (c *Client) GetNewAccessTokenByRefreshToken(refreshToken string) (string, e
 	return string(resp), err
 }
 
+// IntrospectToken
+// 检查 Access token 或 Refresh token 的状态
 func (c *Client) IntrospectToken(token string) (string, error) {
 	url := c.Host + fmt.Sprintf("/%s/token/introspection", c.Protocol)
 
@@ -184,6 +197,8 @@ func (c *Client) IntrospectToken(token string) (string, error) {
 	return string(resp), err
 }
 
+// ValidateToken
+// 效验Token合法性
 func (c *Client) ValidateToken(req model.ValidateTokenRequest) (string, error) {
 	if req.IdToken == constant.StringEmpty && req.AccessToken == constant.StringEmpty {
 		return constant.StringEmpty, errors.New("请传入 AccessToken 或 IdToken")
@@ -203,6 +218,8 @@ func (c *Client) ValidateToken(req model.ValidateTokenRequest) (string, error) {
 	return string(resp), err
 }
 
+// RevokeToken
+// 撤回 Access token 或 Refresh token
 func (c *Client) RevokeToken(token string) (string, error) {
 	if c.Protocol != constant.OIDC && c.Protocol != constant.OAUTH {
 		return constant.StringEmpty, errors.New("初始化 AuthenticationClient 时传入的 protocol 参数必须为 ProtocolEnum.OAUTH 或 ProtocolEnum.OIDC，请检查参数")
@@ -236,6 +253,8 @@ func (c *Client) RevokeToken(token string) (string, error) {
 	return string(resp), err
 }
 
+// GetAccessTokenByClientCredentials
+// Client Credentials 模式获取 Access Token
 func (c *Client) GetAccessTokenByClientCredentials(req model.GetAccessTokenByClientCredentialsRequest) (string, error) {
 	if req.Scope == constant.StringEmpty {
 		return constant.StringEmpty, errors.New("请传入 scope 参数，请看文档：https://docs.authing.cn/v2/guides/authorization/m2m-authz.html")
@@ -261,6 +280,8 @@ func (c *Client) GetAccessTokenByClientCredentials(req model.GetAccessTokenByCli
 	return string(resp), err
 }
 
+// LoginByUserName
+// 使用用户名登录
 func (c *Client) LoginByUserName(request model.LoginByUsernameInput) (*model.User, error) {
 	request.Password = util.RsaEncrypt(request.Password)
 	reqParam := make(map[string]interface{})
@@ -275,6 +296,8 @@ func (c *Client) LoginByUserName(request model.LoginByUsernameInput) (*model.Use
 	return loginGetUserInfo(b, "loginByUsername")
 }
 
+// LoginByEmail
+// 使用邮箱登录
 func (c *Client) LoginByEmail(request model.LoginByEmailInput) (*model.User, error) {
 	request.Password = util.RsaEncrypt(request.Password)
 	reqParam := make(map[string]interface{})
@@ -289,6 +312,8 @@ func (c *Client) LoginByEmail(request model.LoginByEmailInput) (*model.User, err
 	return loginGetUserInfo(b, "loginByEmail")
 }
 
+// LoginByPhonePassword
+// 使用手机号密码登录
 func (c *Client) LoginByPhonePassword(request model.LoginByPhonePasswordInput) (*model.User, error) {
 	request.Password = util.RsaEncrypt(request.Password)
 	reqParam := make(map[string]interface{})
@@ -329,7 +354,7 @@ func (c *Client) SendSmsCode(phone string) (*model.CommonMessage, error) {
 	jsoniter.Unmarshal(b, result)
 	return result, nil
 }*/
-
+//TODO
 func loginGetUserInfo(b []byte, userKey string) (*model.User, error) {
 	var result *simplejson.Json
 	result, err := simplejson.NewJson(b)
@@ -351,7 +376,6 @@ func loginGetUserInfo(b []byte, userKey string) (*model.User, error) {
 	}
 	return &resultUser, nil
 }
-
 func (c *Client) SendHttpRequest(url string, method string, header map[string]string, body map[string]string) ([]byte, error) {
 	var form http.Request
 	form.ParseForm()
@@ -426,6 +450,7 @@ func (c *Client) SendHttpRequestManage(url string, method string, query string, 
 	return body, nil
 }
 
+//TODO
 func QueryAccessToken(client *Client) (*model.AccessTokenRes, error) {
 	type Data struct {
 		AccessToken model.AccessTokenRes `json:"accessToken"`
@@ -450,6 +475,8 @@ func QueryAccessToken(client *Client) (*model.AccessTokenRes, error) {
 	return &r.Data.AccessToken, nil
 }
 
+// GetAccessToken
+// 获取访问Token
 func GetAccessToken(client *Client) (string, error) {
 	// 从缓存获取token
 	cacheToken, b := cacheutil.GetCache(constant.TokenCacheKeyPrefix + client.userPoolId)
