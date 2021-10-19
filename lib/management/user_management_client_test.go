@@ -57,3 +57,22 @@ func TestClient_ListAuthorizedResources(t *testing.T) {
 	resp, _ := client.ListAuthorizedResources(req)
 	log.Printf("%+v\n", resp.AuthorizedResources)
 }
+
+func TestClient_GetUserRoleList(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========获取用户角色列表==========")
+	namespace := "default"
+	req := model.GetUserRoleListRequest{
+		UserId:    "611a149db64310ca4764ab15",
+		Namespace: &namespace,
+	}
+	resp, _ := client.GetUserRoleList(req)
+	log.Printf("%+v\n", resp)
+}
+
+func TestClient_GetUserGroupList(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========获取用户分组列表==========")
+	resp, _ := client.GetUserGroupList("611a149db64310ca4764ab15")
+	log.Printf("%+v\n", resp)
+}

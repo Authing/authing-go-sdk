@@ -73,3 +73,31 @@ func (c *Client) RevokeResource(request model.RevokeResourceRequest) (bool, erro
 	}
 	return result == 200, nil
 }
+
+func (c *Client) CheckResourcePermissionBatch(request model.CheckResourcePermissionBatchRequest) (bool, error) {
+	data, _ := json.Marshal(&request)
+	variables := make(map[string]interface{})
+	json.Unmarshal(data, &variables)
+	b, err := c.SendHttpRequest(c.Host+"/api/v2/acl/check-resource-permission-batch", constant.HttpMethodPost, constant.StringEmpty, variables)
+	log.Println(string(b))
+	resultJson, err := simplejson.NewJson(b)
+	result, err := resultJson.Get("code").Int64()
+	if err != nil {
+		return false, err
+	}
+	return result == 200, nil
+}
+
+func (c *Client) GetAuthorizedResourcesOfResourceKind(request model.GetAuthorizedResourcesOfResourceKindRequest) (bool, error) {
+	data, _ := json.Marshal(&request)
+	variables := make(map[string]interface{})
+	json.Unmarshal(data, &variables)
+	b, err := c.SendHttpRequest(c.Host+"/api/v2/acl/get-authorized-resources-of-resource-kind", constant.HttpMethodPost, constant.StringEmpty, variables)
+	log.Println(string(b))
+	resultJson, err := simplejson.NewJson(b)
+	result, err := resultJson.Get("code").Int64()
+	if err != nil {
+		return false, err
+	}
+	return result == 200, nil
+}

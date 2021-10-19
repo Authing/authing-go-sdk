@@ -82,5 +82,39 @@ func (c *Client) ListAuthorizedResources(request model.ListUserAuthorizedResourc
 		return nil, err
 	}
 	return &result, nil
+}
 
+func (c *Client) GetUserRoleList(request model.GetUserRoleListRequest) (*model.PaginatedRoles, error) {
+	variables := make(map[string]interface{}, 0)
+	if request.Namespace != nil {
+		variables["namespace"] = *request.Namespace
+	}
+	b, err := c.SendHttpRequest(c.Host+"/api/v2/users/"+request.UserId+"/roles", constant.HttpMethodGet, constant.StringEmpty, variables)
+	log.Println(string(b))
+	result := model.PaginatedRoles{}
+	resultJson, err := simplejson.NewJson(b)
+	byteUser, err := resultJson.Get("data").MarshalJSON()
+	err = json.Unmarshal(byteUser, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, err
+}
+
+func (c *Client) GetUserGroupList(userId string) (*model.PaginatedGroups, error) {
+	variables := make(map[string]interface{}, 0)
+	variables["id"] = userId
+	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, constant.HttpMethodPost, constant.GetUserGroupsDocument, variables)
+	if err != nil {
+		return nil, err
+	}
+	log.Println(string(b))
+	result := model.PaginatedGroups{}
+	resultJson, err := simplejson.NewJson(b)
+	byteUser, err := resultJson.Get("data").Get("user").Get("groups").MarshalJSON()
+	err = json.Unmarshal(byteUser, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
 }

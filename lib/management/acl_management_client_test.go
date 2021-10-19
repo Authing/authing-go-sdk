@@ -76,3 +76,18 @@ func TestClient_RevokeResource(t *testing.T) {
 	resp, _ := client.RevokeResource(req)
 	log.Printf("%+v\n", resp)
 }
+
+func TestClient_CheckResourcePermissionBatch(t *testing.T) {
+	//client := NewClient(userPoolId, appSecret)
+	client := NewClient(userPoolIdDev, appSecretDev, "http://localhost:3000")
+	log.Println("==========获取用户对某些资源的权限==========")
+	var resources []string
+	resources = append(resources, "7629:read")
+	req := model.CheckResourcePermissionBatchRequest{
+		UserId:    "61436e13634d7bdc0fd7ce6e",
+		Namespace: "default",
+		Resources: resources,
+	}
+	resp, _ := client.CheckResourcePermissionBatch(req)
+	log.Printf("%+v\n", resp)
+}

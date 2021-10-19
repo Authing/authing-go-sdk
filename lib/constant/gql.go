@@ -617,3 +617,35 @@ const AuthorizeResourceDocument = `
   }
 }
     `
+
+const GroupsDocument = `
+    query groups($userId: String, $page: Int, $limit: Int, $sortBy: SortByEnum) {
+  groups(userId: $userId, page: $page, limit: $limit, sortBy: $sortBy) {
+    totalCount
+    list {
+      code
+      name
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `
+
+const GetUserGroupsDocument = `
+    query getUserGroups($id: String!) {
+  user(id: $id) {
+    groups {
+      totalCount
+      list {
+        code
+        name
+        description
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}
+    `

@@ -210,3 +210,20 @@ type RevokeResourceRequest struct {
 	ResourceType EnumResourceType       `json:"resourceType"`
 	Opts         []AuthorizeResourceOpt `json:"opts"`
 }
+
+type GetUserRoleListRequest struct {
+	UserId    string  `json:"userId"`
+	Namespace *string `json:"namespace"`
+}
+
+type CheckResourcePermissionBatchRequest struct {
+	UserId    string   `json:"userId"`
+	Namespace string   `json:"namespace"`
+	Resources []string `json:"resources"`
+}
+
+type GetAuthorizedResourcesOfResourceKindRequest struct {
+	UserId    string `json:"userId"`
+	Namespace string `json:"namespace"`
+	Resource  string `json:"resource"`
+}

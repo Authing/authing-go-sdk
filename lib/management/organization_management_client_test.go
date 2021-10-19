@@ -12,8 +12,8 @@ const (
 	userPoolId = "60e043f8cd91b87d712b6365"
 	appSecret  = "158c7679333bc196b524d78d745813e5"
 	// dev
-	//userPoolId = "61090ca2ae21b81053abbd07"
-	//appSecret  = "db3e0a32cd5629fe12c9d29911abb9b7"
+	userPoolIdDev = "61090ca2ae21b81053abbd07"
+	appSecretDev  = "db3e0a32cd5629fe12c9d29911abb9b7"
 )
 
 func TestClient_ExportAll(t *testing.T) {
