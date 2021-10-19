@@ -29,7 +29,11 @@ func (c *Client) GetUserList(request model.QueryListRequest) (*model.PaginatedUs
 	data, _ := json.Marshal(&request)
 	variables := make(map[string]interface{})
 	json.Unmarshal(data, &variables)
-	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, constant.HttpMethodPost, constant.UsersDocument, variables)
+	query := constant.UsersDocument
+	if request.WithCustomData != nil && *request.WithCustomData == true {
+		query = constant.UsersWithCustomDocument
+	}
+	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, constant.HttpMethodPost, query, variables)
 	if err != nil {
 		return nil, err
 	}

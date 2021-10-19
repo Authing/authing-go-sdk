@@ -12,13 +12,16 @@ import (
 func TestClient_GetUserList(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========导出所有组织机构数据==========")
+	custom := true
 	req := model.QueryListRequest{
-		Page:   1,
-		Limit:  10,
-		SortBy: enum.SortByCreatedAtAsc,
+		Page:           1,
+		Limit:          10,
+		SortBy:         enum.SortByCreatedAtAsc,
+		WithCustomData: &custom,
 	}
 	resp, _ := client.GetUserList(req)
 	log.Printf("%+v\n", resp)
+	log.Println(*resp)
 }
 
 func TestClient_GetUserDepartments(t *testing.T) {

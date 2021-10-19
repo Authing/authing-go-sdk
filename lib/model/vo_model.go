@@ -37,9 +37,10 @@ type NodeByIdResponse struct {
 }
 
 type QueryListRequest struct {
-	Page   int             `json:"page"`
-	Limit  int             `json:"limit"`
-	SortBy enum.SortByEnum `json:"sortBy"`
+	Page           int             `json:"page"`
+	Limit          int             `json:"limit"`
+	SortBy         enum.SortByEnum `json:"sortBy"`
+	WithCustomData *bool
 }
 
 type Users struct {
