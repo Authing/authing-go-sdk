@@ -74,7 +74,7 @@ func (c *Client) RevokeResource(request model.RevokeResourceRequest) (bool, erro
 	return result == 200, nil
 }
 
-func (c *Client) CheckResourcePermissionBatch(request model.CheckResourcePermissionBatchRequest) (bool, error) {
+/*func (c *Client) CheckResourcePermissionBatch(request model.CheckResourcePermissionBatchRequest) (bool, error) {
 	data, _ := json.Marshal(&request)
 	variables := make(map[string]interface{})
 	json.Unmarshal(data, &variables)
@@ -100,4 +100,4 @@ func (c *Client) GetAuthorizedResourcesOfResourceKind(request model.GetAuthorize
 		return false, err
 	}
 	return result == 200, nil
-}
+}*/
