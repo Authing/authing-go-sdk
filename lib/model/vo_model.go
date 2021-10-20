@@ -178,3 +178,58 @@ type ListPoliciesOnIdRequest struct {
 	Page  int    `json:"page"`
 	Limit int    `json:"limit"`
 }
+
+type ListUserAuthorizedResourcesRequest struct {
+	UserId       string  `json:"id"`
+	Namespace    string  `json:"namespace"`
+	ResourceType *string `json:"resourceType"`
+}
+
+type ListUserAuthorizedResourcesResponse struct {
+	User User `json:"user"`
+}
+
+type IsAllowedRequest struct {
+	Resource  string  `json:"resource"`
+	Action    string  `json:"action"`
+	UserId    string  `json:"userId"`
+	Namespace *string `json:"namespace"`
+}
+
+type AllowRequest struct {
+	Resource  string `json:"resource"`
+	Action    string `json:"action"`
+	UserId    string `json:"userId"`
+	Namespace string `json:"namespace"`
+}
+
+type AuthorizeResourceRequest struct {
+	Namespace    string                 `json:"namespace"`
+	Resource     string                 `json:"resource"`
+	ResourceType EnumResourceType       `json:"resourceType"`
+	Opts         []AuthorizeResourceOpt `json:"opts"`
+}
+
+type RevokeResourceRequest struct {
+	Namespace    string                 `json:"namespace"`
+	Resource     string                 `json:"resource"`
+	ResourceType EnumResourceType       `json:"resourceType"`
+	Opts         []AuthorizeResourceOpt `json:"opts"`
+}
+
+type GetUserRoleListRequest struct {
+	UserId    string  `json:"userId"`
+	Namespace *string `json:"namespace"`
+}
+
+type CheckResourcePermissionBatchRequest struct {
+	UserId    string   `json:"userId"`
+	Namespace string   `json:"namespace"`
+	Resources []string `json:"resources"`
+}
+
+type GetAuthorizedResourcesOfResourceKindRequest struct {
+	UserId    string `json:"userId"`
+	Namespace string `json:"namespace"`
+	Resource  string `json:"resource"`
+}

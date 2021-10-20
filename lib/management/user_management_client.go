@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
+	"github.com/bitly/go-simplejson"
 	jsoniter "github.com/json-iterator/go"
 	"log"
 	"net/http"
@@ -14,7 +15,7 @@ import (
 // Detail
 // 获取用户详情
 func (c *Client) Detail(userId string) (*model.User, error) {
-	b, err := c.SendHttpRequest(c.Host+"/api/v2/users/"+userId, "GET", "", nil)
+	b, err := c.SendHttpRequest(c.Host+"/api/v2/users/"+userId, constant.HttpMethodGet, "", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -865,4 +866,58 @@ func fillDefaultVal(info *model.CreateUserInput) {
 		info.LoginsCount = &zero
 	}
 
+}
+
+func (c *Client) ListAuthorizedResources(request model.ListUserAuthorizedResourcesRequest) (*model.User, error) {
+	data, _ := json.Marshal(&request)
+	variables := make(map[string]interface{})
+	json.Unmarshal(data, &variables)
+	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, constant.HttpMethodPost, constant.ListUserAuthorizedResourcesDocument, variables)
+	if err != nil {
+		return nil, err
+	}
+	log.Println(string(b))
+	result := model.User{}
+	resultJson, err := simplejson.NewJson(b)
+	byteUser, err := resultJson.Get("data").Get("user").MarshalJSON()
+	err = json.Unmarshal(byteUser, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+func (c *Client) GetUserRoleList(request model.GetUserRoleListRequest) (*model.PaginatedRoles, error) {
+	variables := make(map[string]interface{}, 0)
+	if request.Namespace != nil {
+		variables["namespace"] = *request.Namespace
+	}
+	b, err := c.SendHttpRequest(c.Host+"/api/v2/users/"+request.UserId+"/roles", constant.HttpMethodGet, constant.StringEmpty, variables)
+	log.Println(string(b))
+	result := model.PaginatedRoles{}
+	resultJson, err := simplejson.NewJson(b)
+	byteUser, err := resultJson.Get("data").MarshalJSON()
+	err = json.Unmarshal(byteUser, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, err
+}
+
+func (c *Client) GetUserGroupList(userId string) (*model.PaginatedGroups, error) {
+	variables := make(map[string]interface{}, 0)
+	variables["id"] = userId
+	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, constant.HttpMethodPost, constant.GetUserGroupsDocument, variables)
+	if err != nil {
+		return nil, err
+	}
+	log.Println(string(b))
+	result := model.PaginatedGroups{}
+	resultJson, err := simplejson.NewJson(b)
+	byteUser, err := resultJson.Get("data").Get("user").Get("groups").MarshalJSON()
+	err = json.Unmarshal(byteUser, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
 }

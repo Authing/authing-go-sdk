@@ -576,3 +576,43 @@ const UsersWithCustomDocument = `
 }
 
     `
+
+const IsActionAllowedDocument = `
+    query isActionAllowed($resource: String!, $action: String!, $userId: String!, $namespace: String) {
+  isActionAllowed(resource: $resource, action: $action, userId: $userId, namespace: $namespace)
+}
+    `
+
+const AllowDocument = `
+    mutation allow($resource: String!, $action: String!, $userId: String, $userIds: [String!], $roleCode: String, $roleCodes: [String!], $namespace: String) {
+  allow(resource: $resource, action: $action, userId: $userId, userIds: $userIds, roleCode: $roleCode, roleCodes: $roleCodes, namespace: $namespace) {
+    message
+    code
+  }
+}
+    `
+
+const AuthorizeResourceDocument = `
+    mutation authorizeResource($namespace: String, $resource: String, $resourceType: ResourceType, $opts: [AuthorizeResourceOpt]) {
+  authorizeResource(namespace: $namespace, resource: $resource, resourceType: $resourceType, opts: $opts) {
+    code
+    message
+  }
+}
+    `
+
+const GroupsDocument = `
+    query groups($userId: String, $page: Int, $limit: Int, $sortBy: SortByEnum) {
+  groups(userId: $userId, page: $page, limit: $limit, sortBy: $sortBy) {
+    totalCount
+    list {
+      code
+      name
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `
+

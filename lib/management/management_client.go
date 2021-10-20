@@ -8,7 +8,6 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	"github.com/Authing/authing-go-sdk/lib/util/cacheutil"
-	"github.com/kelvinji2009/graphql"
 	"github.com/valyala/fasthttp"
 	"golang.org/x/oauth2"
 	"io/ioutil"
@@ -21,7 +20,6 @@ import (
 
 // Client is a client for interacting with the GraphQL API of `Authing`
 type Client struct {
-	Client     *graphql.Client
 	HttpClient *http.Client
 	userPoolId string
 	secret     string
@@ -147,7 +145,12 @@ func (c *Client) SendHttpRequest(url string, method string, query string, variab
 			Variables: variables,
 		}
 		var buf bytes.Buffer
-		err := json.NewEncoder(&buf).Encode(in)
+		var err error
+		if query == constant.StringEmpty {
+			err = json.NewEncoder(&buf).Encode(variables)
+		} else {
+			err = json.NewEncoder(&buf).Encode(in)
+		}
 		if err != nil {
 			return nil, err
 		}
