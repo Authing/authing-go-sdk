@@ -59,12 +59,40 @@ const (
 	None              = "none"
 )
 
-type ResourceTypeEnum string
+type ResourceTargetTypeEnum string
 
 const (
-	DATA   ResourceTypeEnum = "DATA"
-	API    ResourceTypeEnum = "API"
-	MENU   ResourceTypeEnum = "MENU"
-	UI     ResourceTypeEnum = "UI"
-	BUTTON ResourceTypeEnum = "BUTTON"
+	USER  ResourceTargetTypeEnum = "USER"
+	ROLE  ResourceTargetTypeEnum = "ROLE"
+	GROUP ResourceTargetTypeEnum = "GROUP"
+	ORG   ResourceTargetTypeEnum = "ORG"
+)
+
+type ApplicationDefaultAccessPolicies string
+
+const (
+	AllowAll ApplicationDefaultAccessPolicies = "ALLOW_ALL"
+	DenyAll  ApplicationDefaultAccessPolicies = "DENY_ALL"
+)
+
+type GetAuthorizedTargetsOpt string
+
+const (
+	AND GetAuthorizedTargetsOpt = "AND"
+	OR  GetAuthorizedTargetsOpt = "OR"
+)
+
+type ProviderTypeEnum string
+
+const (
+	DingTalk   ProviderTypeEnum = "dingtalk"
+	WechatWork ProviderTypeEnum = "wechatwork"
+	AD         ProviderTypeEnum = "ad"
+)
+
+type PrincipalAuthenticateType string
+
+const (
+	P PrincipalAuthenticateType = "P"
+	E PrincipalAuthenticateType = "E"
 )

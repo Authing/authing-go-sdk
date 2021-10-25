@@ -1,7 +1,6 @@
 package management
 
 import (
-	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/enum"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	"log"
@@ -50,69 +49,69 @@ func TestClient_CheckUserExists(t *testing.T) {
 	log.Println(resp)
 }
 
-//func TestClient_CreateUser(t *testing.T) {
-//	client := NewClient(userPoolId, appSecret)
-//	log.Println("==========创建用户==========")
-//	//email := "t041gyqw0b@gmail.com"
-//	phone :=  "15761403457222"
-//	username := "xx"
-//	pwd:="123456789"
-//	var userInfo = &model.CreateUserInput{
-//		Username: &username,
-//		Phone: &phone,
-//		Password: &pwd,
-//	}
-//	req := model.CreateUserRequest{
-//		 UserInfo: *userInfo,
-//	}
-//	resp, err := client.CreateUser(req)
-//	log.Println(resp)
-//	log.Println(err)
-//}
+func TestClient_CreateUser(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========创建用户==========")
+	//email := "t041gyqw0b@gmail.com"
+	phone := "15761403457222"
+	username := "xx"
+	pwd := "123456789"
+	var userInfo = &model.CreateUserInput{
+		Username: &username,
+		Phone:    &phone,
+		Password: &pwd,
+	}
+	req := model.CreateUserRequest{
+		UserInfo: *userInfo,
+	}
+	resp, err := client.CreateUser(req)
+	log.Println(resp)
+	log.Println(err)
+}
 
-//func TestClient_CreateUserWithCustom(t *testing.T) {
-//	client := NewClient(userPoolId, appSecret)
-//	log.Println("==========创建用户包含自定义数据==========")
-//	//email := "t041gyqw0b@gmail.com"
-//	phone :=  "15761403457222122"
-//	username := "xxqq12"
-//	pwd:="123456789"
-//	var userInfo = &model.CreateUserInput{
-//		Username: &username,
-//		Phone: &phone,
-//		Password: &pwd,
-//	}
-//	req := model.CreateUserRequest{
-//		UserInfo: *userInfo,
-//		CustomData: []model.KeyValuePair{
-//			 model.KeyValuePair{
-//				Key: "objhvfwdbi",
-//				Value: "qq",
-//			},
-//		},
-//	}
-//	resp, err := client.CreateUser(req)
-//	log.Println(resp)
-//	log.Println(err)
-//}
+func TestClient_CreateUserWithCustom(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========创建用户包含自定义数据==========")
+	//email := "t041gyqw0b@gmail.com"
+	phone := "15761403457222122"
+	username := "xxqq12"
+	pwd := "123456789"
+	var userInfo = &model.CreateUserInput{
+		Username: &username,
+		Phone:    &phone,
+		Password: &pwd,
+	}
+	req := model.CreateUserRequest{
+		UserInfo: *userInfo,
+		CustomData: []model.KeyValuePair{
+			model.KeyValuePair{
+				Key:   "objhvfwdbi",
+				Value: "qq",
+			},
+		},
+	}
+	resp, err := client.CreateUser(req)
+	log.Println(resp)
+	log.Println(err)
+}
 
-//func TestClient_UpdateUser(t *testing.T) {
-//	client := NewClient(userPoolId, appSecret)
-//	log.Println("==========更新用户==========")
-//	//email := "t041gyqw0b@gmail.com"
-//	phone :=  "15761403457222122"
-//	username := "xxqq123"
-//	//pwd:="123456789"
-//	var userInfo = &model.UpdateUserInput{
-//		Username: &username,
-//		Phone: &phone,
-//		//Password: &pwd,
-//	}
-//
-//	resp, err := client.UpdateUser("616d4333b809f9f4768db847",*userInfo)
-//	log.Println(resp)
-//	log.Println(err)
-//}
+func TestClient_UpdateUser(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========更新用户==========")
+	//email := "t041gyqw0b@gmail.com"
+	phone := "15761403457222122"
+	username := "xxqq123"
+	//pwd:="123456789"
+	var userInfo = &model.UpdateUserInput{
+		Username: &username,
+		Phone:    &phone,
+		//Password: &pwd,
+	}
+
+	resp, err := client.UpdateUser("616d4333b809f9f4768db847", *userInfo)
+	log.Println(resp)
+	log.Println(err)
+}
 
 func TestClient_DeleteUser(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
@@ -156,9 +155,9 @@ func TestClient_ListArchivedUsers(t *testing.T) {
 func TestClient_FindUser(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========查找用户==========")
-
+	userName := "xxqq"
 	resp, err := client.FindUser(&model.FindUserRequest{
-		Username: "xxqq",
+		Username: &userName,
 	})
 	log.Println(resp)
 	log.Println(err)
@@ -297,7 +296,7 @@ func TestClient_ListUserAuthorizedResources(t *testing.T) {
 	req := &model.ListUserAuthResourceRequest{
 		Id:           "616d41b7410a33da0cb70e65",
 		Namespace:    "default",
-		ResourceType: constant.API,
+		ResourceType: model.EnumResourceTypeAPI,
 	}
 	resp, err := client.ListUserAuthorizedResources(*req)
 	log.Println(resp)
@@ -362,21 +361,21 @@ func TestClient_UserHasRole(t *testing.T) {
 	log.Println(err)
 }
 
-//func TestClient_KickUser(t *testing.T) {
-//	client := NewClient(userPoolId, appSecret)
-//	log.Println("==========强制用户下线==========")
-//
-//	resp, err := client.KickUser([]string{"5a597f35085a2000144a10ed"})
-//	log.Println(resp)
-//	log.Println(err)
-//}
+func TestClient_KickUser(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========强制用户下线==========")
+
+	resp, err := client.KickUser([]string{"5a597f35085a2000144a10ed"})
+	log.Println(resp)
+	log.Println(err)
+}
 
 func TestClient_ListAuthorizedResources(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========获取用户被授权的所有资源列表==========")
 
-	req := model.ListUserAuthorizedResourcesRequest{
-		UserId:       "611b2ff477d701441c25e29e",
+	req := model.ListAuthorizedResourcesByIdRequest{
+		Id:           "611b2ff477d701441c25e29e",
 		Namespace:    "6123528118b7794b2420b311",
 		ResourceType: nil,
 	}
@@ -401,4 +400,51 @@ func TestClient_GetUserGroupList(t *testing.T) {
 	log.Println("==========获取用户分组列表==========")
 	resp, _ := client.GetUserGroupList("611a149db64310ca4764ab15")
 	log.Printf("%+v\n", resp)
+}
+
+func TestClient_CheckLoginStatus(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========检查用户登录状态==========")
+
+	resp, err := client.CheckLoginStatus("5a597f35085a2000144a10ed", nil, nil)
+	log.Println(resp)
+	log.Println(err)
+}
+
+func TestClient_LogOut(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========用户退出==========")
+
+	resp, err := client.LogOut("5a597f35085a2000144a10ed", nil)
+	log.Println(resp)
+	log.Println(err)
+}
+
+func TestClient_SendFirstLoginVerifyEmail(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========发送用户首次登录邮件==========")
+
+	resp, err := client.SendFirstLoginVerifyEmail("616d4333b809f9f4768db847", "6168f95e81d5e20f9cb72f22")
+	log.Println(resp)
+	log.Println(err)
+}
+
+func TestClient_CheckLoginStatus2(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========检验登录状态根据Token==========")
+	tx, e := GetAccessToken(client)
+	log.Println(tx, e)
+	resp, err := client.CheckLoginStatusByToken(tx)
+	log.Println(resp)
+	log.Println(err)
+}
+
+func TestClient_IsPasswordValid(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========检验登录状态根据Token==========")
+	tx, e := GetAccessToken(client)
+	log.Println(tx, e)
+	resp, err := client.IsPasswordValid("tx")
+	log.Println(resp)
+	log.Println(err)
 }

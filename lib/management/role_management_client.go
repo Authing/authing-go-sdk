@@ -229,7 +229,7 @@ func (c *Client) ListRolePolicies(request model.ListPoliciesRequest) (*model.Lis
 	variables := make(map[string]interface{})
 	json.Unmarshal(data, &variables)
 
-	variables["targetType"] = "ROLE"
+	variables["targetType"] = constant.ROLE
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.ListPoliciesDocument, variables)
 	if err != nil {
 		return nil, err
@@ -257,7 +257,7 @@ func (c *Client) AddRolePolicies(code string, policiesCode []string) (*model.Com
 	variables := make(map[string]interface{})
 
 	variables["policies"] = policiesCode
-	variables["targetType"] = "ROLE"
+	variables["targetType"] = constant.ROLE
 	variables["targetIdentifiers"] = []string{code}
 
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.AddPoliciesDocument, variables)
@@ -287,7 +287,7 @@ func (c *Client) RemoveRolePolicies(code string, policiesCode []string) (*model.
 	variables := make(map[string]interface{})
 
 	variables["policies"] = policiesCode
-	variables["targetType"] = "ROLE"
+	variables["targetType"] = constant.ROLE
 	variables["targetIdentifiers"] = []string{code}
 
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.RemovePoliciesDocument, variables)
@@ -312,7 +312,7 @@ func (c *Client) RemoveRolePolicies(code string, policiesCode []string) (*model.
 
 // ListRoleAuthorizedResources
 // 获取角色被授权的所有资源
-func (c *Client) ListRoleAuthorizedResources(code, namespace string, resourceType constant.ResourceTypeEnum) (*model.AuthorizedResources, error) {
+func (c *Client) ListRoleAuthorizedResources(code, namespace string, resourceType model.EnumResourceType) (*model.AuthorizedResources, error) {
 
 	variables := make(map[string]interface{})
 
@@ -348,7 +348,7 @@ func (c *Client) GetRoleUdfValue(id string) (*[]model.UserDefinedData, error) {
 
 	variables := make(map[string]interface{})
 
-	variables["targetType"] = "ROLE"
+	variables["targetType"] = constant.ROLE
 	variables["targetId"] = id
 
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.GetRoleUdfValueDocument, variables)
@@ -383,7 +383,7 @@ func (c *Client) BatchGetRoleUdfValue(ids []string) (map[string][]model.UserDefi
 
 	variables := make(map[string]interface{})
 
-	variables["targetType"] = "ROLE"
+	variables["targetType"] = constant.ROLE
 	variables["targetIds"] = ids
 
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.BatchGetRoleUdfValueDocument, variables)
@@ -415,7 +415,7 @@ func (c *Client) SetRoleUdfValue(id string, udv *model.KeyValuePair) (*[]model.U
 
 	variables := make(map[string]interface{})
 
-	variables["targetType"] = "ROLE"
+	variables["targetType"] = constant.ROLE
 	variables["targetId"] = id
 	variables["udvList"] = []model.KeyValuePair{*udv}
 
@@ -443,7 +443,7 @@ func (c *Client) SetRoleUdfValue(id string, udv *model.KeyValuePair) (*[]model.U
 func (c *Client) BatchSetRoleUdfValue(request *[]model.SetUdfValueBatchInput) (*model.CommonMessageAndCode, error) {
 
 	variables := make(map[string]interface{})
-	variables["targetType"] = "ROLE"
+	variables["targetType"] = constant.ROLE
 	variables["input"] = request
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.BatchSetUdfValueDocument, variables)
 	if err != nil {
@@ -469,7 +469,7 @@ func (c *Client) BatchSetRoleUdfValue(request *[]model.SetUdfValueBatchInput) (*
 func (c *Client) RemoveRoleUdfValue(id, key string) (*[]model.UserDefinedData, error) {
 
 	variables := make(map[string]interface{})
-	variables["targetType"] = "ROLE"
+	variables["targetType"] = constant.ROLE
 	variables["targetId"] = id
 	variables["key"] = key
 

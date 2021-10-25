@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	"github.com/Authing/authing-go-sdk/lib/util/cacheutil"
+	jsoniter "github.com/json-iterator/go"
 	"github.com/valyala/fasthttp"
 	"golang.org/x/oauth2"
 	"io/ioutil"
@@ -167,7 +169,49 @@ func (c *Client) SendHttpRequest(url string, method string, query string, variab
 	req.Header.Add("x-authing-request-from", constant.SdkType)
 	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
 	req.Header.Add("x-authing-app-id", ""+constant.AppId)
+	res, err := c.HttpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	return body, nil
+}
 
+func (c *Client) SendHttpRestRequest(url string, method string, variables map[string]interface{}) ([]byte, error) {
+	var req *http.Request
+	if method == constant.HttpMethodGet {
+		req, _ = http.NewRequest(http.MethodGet, url, nil)
+		if variables != nil && len(variables) > 0 {
+			q := req.URL.Query()
+			for key, value := range variables {
+				q.Add(key, fmt.Sprintf("%v", value))
+			}
+			req.URL.RawQuery = q.Encode()
+		}
+
+	} else {
+
+		var buf bytes.Buffer
+		var err error
+		if variables != nil {
+			err = json.NewEncoder(&buf).Encode(variables)
+
+		}
+		if err != nil {
+			return nil, err
+		}
+		req, err = http.NewRequest(method, url, &buf)
+		req.Header.Add("Content-Type", "application/json")
+	}
+
+	token, _ := GetAccessToken(c)
+	req.Header.Add("Authorization", "Bearer "+token)
+
+	req.Header.Add("x-authing-userpool-id", ""+c.userPoolId)
+	req.Header.Add("x-authing-request-from", constant.SdkType)
+	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
+	req.Header.Add("x-authing-app-id", ""+constant.AppId)
 	res, err := c.HttpClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -289,4 +333,80 @@ func CreateRequestParam(param struct{}) map[string]interface{} {
 	variables := make(map[string]interface{})
 	json.Unmarshal(data, &variables)
 	return variables
+}
+
+// SendMail
+// 发送邮件
+func (c *Client) SendMail(email string, scene model.EnumEmailScene) (*model.CommonMessageAndCode, error) {
+
+	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.SendMailDocument,
+		map[string]interface{}{"email": email, "scene": scene})
+	if err != nil {
+		return nil, err
+	}
+	log.Println(string(b))
+	var response = &struct {
+		Data struct {
+			SendMail model.CommonMessageAndCode `json:"sendEmail"`
+		} `json:"data"`
+		Errors []model.GqlCommonErrors `json:"errors"`
+	}{}
+
+	jsoniter.Unmarshal(b, &response)
+	if len(response.Errors) > 0 {
+		return nil, errors.New(response.Errors[0].Message.Message)
+	}
+	return &response.Data.SendMail, nil
+}
+
+// CheckLoginStatusByToken
+// 检测登录状态
+func (c *Client) CheckLoginStatusByToken(token string) (*model.CheckLoginStatusResponse, error) {
+
+	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.CheckLoginStatusDocument,
+		map[string]interface{}{"token": token})
+	if err != nil {
+		return nil, err
+	}
+	log.Println(string(b))
+	var response = &struct {
+		Data struct {
+			CheckLoginStatus model.CheckLoginStatusResponse `json:"checkLoginStatus"`
+		} `json:"data"`
+		Errors []model.GqlCommonErrors `json:"errors"`
+	}{}
+
+	jsoniter.Unmarshal(b, &response)
+	if len(response.Errors) > 0 {
+		return nil, errors.New(response.Errors[0].Message.Message)
+	}
+	return &response.Data.CheckLoginStatus, nil
+}
+
+// IsPasswordValid
+// 检测密码是否合法
+func (c *Client) IsPasswordValid(password string) (*struct {
+	Valid   bool   `json:"valid"`
+	Message string `json:"message"`
+}, error) {
+
+	url := fmt.Sprintf("%s/api/v2/password/check", c.Host)
+	b, err := c.SendHttpRestRequest(url, http.MethodPost, map[string]interface{}{"password": password})
+	if err != nil {
+		return nil, err
+	}
+	log.Println(string(b))
+	resp := &struct {
+		Message string `json:"message"`
+		Code    int64  `json:"code"`
+		Data    struct {
+			Valid   bool   `json:"valid"`
+			Message string `json:"message"`
+		} `json:"data"`
+	}{}
+	jsoniter.Unmarshal(b, &resp)
+	if resp.Code != 200 {
+		return nil, errors.New(resp.Message)
+	}
+	return &resp.Data, nil
 }
