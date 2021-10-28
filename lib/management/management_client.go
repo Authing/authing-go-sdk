@@ -335,9 +335,9 @@ func CreateRequestParam(param struct{}) map[string]interface{} {
 	return variables
 }
 
-// SendMail
+// SendEmail
 // 发送邮件
-func (c *Client) SendMail(email string, scene model.EnumEmailScene) (*model.CommonMessageAndCode, error) {
+func (c *Client) SendEmail(email string, scene model.EnumEmailScene) (*model.CommonMessageAndCode, error) {
 
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.SendMailDocument,
 		map[string]interface{}{"email": email, "scene": scene})

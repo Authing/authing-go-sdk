@@ -111,12 +111,12 @@ func (c *Client) ListUdfValue(targetType model.EnumUDFTargetType, targetId strin
 
 // SetUdvBatch
 // 批量添加自定义数据
-func (c *Client) SetUdvBatch(id string, targetType model.EnumUDFTargetType, udv *model.KeyValuePair) (*[]model.UserDefinedData, error) {
+func (c *Client) SetUdvBatch(id string, targetType model.EnumUDFTargetType, udv *[]model.KeyValuePair) (*[]model.UserDefinedData, error) {
 	variables := make(map[string]interface{})
 
 	variables["targetType"] = targetType
 	variables["targetId"] = id
-	variables["udvList"] = []model.KeyValuePair{*udv}
+	variables["udvList"] = udv
 
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.SetRoleUdfValueDocument, variables)
 	if err != nil {

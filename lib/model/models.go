@@ -498,12 +498,12 @@ type RefreshToken struct {
 type RegisterByEmailInput struct {
 	Email         string           `json:"email"`
 	Password      string           `json:"password"`
-	Profile       *RegisterProfile `json:"profile"`
-	ForceLogin    *bool            `json:"forceLogin"`
-	GenerateToken *bool            `json:"generateToken"`
-	ClientIp      *string          `json:"clientIp"`
-	Params        *string          `json:"params"`
-	Context       *string          `json:"context"`
+	Profile       *RegisterProfile `json:"profile,omitempty"`
+	ForceLogin    *bool            `json:"forceLogin,omitempty"`
+	GenerateToken *bool            `json:"generateToken,omitempty"`
+	ClientIp      *string          `json:"clientIp,omitempty"`
+	Params        *string          `json:"params,omitempty"`
+	Context       *string          `json:"context,omitempty"`
 }
 
 type RegisterByPhoneCodeInput struct {
@@ -747,4 +747,48 @@ type UserPoolEnv struct {
 	CreatedAt  time.Time `json:"createdAt"`
 	UpdatedAt  time.Time `json:"updatedAt"`
 	Id         string    `json:"id"`
+}
+
+type UserOrgs []struct {
+	Type            string        `json:"type"`
+	Id              string        `json:"id"`
+	CreatedAt       time.Time     `json:"createdAt"`
+	UpdatedAt       time.Time     `json:"updatedAt"`
+	UserPoolId      string        `json:"userPoolId"`
+	RootNodeId      string        `json:"rootNodeId,omitempty"`
+	Logo            string        `json:"logo"`
+	OrgId           string        `json:"orgId,omitempty"`
+	Name            string        `json:"name,omitempty"`
+	NameI18N        string        `json:"nameI18n"`
+	Description     *string       `json:"description,omitempty"`
+	DescriptionI18N string        `json:"descriptionI18n"`
+	Order           string        `json:"order"`
+	Code            *string       `json:"code,omitempty"`
+	LeaderUserId    string        `json:"leaderUserId"`
+	Source          []interface{} `json:"source,omitempty"`
+	DataVersion     interface{}   `json:"dataVersion"`
+	SourceData      interface{}   `json:"sourceData"`
+}
+
+type GetSecurityLevelResponse struct {
+	Score                 int  `json:"score"`
+	Email                 bool `json:"email"`
+	Phone                 bool `json:"phone"`
+	Password              bool `json:"password"`
+	PasswordSecurityLevel int  `json:"passwordSecurityLevel"`
+	Mfa                   bool `json:"mfa"`
+}
+
+type LoginBySubAccountRequest struct {
+	Account     string `json:"account"`
+	Password    string `json:"password"`
+	CaptchaCode string `json:"captchaCode,omitempty"`
+	ClientIp    string `json:"clientIp,omitempty"`
+}
+
+type IsUserExistsRequest struct {
+	Username   *string `json:"username,omitempty"`
+	Email      *string `json:"email,omitempty"`
+	Phone      *string `json:"phone,omitempty"`
+	ExternalId *string `json:"externalId,omitempty"`
 }
