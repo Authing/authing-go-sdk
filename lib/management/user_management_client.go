@@ -925,7 +925,7 @@ func (c *Client) LogOut(userId string, appId *string) (*model.CommonMessageAndCo
 }
 
 // SendFirstLoginVerifyEmail
-// 批量移除策略
+// 发送首次登录验证邮件
 func (c *Client) SendFirstLoginVerifyEmail(userId, appId string) (*model.CommonMessageAndCode, error) {
 
 	variables := make(map[string]interface{})

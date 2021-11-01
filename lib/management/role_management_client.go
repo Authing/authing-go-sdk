@@ -28,7 +28,10 @@ func (c *Client) GetRoleList(request model.GetRoleListRequest) (*model.Paginated
 
 // GetRoleUserList
 // 获取角色用户列表
-func (c *Client) GetRoleUserList(request model.GetRoleUserListRequest) (*model.PaginatedRoles, error) {
+func (c *Client) GetRoleUserList(request model.GetRoleUserListRequest) (*struct {
+	TotalCount int64        `json:"totalCount"`
+	List       []model.User `json:"list"`
+}, error) {
 	data, _ := json.Marshal(&request)
 	variables := make(map[string]interface{})
 	json.Unmarshal(data, &variables)
@@ -37,9 +40,20 @@ func (c *Client) GetRoleUserList(request model.GetRoleUserListRequest) (*model.P
 		return nil, err
 	}
 	log.Println(string(b))
-	var response model.GetRoleListResponse
+	var response = &struct {
+		Data struct {
+			Role struct {
+				Users struct {
+					TotalCount int64        `json:"totalCount"`
+					List       []model.User `json:"list"`
+				} `json:"users"`
+			} `json:"role"`
+		} `json:"data"`
+		Errors []model.GqlCommonErrors `json:"errors"`
+	}{}
+
 	jsoniter.Unmarshal(b, &response)
-	return &response.Data.Roles, nil
+	return &response.Data.Role.Users, nil
 }
 
 // CreateRole 创建角色

@@ -12,10 +12,7 @@ import (
 //GetWhileList
 //获取白名单记录
 func (c *Client) GetWhileList(whileListType model.EnumWhitelistType) (*[]model.WhiteList, error) {
-	//var req model.UpdateUserpoolInput
-	//if whileListType == model.EnumWhitelistTypeUSERNAME {
-	//	req.Whitelist.EmailEnabled = true
-	//}
+
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.WhileListDocument, map[string]interface{}{
 		"type": whileListType,
 	})

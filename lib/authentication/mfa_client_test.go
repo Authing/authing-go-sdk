@@ -10,15 +10,15 @@ import (
 func TestClient_GetMfaAuthenticators(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
 	authenticationClient.userPoolId = UserPool
-	//loginReq:= model.LoginByEmailInput{
-	//	Email: "fptvmzqyxn@authing.cn",
-	//	Password: "12345678",
-	//}
-	//u,e:=authenticationClient.LoginByEmail(loginReq)
+	loginReq := model.LoginByEmailInput{
+		Email:    "fptvmzqyxn@authing.cn",
+		Password: "12345678",
+	}
+	u, e := authenticationClient.LoginByEmail(loginReq)
 	//log.Println(u)
-	//log.Println(e)
+	log.Println(e)
 	resp, err := authenticationClient.GetMfaAuthenticators(&model.MfaInput{
-		//MfaToken: u.Token,
+		MfaToken: u.Token,
 	})
 	if err != nil {
 		fmt.Println(err)

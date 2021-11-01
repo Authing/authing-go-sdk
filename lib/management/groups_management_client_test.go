@@ -97,19 +97,3 @@ func TestClient_ListGroupsAuthorizedResources(t *testing.T) {
 	}
 	log.Printf("%+v\n", resp)
 }
-
-func TestClient_AddOrgNode(t *testing.T) {
-	client := NewClient(userPoolId, appSecret)
-	log.Println("==========权限分组列表==========")
-
-	req := &model.AddOrgNodeRequest{
-		Name:         "qqqw",
-		ParentNodeId: "617230eba040848abb3689b7",
-		OrgId:        "61722ececf7cd66d1ec27075",
-	}
-	resp, err := client.AddOrgNode(req)
-	if err != nil {
-		fmt.Println(err)
-	}
-	log.Printf("%+v\n", resp)
-}

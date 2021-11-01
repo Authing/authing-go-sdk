@@ -212,6 +212,11 @@ func TestClient_GetCurrentUser(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
 	authenticationClient.userPoolId = UserPool
 
+	req := &model.LoginByPhoneCodeInput{
+		Code:  "3289",
+		Phone: "189xxxx1835",
+	}
+	authenticationClient.LoginByPhoneCode(req)
 	resp, err := authenticationClient.GetCurrentUser(nil)
 	log.Println(resp, err)
 }
@@ -222,10 +227,14 @@ func TestClient_RegisterByEmail(t *testing.T) {
 	data, e := jsoniter.Marshal([]model.KeyValuePair{{Key: "custom", Value: "qq"}})
 	log.Println(data, e)
 	p := string(data)
+	userName := "username"
 	req := &model.RegisterByEmailInput{
 		Email:    "5304950622@qq.com",
 		Password: "123456",
-		Params:   &p,
+		Profile: &model.RegisterProfile{
+			Username: &userName,
+		},
+		Params: &p,
 	}
 	resp, err := authenticationClient.RegisterByEmail(req)
 	log.Println(resp, err)
@@ -252,9 +261,15 @@ func TestClient_RegisterByPhoneCode(t *testing.T) {
 	data, e := jsoniter.Marshal([]model.KeyValuePair{{Key: "custom", Value: "qq"}})
 	log.Println(data, e)
 	p := string(data)
+	company := "company"
+	nickName := "nickName"
 	req := &model.RegisterByPhoneCodeInput{
-		Phone:  "15865561492",
-		Code:   "123456",
+		Phone: "15865561492",
+		Code:  "123456",
+		Profile: &model.RegisterProfile{
+			Nickname: &nickName,
+			Company:  &company,
+		},
 		Params: &p,
 	}
 	resp, err := authenticationClient.RegisterByPhoneCode(req)
@@ -340,10 +355,10 @@ func TestClient_UpdatePassword(t *testing.T) {
 	authenticationClient.userPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "goSdkTestUpdateProfile",
-		Password: "123456",
+		Password: "654321",
 	}
 	authenticationClient.LoginByUserName(*req)
-	resp, err := authenticationClient.UpdatePassword("123456", "654321")
+	resp, err := authenticationClient.UpdatePassword(nil, "654321")
 
 	log.Println(resp, err)
 	loginResp, loginErr := authenticationClient.LoginByUserName(model.LoginByUsernameInput{

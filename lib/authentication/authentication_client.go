@@ -32,6 +32,9 @@ type Client struct {
 	userPoolId              string
 	TokenEndPointAuthMethod constant.AuthMethodEnum
 
+	ClientToken *string
+	ClientUser  *model.User
+
 	Log func(s string)
 }
 
@@ -88,7 +91,7 @@ func (c *Client) BuildAuthorizeUrlByOidc(params model.OidcParams) (string, error
 }
 
 // GetAccessTokenByCode
-// @desc code 换取 accessToken
+//  code 换取 accessToken
 func (c *Client) GetAccessTokenByCode(code string) (string, error) {
 	if c.AppId == "" {
 		return constant.StringEmpty, errors.New("请在初始化 AuthenticationClient 时传入 appId")
@@ -127,7 +130,7 @@ func (c *Client) GetAccessTokenByCode(code string) (string, error) {
 }
 
 // GetUserInfoByAccessToken
-// @desc accessToken 换取用户信息
+// accessToken 换取用户信息
 func (c *Client) GetUserInfoByAccessToken(accessToken string) (string, error) {
 	if accessToken == constant.StringEmpty {
 		return constant.StringEmpty, errors.New("accessToken 不能为空")
@@ -138,7 +141,7 @@ func (c *Client) GetUserInfoByAccessToken(accessToken string) (string, error) {
 }
 
 // GetNewAccessTokenByRefreshToken
-// @desc 使用 Refresh token 获取新的 Access token
+//   使用 Refresh token 获取新的 Access token
 func (c *Client) GetNewAccessTokenByRefreshToken(refreshToken string) (string, error) {
 	if c.Protocol != constant.OIDC && c.Protocol != constant.OAUTH {
 		return constant.StringEmpty, errors.New("初始化 AuthenticationClient 时传入的 protocol 参数必须为 ProtocolEnum.OAUTH 或 ProtocolEnum.OIDC，请检查参数")
@@ -411,9 +414,9 @@ func (c *Client) SendHttpRequestManage(url string, method string, query string, 
 	}
 
 	//增加header选项
-	if !strings.HasPrefix(query, "query accessToken") {
-		token, _ := GetAccessToken(c)
-		req.Header.Add("Authorization", "Bearer "+token)
+	if !strings.HasPrefix(query, "query accessToken") && c.ClientToken != nil {
+		token := c.ClientToken
+		req.Header.Add("Authorization", "Bearer "+*token)
 	}
 	req.Header.Add("x-authing-userpool-id", ""+c.userPoolId)
 	req.Header.Add("x-authing-request-from", constant.SdkType)
@@ -592,9 +595,10 @@ func (c *Client) getCurrentUser() (*model.User, error) {
 // SetCurrentUser
 // 设置当前用户
 func (c *Client) SetCurrentUser(user *model.User) (*model.User, error) {
-
-	cacheutil.SetDefaultCache(constant.UserCacheKeyPrefix+c.userPoolId, user)
-	c.SetToken(*user.Token)
+	c.ClientUser = user
+	c.ClientToken = user.Token
+	//cacheutil.SetDefaultCache(constant.UserCacheKeyPrefix+c.userPoolId, user)
+	//c.SetToken(*user.Token)
 
 	return user, nil
 }
@@ -602,7 +606,8 @@ func (c *Client) SetCurrentUser(user *model.User) (*model.User, error) {
 // SetToken
 // 设置 Token
 func (c *Client) SetToken(token string) {
-	cacheutil.SetDefaultCache(constant.TokenCacheKeyPrefix+c.userPoolId, token)
+	c.ClientToken = &token
+	//cacheutil.SetDefaultCache(constant.TokenCacheKeyPrefix+c.userPoolId, token)
 }
 
 // RegisterByEmail
@@ -908,10 +913,15 @@ func (c *Client) UpdateProfile(req *model.UpdateUserInput) (*model.User, error) 
 
 // UpdatePassword
 // 更新用户密码
-func (c *Client) UpdatePassword(oldPassword, newPassword string) (*model.User, error) {
+func (c *Client) UpdatePassword(oldPassword *string, newPassword string) (*model.User, error) {
 
-	b, err := c.SendHttpRequestManage(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.UpdatePasswordDocument,
-		map[string]interface{}{"newPassword": util.RsaEncrypt(newPassword), "oldPassword": util.RsaEncrypt(oldPassword)})
+	vars := make(map[string]interface{})
+	vars["newPassword"] = util.RsaEncrypt(newPassword)
+	if oldPassword != nil {
+		vars["oldPassword"] = util.RsaEncrypt(*oldPassword)
+	}
+
+	b, err := c.SendHttpRequestManage(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.UpdatePasswordDocument, vars)
 	if err != nil {
 		return nil, err
 	}
@@ -1235,17 +1245,22 @@ func (c *Client) Logout() (*model.CommonMessageAndCode, error) {
 }
 
 func (c *Client) ClearUser() {
-	cacheutil.DeleteCache(constant.TokenCacheKeyPrefix + c.userPoolId)
-	cacheutil.DeleteCache(constant.UserCacheKeyPrefix + c.userPoolId)
+	c.ClientUser = nil
+	c.ClientToken = nil
+	//cacheutil.DeleteCache(constant.TokenCacheKeyPrefix + c.userPoolId)
+	//cacheutil.DeleteCache(constant.UserCacheKeyPrefix + c.userPoolId)
 }
 
 func (c *Client) getCacheUser() (*model.User, error) {
-	cache, _ := cacheutil.GetCache(constant.UserCacheKeyPrefix + c.userPoolId)
-	if cache == nil {
+	//cache, _ := cacheutil.GetCache(constant.UserCacheKeyPrefix + c.userPoolId)
+	//if cache == nil {
+	//	return nil, errors.New("Please login first")
+	//}
+	//cacheUser := cache.(*model.User)
+	if c.ClientUser == nil {
 		return nil, errors.New("Please login first")
 	}
-	cacheUser := cache.(*model.User)
-	return cacheUser, nil
+	return c.ClientUser, nil
 }
 
 // ListUdv
@@ -1347,14 +1362,14 @@ func (c *Client) ListOrg() (*struct {
 	Message string           `json:"message"`
 	Data    []model.UserOrgs `json:"data"`
 }, error) {
-	cacheToken, _ := cacheutil.GetCache(constant.TokenCacheKeyPrefix + c.userPoolId)
-	if cacheToken == nil {
+
+	if c.ClientToken == nil {
 		return nil, errors.New("Please login first")
 	}
-	token := cacheToken.(string)
+	token := c.ClientToken
 
 	url := fmt.Sprintf("%s/api/v2/users/me/orgs", c.Host)
-	b, err := c.SendHttpRestRequest(url, http.MethodGet, &token, nil)
+	b, err := c.SendHttpRestRequest(url, http.MethodGet, token, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -1446,14 +1461,17 @@ func (c *Client) GetSecurityLevel() (*struct {
 	Message string                         `json:"message"`
 	Data    model.GetSecurityLevelResponse `json:"data"`
 }, error) {
-	cacheToken, _ := cacheutil.GetCache(constant.TokenCacheKeyPrefix + c.userPoolId)
-	if cacheToken == nil {
+	//cacheToken, _ := cacheutil.GetCache(constant.TokenCacheKeyPrefix + c.userPoolId)
+	//if cacheToken == nil {
+	//	return nil, errors.New("Please login first")
+	//}
+	//token := cacheToken.(string)
+	if c.ClientToken == nil {
 		return nil, errors.New("Please login first")
 	}
-	token := cacheToken.(string)
-
+	token := c.ClientToken
 	url := fmt.Sprintf("%s/api/v2/users/me/security-level", c.Host)
-	b, err := c.SendHttpRestRequest(url, http.MethodGet, &token, nil)
+	b, err := c.SendHttpRestRequest(url, http.MethodGet, token, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -1669,13 +1687,12 @@ func (c *Client) ListApplications(page, limit int) (*struct {
 		List       []model.Application `json:"list"`
 	} `json:"data"`
 }, error) {
-	cacheToken, _ := cacheutil.GetCache(constant.TokenCacheKeyPrefix + c.userPoolId)
-	if cacheToken == nil {
+	if c.ClientToken == nil {
 		return nil, errors.New("Please login first")
 	}
-	token := cacheToken.(string)
+	token := c.ClientToken
 	url := fmt.Sprintf("%s/api/v2/users/me/applications/allowed?page=%v&limit=%v", c.Host, page, limit)
-	b, err := c.SendHttpRestRequest(url, http.MethodGet, &token, nil)
+	b, err := c.SendHttpRestRequest(url, http.MethodGet, token, nil)
 	if err != nil {
 		return nil, err
 	}
