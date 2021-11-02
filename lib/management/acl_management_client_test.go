@@ -40,7 +40,7 @@ func TestClient_AuthorizeResource(t *testing.T) {
 	var actions []string
 	actions = append(actions, "*")
 	opt := model.AuthorizeResourceOpt{
-		TargetType:       model.EnumPolicyAssignmentTargetTypeUSER,
+		TargetType:       model.EnumPolicyAssignmentTargetTypeUser,
 		TargetIdentifier: "611b2ff477d701441c25e29e",
 		Actions:          actions,
 	}
@@ -62,7 +62,7 @@ func TestClient_RevokeResource(t *testing.T) {
 	var actions []string
 	actions = append(actions, "*")
 	opt := model.AuthorizeResourceOpt{
-		TargetType:       model.EnumPolicyAssignmentTargetTypeUSER,
+		TargetType:       model.EnumPolicyAssignmentTargetTypeUser,
 		TargetIdentifier: "61090ca34e01a3968d3e3b76",
 		Actions:          actions,
 	}

@@ -7,12 +7,12 @@ import "time"
 
 type EnumEmailTemplateType string
 
-const EnumEmailTemplateTypeRESET_PASSWORD EnumEmailTemplateType = "RESET_PASSWORD"
-const EnumEmailTemplateTypePASSWORD_RESETED_NOTIFICATION EnumEmailTemplateType = "PASSWORD_RESETED_NOTIFICATION"
-const EnumEmailTemplateTypeCHANGE_PASSWORD EnumEmailTemplateType = "CHANGE_PASSWORD"
-const EnumEmailTemplateTypeWELCOME EnumEmailTemplateType = "WELCOME"
-const EnumEmailTemplateTypeVERIFY_EMAIL EnumEmailTemplateType = "VERIFY_EMAIL"
-const EnumEmailTemplateTypeCHANGE_EMAIL EnumEmailTemplateType = "CHANGE_EMAIL"
+const EnumEmailTemplateTypeResetPassword EnumEmailTemplateType = "RESET_PASSWORD"
+const EnumEmailTemplateTypePasswordResetedNotification EnumEmailTemplateType = "PASSWORD_RESETED_NOTIFICATION"
+const EnumEmailTemplateTypeChangePassword EnumEmailTemplateType = "CHANGE_PASSWORD"
+const EnumEmailTemplateTypeWelcome EnumEmailTemplateType = "WELCOME"
+const EnumEmailTemplateTypeVerifyEmail EnumEmailTemplateType = "VERIFY_EMAIL"
+const EnumEmailTemplateTypeChangeEmail EnumEmailTemplateType = "CHANGE_EMAIL"
 
 type EnumResourceType string
 
@@ -38,39 +38,39 @@ const EnumUserStatusArchived EnumUserStatus = "Archived"
 
 type Enum__TypeKind string
 
-const Enum__TypeKindSCALAR Enum__TypeKind = "SCALAR"
-const Enum__TypeKindOBJECT Enum__TypeKind = "OBJECT"
-const Enum__TypeKindINTERFACE Enum__TypeKind = "INTERFACE"
-const Enum__TypeKindUNION Enum__TypeKind = "UNION"
-const Enum__TypeKindENUM Enum__TypeKind = "ENUM"
-const Enum__TypeKindINPUT_OBJECT Enum__TypeKind = "INPUT_OBJECT"
-const Enum__TypeKindLIST Enum__TypeKind = "LIST"
-const Enum__TypeKindNON_NULL Enum__TypeKind = "NON_NULL"
+const TypeKindScalar Enum__TypeKind = "SCALAR"
+const TypeKindObject Enum__TypeKind = "OBJECT"
+const TypeKindInterface Enum__TypeKind = "INTERFACE"
+const TypeKindUnion Enum__TypeKind = "UNION"
+const TypeKindEnum Enum__TypeKind = "ENUM"
+const TypeKindInputObject Enum__TypeKind = "INPUT_OBJECT"
+const TypeKindList Enum__TypeKind = "LIST"
+const TypeKindNonNull Enum__TypeKind = "NON_NULL"
 
 type EnumEmailScene string
 
-const EnumEmailSceneRESET_PASSWORD EnumEmailScene = "RESET_PASSWORD"
-const EnumEmailSceneVERIFY_EMAIL EnumEmailScene = "VERIFY_EMAIL"
-const EnumEmailSceneCHANGE_EMAIL EnumEmailScene = "CHANGE_EMAIL"
-const EnumEmailSceneMFA_VERIFY EnumEmailScene = "MFA_VERIFY"
+const EnumEmailSceneResetPassword EnumEmailScene = "RESET_PASSWORD"
+const EnumEmailSceneVerifyEmail EnumEmailScene = "VERIFY_EMAIL"
+const EnumEmailSceneChangeEmail EnumEmailScene = "CHANGE_EMAIL"
+const EnumEmailSceneMfaVerify EnumEmailScene = "MFA_VERIFY"
 
 type EnumOperator string
 
-const EnumOperatorAND EnumOperator = "AND"
-const EnumOperatorOR EnumOperator = "OR"
+const EnumOperatorAnd EnumOperator = "AND"
+const EnumOperatorOr EnumOperator = "OR"
 
 type EnumPolicyAssignmentTargetType string
 
-const EnumPolicyAssignmentTargetTypeUSER EnumPolicyAssignmentTargetType = "USER"
-const EnumPolicyAssignmentTargetTypeROLE EnumPolicyAssignmentTargetType = "ROLE"
-const EnumPolicyAssignmentTargetTypeGROUP EnumPolicyAssignmentTargetType = "GROUP"
-const EnumPolicyAssignmentTargetTypeORG EnumPolicyAssignmentTargetType = "ORG"
-const EnumPolicyAssignmentTargetTypeAK_SK EnumPolicyAssignmentTargetType = "AK_SK"
+const EnumPolicyAssignmentTargetTypeUser EnumPolicyAssignmentTargetType = "USER"
+const EnumPolicyAssignmentTargetTypeRole EnumPolicyAssignmentTargetType = "ROLE"
+const EnumPolicyAssignmentTargetTypeGroup EnumPolicyAssignmentTargetType = "GROUP"
+const EnumPolicyAssignmentTargetTypeOrg EnumPolicyAssignmentTargetType = "ORG"
+const EnumPolicyAssignmentTargetTypeAkSk EnumPolicyAssignmentTargetType = "AK_SK"
 
 type EnumPolicyEffect string
 
-const EnumPolicyEffectALLOW EnumPolicyEffect = "ALLOW"
-const EnumPolicyEffectDENY EnumPolicyEffect = "DENY"
+const EnumPolicyEffectAllow EnumPolicyEffect = "ALLOW"
+const EnumPolicyEffectDeny EnumPolicyEffect = "DENY"
 
 type EnumUDFDataType string
 
@@ -92,31 +92,31 @@ const EnumUDFTargetTypeAPPLICATION EnumUDFTargetType = "APPLICATION"
 
 type EnumWhitelistType string
 
-const EnumWhitelistTypeUSERNAME EnumWhitelistType = "USERNAME"
-const EnumWhitelistTypeEMAIL EnumWhitelistType = "EMAIL"
-const EnumWhitelistTypePHONE EnumWhitelistType = "PHONE"
+const EnumWhitelistTypeUsername EnumWhitelistType = "USERNAME"
+const EnumWhitelistTypeEmail EnumWhitelistType = "EMAIL"
+const EnumWhitelistTypePhone EnumWhitelistType = "PHONE"
 
 type Enum__DirectiveLocation string
 
-const Enum__DirectiveLocationQUERY Enum__DirectiveLocation = "QUERY"
-const Enum__DirectiveLocationMUTATION Enum__DirectiveLocation = "MUTATION"
-const Enum__DirectiveLocationSUBSCRIPTION Enum__DirectiveLocation = "SUBSCRIPTION"
-const Enum__DirectiveLocationFIELD Enum__DirectiveLocation = "FIELD"
-const Enum__DirectiveLocationFRAGMENT_DEFINITION Enum__DirectiveLocation = "FRAGMENT_DEFINITION"
-const Enum__DirectiveLocationFRAGMENT_SPREAD Enum__DirectiveLocation = "FRAGMENT_SPREAD"
-const Enum__DirectiveLocationINLINE_FRAGMENT Enum__DirectiveLocation = "INLINE_FRAGMENT"
-const Enum__DirectiveLocationVARIABLE_DEFINITION Enum__DirectiveLocation = "VARIABLE_DEFINITION"
-const Enum__DirectiveLocationSCHEMA Enum__DirectiveLocation = "SCHEMA"
-const Enum__DirectiveLocationSCALAR Enum__DirectiveLocation = "SCALAR"
-const Enum__DirectiveLocationOBJECT Enum__DirectiveLocation = "OBJECT"
-const Enum__DirectiveLocationFIELD_DEFINITION Enum__DirectiveLocation = "FIELD_DEFINITION"
-const Enum__DirectiveLocationARGUMENT_DEFINITION Enum__DirectiveLocation = "ARGUMENT_DEFINITION"
-const Enum__DirectiveLocationINTERFACE Enum__DirectiveLocation = "INTERFACE"
-const Enum__DirectiveLocationUNION Enum__DirectiveLocation = "UNION"
-const Enum__DirectiveLocationENUM Enum__DirectiveLocation = "ENUM"
-const Enum__DirectiveLocationENUM_VALUE Enum__DirectiveLocation = "ENUM_VALUE"
-const Enum__DirectiveLocationINPUT_OBJECT Enum__DirectiveLocation = "INPUT_OBJECT"
-const Enum__DirectiveLocationINPUT_FIELD_DEFINITION Enum__DirectiveLocation = "INPUT_FIELD_DEFINITION"
+const DirectiveLocationQuery Enum__DirectiveLocation = "QUERY"
+const DirectiveLocationMutation Enum__DirectiveLocation = "MUTATION"
+const DirectiveLocationSubscription Enum__DirectiveLocation = "SUBSCRIPTION"
+const DirectiveLocationField Enum__DirectiveLocation = "FIELD"
+const DirectiveLocationFragmentDefinition Enum__DirectiveLocation = "FRAGMENT_DEFINITION"
+const DirectiveLocationFragmentSpread Enum__DirectiveLocation = "FRAGMENT_SPREAD"
+const DirectiveLocationInlineFragment Enum__DirectiveLocation = "INLINE_FRAGMENT"
+const DirectiveLocationVariableDefinition Enum__DirectiveLocation = "VARIABLE_DEFINITION"
+const DirectiveLocationSchema Enum__DirectiveLocation = "SCHEMA"
+const DirectiveLocationScalar Enum__DirectiveLocation = "SCALAR"
+const DirectiveLocationObject Enum__DirectiveLocation = "OBJECT"
+const DirectiveLocationFieldDefinition Enum__DirectiveLocation = "FIELD_DEFINITION"
+const DirectiveLocationArgumentDefinition Enum__DirectiveLocation = "ARGUMENT_DEFINITION"
+const DirectiveLocationInterface Enum__DirectiveLocation = "INTERFACE"
+const DirectiveLocationUnion Enum__DirectiveLocation = "UNION"
+const DirectiveLocationEnum Enum__DirectiveLocation = "ENUM"
+const DirectiveLocationEnumValue Enum__DirectiveLocation = "ENUM_VALUE"
+const DirectiveLocationInputObject Enum__DirectiveLocation = "INPUT_OBJECT"
+const DirectiveLocationInputFieldDefinition Enum__DirectiveLocation = "INPUT_FIELD_DEFINITION"
 
 type __Schema struct {
 	Types            []__Type      `json:"types"`

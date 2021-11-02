@@ -10,7 +10,7 @@ import (
 func TestClient_CreatePolicy(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========创建策略==========")
-	ef := model.EnumPolicyEffectALLOW
+	ef := model.EnumPolicyEffectAllow
 	stateMents := &model.PolicyStatement{
 		Resource: "book:222c",
 		Effect:   &ef,
@@ -52,7 +52,7 @@ func TestClient_DetailPolicy(t *testing.T) {
 func TestClient_UpdatePolicy(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========修改策略==========")
-	ef := model.EnumPolicyEffectALLOW
+	ef := model.EnumPolicyEffectAllow
 	stateMents := &model.PolicyStatement{
 		Resource: "book:222cw",
 		Effect:   &ef,
@@ -96,7 +96,7 @@ func TestClient_AddAssignments(t *testing.T) {
 	log.Println("==========授权策略==========")
 	req := &model.PolicyAssignmentsRequest{
 		Policies:          []string{"tliewdutrn"},
-		TargetType:        model.EnumPolicyAssignmentTargetTypeUSER,
+		TargetType:        model.EnumPolicyAssignmentTargetTypeUser,
 		TargetIdentifiers: []string{"616e905ebc18f0f106973a29"},
 	}
 	resp, err := client.AddAssignments(req)
@@ -111,7 +111,7 @@ func TestClient_RemoveAssignments(t *testing.T) {
 	log.Println("==========撤销策略==========")
 	req := &model.PolicyAssignmentsRequest{
 		Policies:          []string{"tliewdutrn"},
-		TargetType:        model.EnumPolicyAssignmentTargetTypeUSER,
+		TargetType:        model.EnumPolicyAssignmentTargetTypeUser,
 		TargetIdentifiers: []string{"616e905ebc18f0f106973a29"},
 	}
 	resp, err := client.RemoveAssignments(req)
@@ -126,7 +126,7 @@ func TestClient_EnableAssignments(t *testing.T) {
 	log.Println("==========撤销策略==========")
 	req := &model.SwitchPolicyAssignmentsRequest{
 		Policy:           "tliewdutrn",
-		TargetType:       model.EnumPolicyAssignmentTargetTypeUSER,
+		TargetType:       model.EnumPolicyAssignmentTargetTypeUser,
 		TargetIdentifier: "616e905ebc18f0f106973a29",
 	}
 	resp, err := client.EnableAssignments(req)
@@ -141,7 +141,7 @@ func TestClient_DisableAssignments(t *testing.T) {
 	log.Println("==========撤销策略==========")
 	req := &model.SwitchPolicyAssignmentsRequest{
 		Policy:           "tliewdutrn",
-		TargetType:       model.EnumPolicyAssignmentTargetTypeUSER,
+		TargetType:       model.EnumPolicyAssignmentTargetTypeUser,
 		TargetIdentifier: "616e905ebc18f0f106973a29",
 	}
 	resp, err := client.DisableAssignments(req)

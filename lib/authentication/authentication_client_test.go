@@ -328,7 +328,7 @@ func TestClient_SendEmail(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
 	authenticationClient.userPoolId = UserPool
 
-	resp, err := authenticationClient.SendEmail(" mail@qq.com", model.EnumEmailSceneCHANGE_EMAIL)
+	resp, err := authenticationClient.SendEmail(" mail@qq.com", model.EnumEmailSceneChangeEmail)
 	log.Println(resp, err)
 }
 

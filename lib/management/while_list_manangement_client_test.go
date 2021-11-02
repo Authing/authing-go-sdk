@@ -11,7 +11,7 @@ func TestClient_GetWhileList(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========获取白名单==========")
 
-	resp, err := client.GetWhileList(model.EnumWhitelistTypeUSERNAME)
+	resp, err := client.GetWhileList(model.EnumWhitelistTypeUsername)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -22,7 +22,7 @@ func TestClient_AddWhileList(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========获取白名单==========")
 
-	resp, err := client.AddWhileList(model.EnumWhitelistTypeUSERNAME, []string{"qqxccx", "qweqwe"})
+	resp, err := client.AddWhileList(model.EnumWhitelistTypeUsername, []string{"qqxccx", "qweqwe"})
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -33,7 +33,7 @@ func TestClient_RemoveWhileList(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========移除白名单==========")
 
-	resp, err := client.RemoveWhileList(model.EnumWhitelistTypeUSERNAME, []string{"qqxccx"})
+	resp, err := client.RemoveWhileList(model.EnumWhitelistTypeUsername, []string{"qqxccx"})
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -44,7 +44,7 @@ func TestClient_EnableWhileList(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========移除白名单==========")
 
-	resp, err := client.EnableWhileList(model.EnumWhitelistTypeUSERNAME)
+	resp, err := client.EnableWhileList(model.EnumWhitelistTypeUsername)
 	if err != nil {
 		fmt.Println(err)
 	}

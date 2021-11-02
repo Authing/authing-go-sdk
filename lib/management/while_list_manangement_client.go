@@ -86,7 +86,7 @@ func (c *Client) RemoveWhileList(whileListType model.EnumWhitelistType, ids []st
 func (c *Client) EnableWhileList(whileListType model.EnumWhitelistType) (*model.UserPool, error) {
 	var req model.UpdateUserpoolInput
 	enable := true
-	if whileListType == model.EnumWhitelistTypeUSERNAME {
+	if whileListType == model.EnumWhitelistTypeUsername {
 		req = model.UpdateUserpoolInput{
 			Whitelist: &model.RegisterWhiteListConfigInput{
 				UsernameEnabled: &enable,
@@ -94,7 +94,7 @@ func (c *Client) EnableWhileList(whileListType model.EnumWhitelistType) (*model.
 		}
 	}
 
-	if whileListType == model.EnumWhitelistTypeEMAIL {
+	if whileListType == model.EnumWhitelistTypeEmail {
 		req = model.UpdateUserpoolInput{
 			Whitelist: &model.RegisterWhiteListConfigInput{
 				EmailEnabled: &enable,
@@ -102,7 +102,7 @@ func (c *Client) EnableWhileList(whileListType model.EnumWhitelistType) (*model.
 		}
 	}
 
-	if whileListType == model.EnumWhitelistTypePHONE {
+	if whileListType == model.EnumWhitelistTypePhone {
 		req = model.UpdateUserpoolInput{
 			Whitelist: &model.RegisterWhiteListConfigInput{
 				PhoneEnabled: &enable,
@@ -118,7 +118,7 @@ func (c *Client) EnableWhileList(whileListType model.EnumWhitelistType) (*model.
 func (c *Client) DisableWhileList(whileListType model.EnumWhitelistType) (*model.UserPool, error) {
 	var req model.UpdateUserpoolInput
 	flag := false
-	if whileListType == model.EnumWhitelistTypeUSERNAME {
+	if whileListType == model.EnumWhitelistTypeUsername {
 		req = model.UpdateUserpoolInput{
 			Whitelist: &model.RegisterWhiteListConfigInput{
 				UsernameEnabled: &flag,
@@ -126,7 +126,7 @@ func (c *Client) DisableWhileList(whileListType model.EnumWhitelistType) (*model
 		}
 	}
 
-	if whileListType == model.EnumWhitelistTypeEMAIL {
+	if whileListType == model.EnumWhitelistTypeEmail {
 		req = model.UpdateUserpoolInput{
 			Whitelist: &model.RegisterWhiteListConfigInput{
 				EmailEnabled: &flag,
@@ -134,7 +134,7 @@ func (c *Client) DisableWhileList(whileListType model.EnumWhitelistType) (*model
 		}
 	}
 
-	if whileListType == model.EnumWhitelistTypePHONE {
+	if whileListType == model.EnumWhitelistTypePhone {
 		req = model.UpdateUserpoolInput{
 			Whitelist: &model.RegisterWhiteListConfigInput{
 				PhoneEnabled: &flag,
