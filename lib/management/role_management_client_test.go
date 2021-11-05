@@ -2,7 +2,6 @@ package management
 
 import (
 	"fmt"
-	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/enum"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	"log"
@@ -24,11 +23,12 @@ func TestClient_GetRoleList(t *testing.T) {
 func TestClient_GetRoleUserList(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========获取角色列表==========")
+	defaultNamespace := "default"
 	req := model.GetRoleUserListRequest{
 		Page:      1,
 		Limit:     10,
 		Code:      "develop",
-		Namespace: "default",
+		Namespace: &defaultNamespace,
 	}
 	resp, _ := client.GetRoleUserList(req)
 	log.Printf("%+v\n", resp)
@@ -38,9 +38,7 @@ func TestClient_CreateRole(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========创建角色==========")
 	req := model.CreateRoleRequest{
-		Code:       "develop123456",
-		Namespace:  "default",
-		ParentCode: "develop12345",
+		Code: "develop123456",
 	}
 	resp, err := client.CreateRole(req)
 
@@ -51,8 +49,7 @@ func TestClient_DeleteRole(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========删除角色==========")
 	req := model.DeleteRoleRequest{
-		Code:      "develop123456",
-		Namespace: "default",
+		Code: "develop123456",
 	}
 	resp, err := client.DeleteRole(req)
 	if err != nil {
@@ -66,8 +63,7 @@ func TestClient_DeleteRoles(t *testing.T) {
 	log.Println("==========批量删除角色==========")
 
 	req := model.BatchDeleteRoleRequest{
-		CodeList:  []string{"develop123456", "develop1234562"},
-		Namespace: "default",
+		CodeList: []string{"develop123456", "develop1234562"},
 	}
 	resp, err := client.BatchDeleteRole(req)
 	if err != nil {
@@ -81,8 +77,7 @@ func TestClient_UpdateRole(t *testing.T) {
 	log.Println("==========更新角色==========")
 
 	req := model.CreateRoleRequest{
-		Code:      "ttCode",
-		Namespace: "default",
+		Code: "ttCode",
 	}
 	resp, err := client.CreateRole(req)
 	if err != nil {
@@ -91,8 +86,7 @@ func TestClient_UpdateRole(t *testing.T) {
 	log.Printf("%+v\n", resp)
 
 	updateRequest := model.UpdateRoleRequest{
-		Code:    "ttCode",
-		NewCode: "NewCode",
+		Code: "ttCode",
 	}
 	resp, err = client.UpdateRole(updateRequest)
 	log.Printf("%+v\n", resp)
@@ -103,8 +97,7 @@ func TestClient_RoleDetail(t *testing.T) {
 	log.Println("==========角色详情==========")
 
 	req := model.RoleDetailRequest{
-		Code:      "NewCode",
-		Namespace: "default",
+		Code: "NewCode",
 	}
 	resp, err := client.RoleDetail(req)
 	if err != nil {
@@ -120,7 +113,6 @@ func TestClient_AssignRole(t *testing.T) {
 	req := model.AssignAndRevokeRoleRequest{
 		RoleCodes: []string{"NewCode"},
 		UserIds:   []string{"615551a3dcdd486139a917b1"},
-		Namespace: "default",
 	}
 	resp, err := client.AssignRole(req)
 	if err != nil {
@@ -136,7 +128,6 @@ func TestClient_RevokeRole(t *testing.T) {
 	req := model.AssignAndRevokeRoleRequest{
 		RoleCodes: []string{"NewCode"},
 		UserIds:   []string{"615551a3dcdd486139a917b1"},
-		Namespace: "default",
 	}
 	resp, err := client.RevokeRole(req)
 	if err != nil {
@@ -184,7 +175,7 @@ func TestClient_RemoveRolePolicies(t *testing.T) {
 func TestClient_ListRoleAuthorizedResources(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========查询角色被授权资源==========")
-	resp, err := client.ListRoleAuthorizedResources("NewCode", "default", constant.API)
+	resp, err := client.ListRoleAuthorizedResources("NewCode", "default", model.EnumResourceTypeAPI)
 	if err != nil {
 		fmt.Println(err)
 	}

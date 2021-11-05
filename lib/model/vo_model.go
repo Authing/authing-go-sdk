@@ -1,7 +1,9 @@
 package model
 
 import (
+	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/enum"
+	"time"
 )
 
 type ListMemberRequest struct {
@@ -109,21 +111,6 @@ type OidcParams struct {
 	CodeChallenge       string
 }
 
-type OrgNode struct {
-	Id              string    `json:"id"`
-	OrgId           *string   `json:"orgId"`
-	CreatedAt       *string   `json:"createdAt"`
-	UpdatedAt       *string   `json:"updatedAt"`
-	UserPoolId      *string   `json:"userPoolId"`
-	Name            string    `json:"name"`
-	Description     *string   `json:"description"`
-	DescriptionI18n *string   `json:"descriptionI18n"`
-	Order           *int64    `json:"order"`
-	Code            *string   `json:"code"`
-	Members         []User    `json:"members"`
-	Children        []OrgNode `json:"children"`
-}
-
 type GetUserDepartmentsRequest struct {
 	Id    string  `json:"id"`
 	OrgId *string `json:"orgId"`
@@ -179,9 +166,9 @@ type ListPoliciesOnIdRequest struct {
 	Limit int    `json:"limit"`
 }
 
-type ListUserAuthorizedResourcesRequest struct {
-	UserId       string  `json:"id"`
-	Namespace    string  `json:"namespace"`
+type ListAuthorizedResourcesByIdRequest struct {
+	Id           string  `json:"id"`
+	Namespace    string  `json:"namespace,omitempty"`
 	ResourceType *string `json:"resourceType"`
 }
 
@@ -232,4 +219,190 @@ type GetAuthorizedResourcesOfResourceKindRequest struct {
 	UserId    string `json:"userId"`
 	Namespace string `json:"namespace"`
 	Resource  string `json:"resource"`
+}
+
+type ListAuthorizedResourcesRequest struct {
+	TargetIdentifier string                          `json:"targetIdentifier"`
+	Namespace        string                          `json:"namespace"`
+	TargetType       constant.ResourceTargetTypeEnum `json:"targetType"`
+	ResourceType     *EnumResourceType               `json:"resourceType"`
+}
+
+type ProgrammaticAccessAccount struct {
+	AppId         string    `json:"appId"`
+	Secret        string    `json:"secret"`
+	TokenLifetime int       `json:"tokenLifetime"`
+	CreatedAt     time.Time `json:"createdAt"`
+	UpdatedAt     time.Time `json:"updatedAt"`
+	Id            string    `json:"id"`
+	Remarks       string    `json:"remarks"`
+	UserId        string    `json:"userId"`
+	Enabled       bool      `json:"enabled"`
+}
+
+type ListResourceRequest struct {
+	Namespace    string           `json:"namespace"`
+	ResourceType EnumResourceType `json:"resourceType,omitempty"`
+	Page         int              `json:"page"`
+	Limit        int              `json:"limit"`
+}
+type ActionsModel struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+type Resource struct {
+	Id            string         `json:"id"`
+	CreatedAt     time.Time      `json:"createdAt"`
+	UpdatedAt     time.Time      `json:"updatedAt"`
+	UserPoolId    string         `json:"userPoolId"`
+	Code          string         `json:"code"`
+	Actions       []ActionsModel `json:"actions"`
+	Type          string         `json:"type"`
+	Description   string         `json:"description"`
+	NamespaceId   int            `json:"namespaceId"`
+	ApiIdentifier *string        `json:"apiIdentifier"`
+	Namespace     string         `json:"namespace,omitempty"`
+}
+type ResourceResponse struct {
+	Id            string         `json:"id"`
+	CreatedAt     time.Time      `json:"createdAt"`
+	UpdatedAt     time.Time      `json:"updatedAt"`
+	UserPoolId    string         `json:"userPoolId"`
+	Code          string         `json:"code"`
+	Actions       []ActionsModel `json:"actions"`
+	Type          string         `json:"type"`
+	Description   string         `json:"description"`
+	NamespaceId   int            `json:"namespaceId"`
+	ApiIdentifier *string        `json:"apiIdentifier"`
+}
+
+type ListNamespaceResourceResponse struct {
+	List       []Resource `json:"list"`
+	TotalCount int        `json:"totalCount"`
+}
+
+type CreateResourceRequest struct {
+	Code          string         `json:"code"`
+	Actions       []ActionsModel `json:"actions,omitempty"`
+	Type          string         `json:"type,omitempty"`
+	Description   *string        `json:"description,omitempty"`
+	ApiIdentifier *string        `json:"apiIdentifier,omitempty"`
+	Namespace     string         `json:"namespace,omitempty"`
+}
+
+type UpdateResourceRequest struct {
+	Actions       []ActionsModel `json:"actions,omitempty"`
+	Type          string         `json:"type,omitempty"`
+	Description   *string        `json:"description,omitempty"`
+	ApiIdentifier *string        `json:"apiIdentifier,omitempty"`
+	Namespace     string         `json:"namespace,omitempty"`
+}
+
+type ApplicationAccessPolicies struct {
+	AssignedAt        time.Time   `json:"assignedAt"`
+	InheritByChildren interface{} `json:"inheritByChildren"`
+	Enabled           bool        `json:"enabled"`
+	PolicyId          string      `json:"policyId"`
+	Code              string      `json:"code"`
+	Policy            struct {
+		Id          string    `json:"id"`
+		CreatedAt   time.Time `json:"createdAt"`
+		UpdatedAt   time.Time `json:"updatedAt"`
+		UserPoolId  string    `json:"userPoolId"`
+		IsDefault   bool      `json:"isDefault"`
+		IsAuto      bool      `json:"isAuto"`
+		Hidden      bool      `json:"hidden"`
+		Code        string    `json:"code"`
+		Description string    `json:"description"`
+		Statements  []struct {
+			Resource     string           `json:"resource"`
+			Actions      []string         `json:"actions"`
+			Effect       string           `json:"effect"`
+			Condition    []interface{}    `json:"condition"`
+			ResourceType EnumResourceType `json:"resourceType"`
+		} `json:"statements"`
+		NamespaceId int `json:"namespaceId"`
+	} `json:"policy"`
+	TargetNamespace  string `json:"targetNamespace"`
+	TargetType       string `json:"targetType"`
+	TargetIdentifier string `json:"targetIdentifier"`
+	Target           struct {
+		Id          string    `json:"id"`
+		CreatedAt   time.Time `json:"createdAt"`
+		UpdatedAt   time.Time `json:"updatedAt"`
+		UserPoolId  string    `json:"userPoolId"`
+		Code        string    `json:"code"`
+		Description string    `json:"description"`
+		ParentCode  string    `json:"parentCode"`
+		IsSystem    bool      `json:"isSystem"`
+		NamespaceId int       `json:"namespaceId"`
+	} `json:"target"`
+	Namespace string `json:"namespace"`
+}
+
+type GetApplicationAccessPoliciesResponse struct {
+	List       []ApplicationAccessPolicies `json:"list"`
+	TotalCount int                         `json:"totalCount"`
+}
+
+type ApplicationAccessPoliciesRequest struct {
+	TargetIdentifiers []string                        `json:"targetIdentifiers,omitempty"`
+	TargetType        constant.ResourceTargetTypeEnum `json:"targetType,omitempty"`
+	Namespace         string                          `json:"namespace,omitempty"`
+	InheritByChildren bool                            `json:"inheritByChildren,omitempty"`
+}
+
+type GetAuthorizedTargetsRequest struct {
+	TargetType   constant.ResourceTargetTypeEnum `json:"targetType"`
+	Namespace    string                          `json:"namespace"`
+	Resource     string                          `json:"resource"`
+	ResourceType EnumResourceType                `json:"resourceType"`
+	Actions      *struct {
+		Op   constant.GetAuthorizedTargetsOpt `json:"op,omitempty"`
+		List []string                         `json:"list,omitempty"`
+	} `json:"actions,omitempty"`
+}
+
+type ListAuditLogsRequest struct {
+	ClientIp       *string   `json:"clientip,omitempty"`
+	OperationNames *[]string `json:"operation_name,omitempty"`
+	UserIds        *[]string `json:"operator_arn,omitempty"`
+	AppIds         *[]string `json:"app_id,omitempty"`
+	Page           *int      `json:"page,omitempty"`
+	Limit          *int      `json:"limit,omitempty"`
+}
+
+type ListUserActionRequest struct {
+	ClientIp       *string   `json:"clientip,omitempty"`
+	OperationNames *[]string `json:"operation_name,omitempty"`
+	UserIds        *[]string `json:"operator_arn,omitempty"`
+	Page           *int      `json:"page,omitempty"`
+	Limit          *int      `json:"limit,omitempty"`
+}
+
+type CheckLoginStatusResponse struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Status  bool   `json:"status"`
+	Exp     int    `json:"exp"`
+	Iat     int    `json:"iat"`
+	Data    struct {
+		Id         string `json:"id"`
+		UserPoolId string `json:"userPoolId"`
+		Arn        string `json:"arn"`
+	} `json:"data"`
+}
+
+type SetUdfInput struct {
+	TargetType EnumUDFTargetType `json:"targetType"`
+	Key        string            `json:"key"`
+	DataType   EnumUDFDataType   `json:"dataType"`
+	Label      string            `json:"label"`
+}
+
+type PrincipalAuthenticateRequest struct {
+	Type   constant.PrincipalAuthenticateType `json:"type"`
+	Name   string                             `json:"name"`
+	IdCard string                             `json:"idCard"`
+	Ext    string                             `json:"ext"`
 }

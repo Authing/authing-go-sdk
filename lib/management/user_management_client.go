@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
+	"github.com/Authing/authing-go-sdk/lib/util"
 	"github.com/bitly/go-simplejson"
 	jsoniter "github.com/json-iterator/go"
 	"log"
@@ -82,68 +83,66 @@ func (c *Client) CheckUserExists(request model.CheckUserExistsRequest) (bool, er
 
 // CreateUser
 // 创建用户
-//func (c *Client) CreateUser(request model.CreateUserRequest) (*model.User, error) {
-//	if  request.UserInfo.Password != nil {
-//		pwd := util.RsaEncrypt(*request.UserInfo.Password)
-//		request.UserInfo.Password = &pwd
-//	}
-//	fillDefaultVal(&request.UserInfo)
-//	data, _ := json.Marshal(&request)
-//	variables := make(map[string]interface{})
-//	json.Unmarshal(data, &variables)
-//
-//	query := constant.CreateUserDocument
-//	if request.CustomData != nil {
-//		query = constant.CreateUserWithCustomDataDocument
-//		customData,_ := json.Marshal(&request.CustomData)
-//		variables["params"] = customData
-//	}
-//	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, query , variables)
-//	if err != nil {
-//		return nil, err
-//	}
-//	log.Println(string(b))
-//	var response = &struct {
-//		Data struct{
-//			CreateUser  model.User `json:"createUser"`
-//		} `json:"data"`
-//		Errors []model.GqlCommonErrors `json:"errors"`
-//	}{}
-//	jsoniter.Unmarshal(b, &response)
-//	if len(response.Errors) >0 {
-//		return nil, errors.New(response.Errors[0].Message.Message)
-//	}
-//	return &response.Data.CreateUser,nil
-//}
+func (c *Client) CreateUser(request model.CreateUserRequest) (*model.User, error) {
+	if request.UserInfo.Password != nil {
+		pwd := util.RsaEncrypt(*request.UserInfo.Password)
+		request.UserInfo.Password = &pwd
+	}
+	data, _ := json.Marshal(&request)
+	variables := make(map[string]interface{})
+	json.Unmarshal(data, &variables)
+
+	query := constant.CreateUserDocument
+	if request.CustomData != nil {
+		query = constant.CreateUserWithCustomDataDocument
+		customData, _ := json.Marshal(&request.CustomData)
+		variables["params"] = customData
+	}
+	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, query, variables)
+	if err != nil {
+		return nil, err
+	}
+	log.Println(string(b))
+	var response = &struct {
+		Data struct {
+			CreateUser model.User `json:"createUser"`
+		} `json:"data"`
+		Errors []model.GqlCommonErrors `json:"errors"`
+	}{}
+	jsoniter.Unmarshal(b, &response)
+	if len(response.Errors) > 0 {
+		return nil, errors.New(response.Errors[0].Message.Message)
+	}
+	return &response.Data.CreateUser, nil
+}
 
 //UpdateUser
 //修改用户资料
-//func (c *Client) UpdateUser(id string ,updateInfo model.UpdateUserInput) (*model.User, error) {
-//	if  updateInfo.Password != nil {
-//		pwd:=util.RsaEncrypt(*updateInfo.Password)
-//		updateInfo.Password = &pwd
-//	}
-//	fillUpdateDefaultVal(&updateInfo)
-//	variables := make(map[string]interface{})
-//	variables["id"] = id
-//	variables["input"] = updateInfo
-//	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.UpdateUserDocument, variables)
-//	if err != nil {
-//		return nil, err
-//	}
-//	log.Println(string(b))
-//	var response = &struct {
-//		Data struct{
-//			UpdateUser   model.User `json:"updateUser"`
-//		} `json:"data"`
-//		Errors []model.GqlCommonErrors `json:"errors"`
-//	}{}
-//	jsoniter.Unmarshal(b, &response)
-//	if len(response.Errors) >0 {
-//		return nil, errors.New(response.Errors[0].Message.Message)
-//	}
-//	return &response.Data.UpdateUser,nil
-//}
+func (c *Client) UpdateUser(id string, updateInfo model.UpdateUserInput) (*model.User, error) {
+	if updateInfo.Password != nil {
+		pwd := util.RsaEncrypt(*updateInfo.Password)
+		updateInfo.Password = &pwd
+	}
+	variables := make(map[string]interface{})
+	variables["id"] = id
+	variables["input"] = updateInfo
+	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.UpdateUserDocument, variables)
+	if err != nil {
+		return nil, err
+	}
+	log.Println(string(b))
+	var response = &struct {
+		Data struct {
+			UpdateUser model.User `json:"updateUser"`
+		} `json:"data"`
+		Errors []model.GqlCommonErrors `json:"errors"`
+	}{}
+	jsoniter.Unmarshal(b, &response)
+	if len(response.Errors) > 0 {
+		return nil, errors.New(response.Errors[0].Message.Message)
+	}
+	return &response.Data.UpdateUser, nil
+}
 
 //DeleteUser
 //删除用户
@@ -519,7 +518,7 @@ func (c *Client) ListUserOrg(userId string) (*[][]model.OrgModel, error) {
 func (c *Client) GetUserUdfValue(userId string) (*[]model.UserDefinedData, error) {
 	variables := make(map[string]interface{})
 
-	variables["targetType"] = "USER"
+	variables["targetType"] = constant.USER
 	variables["targetId"] = userId
 
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.GetRoleUdfValueDocument, variables)
@@ -578,7 +577,7 @@ func (c *Client) BatchGetUserUdfValue(ids []string) (map[string][]model.UserDefi
 
 	variables := make(map[string]interface{})
 
-	variables["targetType"] = "USER"
+	variables["targetType"] = constant.USER
 	variables["targetIds"] = ids
 
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.BatchGetRoleUdfValueDocument, variables)
@@ -610,7 +609,7 @@ func (c *Client) SetUserUdfValue(id string, udv *model.KeyValuePair) (*[]model.U
 
 	variables := make(map[string]interface{})
 
-	variables["targetType"] = "USER"
+	variables["targetType"] = constant.USER
 	variables["targetId"] = id
 	variables["key"] = udv.Key
 	variables["value"] = udv.Value
@@ -639,7 +638,7 @@ func (c *Client) SetUserUdfValue(id string, udv *model.KeyValuePair) (*[]model.U
 func (c *Client) BatchSetUserUdfValue(request *[]model.SetUdfValueBatchInput) (*model.CommonMessageAndCode, error) {
 
 	variables := make(map[string]interface{})
-	variables["targetType"] = "USER"
+	variables["targetType"] = constant.USER
 	variables["input"] = request
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.BatchSetUdfValueDocument, variables)
 	if err != nil {
@@ -665,7 +664,7 @@ func (c *Client) BatchSetUserUdfValue(request *[]model.SetUdfValueBatchInput) (*
 func (c *Client) RemoveUserUdfValue(id, key string) (*[]model.UserDefinedData, error) {
 
 	variables := make(map[string]interface{})
-	variables["targetType"] = "USER"
+	variables["targetType"] = constant.USER
 	variables["targetId"] = id
 	variables["key"] = key
 
@@ -703,7 +702,7 @@ func (c *Client) ListUserPolicies(request model.ListPoliciesOnIdRequest) (*model
 	variables := make(map[string]interface{})
 	json.Unmarshal(data, &variables)
 
-	variables["targetType"] = "USER"
+	variables["targetType"] = constant.USER
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.ListPoliciesDocument, variables)
 	if err != nil {
 		return nil, err
@@ -731,7 +730,7 @@ func (c *Client) AddUserPolicies(userId string, policiesCode []string) (*model.C
 	variables := make(map[string]interface{})
 
 	variables["policies"] = policiesCode
-	variables["targetType"] = "USER"
+	variables["targetType"] = constant.USER
 	variables["targetIdentifiers"] = []string{userId}
 
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.AddPoliciesDocument, variables)
@@ -761,7 +760,7 @@ func (c *Client) RemoveUserPolicies(userId string, policiesCode []string) (*mode
 	variables := make(map[string]interface{})
 
 	variables["policies"] = policiesCode
-	variables["targetType"] = "USER"
+	variables["targetType"] = constant.USER
 	variables["targetIdentifiers"] = []string{userId}
 
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.RemovePoliciesDocument, variables)
@@ -808,67 +807,24 @@ func (c *Client) UserHasRole(userId, roleCode, namespace string) (bool, error) {
 	return hasRole, nil
 }
 
-// KickUser
-// 强制一批用户下线
-//func (c *Client)  KickUser(userIds []string) (*model.CommonMessageAndCode, error) {
-//
-//	url := fmt.Sprintf("%v/api/v2/users/kick",c.Host)
-//	json := make(map[string]interface{})
-//	json["userIds"] = userIds
-//	b, err := c.SendHttpRequest(url, http.MethodPost, "", json)
-//	if err != nil {
-//		return nil, err
-//	}
-//	log.Println(string(b))
-//	var response model.CommonMessageAndCode
-//	jsoniter.Unmarshal(b,&response)
-//	return &response,nil
-//}
+//KickUser
+//强制一批用户下线
+func (c *Client) KickUser(userIds []string) (*model.CommonMessageAndCode, error) {
 
-func fillUpdateDefaultVal(info *model.UpdateUserInput) {
-	defaultGender := "U"
-	isVerified := false
-	var zero int64 = 0
-	if info.Gender == nil {
-		info.Gender = &defaultGender
+	url := fmt.Sprintf("%v/api/v2/users/kick", c.Host)
+	json := make(map[string]interface{})
+	json["userIds"] = userIds
+	b, err := c.SendHttpRequest(url, http.MethodPost, "", json)
+	if err != nil {
+		return nil, err
 	}
-	if info.EmailVerified == nil {
-		info.EmailVerified = &isVerified
-	}
-	if info.PhoneVerified == nil {
-		info.PhoneVerified = &isVerified
-	}
-	if info.Blocked == nil {
-		info.Blocked = &isVerified
-	}
-	if info.LoginsCount == nil {
-		info.LoginsCount = &zero
-	}
+	log.Println(string(b))
+	var response model.CommonMessageAndCode
+	jsoniter.Unmarshal(b, &response)
+	return &response, nil
 }
 
-func fillDefaultVal(info *model.CreateUserInput) {
-	defaultGender := "U"
-	isVerified := false
-	var zero int64 = 0
-	if info.Gender == nil {
-		info.Gender = &defaultGender
-	}
-	if info.EmailVerified == nil {
-		info.EmailVerified = &isVerified
-	}
-	if info.PhoneVerified == nil {
-		info.PhoneVerified = &isVerified
-	}
-	if info.Blocked == nil {
-		info.Blocked = &isVerified
-	}
-	if info.LoginsCount == nil {
-		info.LoginsCount = &zero
-	}
-
-}
-
-func (c *Client) ListAuthorizedResources(request model.ListUserAuthorizedResourcesRequest) (*model.User, error) {
+func (c *Client) ListAuthorizedResources(request model.ListAuthorizedResourcesByIdRequest) (*model.User, error) {
 	data, _ := json.Marshal(&request)
 	variables := make(map[string]interface{})
 	json.Unmarshal(data, &variables)
@@ -920,4 +876,78 @@ func (c *Client) GetUserGroupList(userId string) (*model.PaginatedGroups, error)
 		return nil, err
 	}
 	return &result, nil
+}
+
+//CheckLoginStatus
+//检查用户登录状态
+func (c *Client) CheckLoginStatus(userId string, appId, deviceId *string) (*model.CommonMessageAndCode, error) {
+	variables := make(map[string]interface{}, 0)
+	if appId != nil {
+		variables["appId"] = appId
+	}
+	if deviceId != nil {
+		variables["deviceId"] = deviceId
+	}
+	variables["userId"] = userId
+
+	url := fmt.Sprintf("%v/api/v2/users/login-status", c.Host)
+	b, err := c.SendHttpRequest(url, constant.HttpMethodGet, constant.StringEmpty, variables)
+	log.Println(string(b))
+	result := model.CommonMessageAndCode{}
+
+	err = json.Unmarshal(b, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, err
+}
+
+//LogOut
+//用户退出
+func (c *Client) LogOut(userId string, appId *string) (*model.CommonMessageAndCode, error) {
+	variables := make(map[string]interface{}, 0)
+	if appId != nil {
+		variables["appId"] = appId
+	}
+
+	variables["userId"] = userId
+
+	url := fmt.Sprintf("%v/logout", c.Host)
+	b, err := c.SendHttpRequest(url, http.MethodGet, constant.StringEmpty, variables)
+	log.Println(string(b))
+	result := model.CommonMessageAndCode{}
+
+	err = json.Unmarshal(b, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, err
+}
+
+// SendFirstLoginVerifyEmail
+// 发送首次登录验证邮件
+func (c *Client) SendFirstLoginVerifyEmail(userId, appId string) (*model.CommonMessageAndCode, error) {
+
+	variables := make(map[string]interface{})
+	variables["appId"] = appId
+	variables["userId"] = userId
+
+	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.SendFirstLoginVerifyEmailDocument, variables)
+	if err != nil {
+		return nil, err
+	}
+	log.Println(string(b))
+	var response = &struct {
+		Data struct {
+			SendFirstLoginVerifyEmail model.CommonMessageAndCode `json:"sendFirstLoginVerifyEmail"`
+		} `json:"data"`
+		Errors []model.GqlCommonErrors `json:"errors"`
+	}{}
+
+	jsoniter.Unmarshal(b, &response)
+
+	if len(response.Errors) > 0 {
+		return nil, errors.New(response.Errors[0].Message.Message)
+	}
+	return &response.Data.SendFirstLoginVerifyEmail, nil
 }

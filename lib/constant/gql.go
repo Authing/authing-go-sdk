@@ -601,18 +601,200 @@ const AuthorizeResourceDocument = `
 }
     `
 
-const GroupsDocument = `
-    query groups($userId: String, $page: Int, $limit: Int, $sortBy: SortByEnum) {
-  groups(userId: $userId, page: $page, limit: $limit, sortBy: $sortBy) {
-    totalCount
-    list {
+const UpdateUserPoolDocument = `
+mutation updateUserpool($input: UpdateUserpoolInput!) {
+  updateUserpool(input: $input) {
+    id
+    name
+    domain
+    description
+    secret
+    jwtSecret
+    userpoolTypes {
       code
       name
       description
-      createdAt
-      updatedAt
+      image
+      sdks
+    }
+    logo
+    createdAt
+    updatedAt
+    emailVerifiedDefault
+    sendWelcomeEmail
+    registerDisabled
+    appSsoEnabled
+    showWxQRCodeWhenRegisterDisabled
+    allowedOrigins
+    tokenExpiresAfter
+    isDeleted
+    frequentRegisterCheck {
+      timeInterval
+      limit
+      enabled
+    }
+    loginFailCheck {
+      timeInterval
+      limit
+      enabled
+    }
+    loginFailStrategy
+    loginPasswordFailCheck {
+      timeInterval
+      limit
+      enabled
+    }
+    changePhoneStrategy {
+      verifyOldPhone
+    }
+    changeEmailStrategy {
+      verifyOldEmail
+    }
+    qrcodeLoginStrategy {
+      qrcodeExpiresAfter
+      returnFullUserInfo
+      allowExchangeUserInfoFromBrowser
+      ticketExpiresAfter
+    }
+    app2WxappLoginStrategy {
+      ticketExpriresAfter
+      ticketExchangeUserInfoNeedSecret
+    }
+    whitelist {
+      phoneEnabled
+      emailEnabled
+      usernameEnabled
+    }
+    customSMSProvider {
+      enabled
+      provider
+      config
+    }
+    packageType
+    useCustomUserStore
+    loginRequireEmailVerified
+    verifyCodeLength
+  }
+}
+
+`
+const WhileListDocument = `
+query whitelist($type: WhitelistType!) {
+  whitelist(type: $type) {
+    createdAt
+    updatedAt
+    value
+  }
+}
+`
+const AddWhileListDocument = `
+mutation addWhitelist($type: WhitelistType!, $list: [String!]!) {
+  addWhitelist(type: $type, list: $list) {
+    createdAt
+    updatedAt
+    value
+  }
+}
+`
+
+const RemoveWhileListDocument = `
+mutation removeWhitelist($type: WhitelistType!, $list: [String!]!) {
+  removeWhitelist(type: $type, list: $list) {
+    createdAt
+    updatedAt
+    value
+  }
+}
+`
+
+const ListAuthorizedResourcesDocument = `
+query authorizedResources($targetType: PolicyAssignmentTargetType, $targetIdentifier: String, $namespace: String, $resourceType: String) {
+  authorizedResources(targetType: $targetType, targetIdentifier: $targetIdentifier, namespace: $namespace, resourceType: $resourceType) {
+    totalCount
+    list {
+      code
+      type
+      actions
     }
   }
 }
-    `
+`
+const GetAuthorizedTargetsDocument = `
+query authorizedTargets($namespace: String!, $resourceType: ResourceType!, $resource: String!, $targetType: PolicyAssignmentTargetType, $actions: AuthorizedTargetsActionsInput) {
+  authorizedTargets(namespace: $namespace, resource: $resource, resourceType: $resourceType, targetType: $targetType, actions: $actions) {
+    totalCount
+    list {
+      targetType
+      targetIdentifier
+      actions
+    }
+  }
+}
+`
+const SendMailDocument = `
+mutation sendEmail($email: String!, $scene: EmailScene!) {
+  sendEmail(email: $email, scene: $scene) {
+    message
+    code
+  }
+}
+`
 
+const CheckLoginStatusDocument = `
+query checkLoginStatus($token: String) {
+  checkLoginStatus(token: $token) {
+    code
+    message
+    status
+    exp
+    iat
+    data {
+      id
+      userPoolId
+      arn
+    }
+  }
+}
+`
+
+const ListUdfDocument = `
+query udf($targetType: UDFTargetType!) {
+  udf(targetType: $targetType) {
+    targetType
+    dataType
+    key
+    label
+    options
+  }
+}`
+
+const SetUdfDocument = `
+mutation setUdf($targetType: UDFTargetType!, $key: String!, $dataType: UDFDataType!, $label: String!, $options: String) {
+  setUdf(targetType: $targetType, key: $key, dataType: $dataType, label: $label, options: $options) {
+    targetType
+    dataType
+    key
+    label
+    options
+  }
+}
+`
+const RemoveUdfDocument = `
+mutation removeUdf($targetType: UDFTargetType!, $key: String!) {
+  removeUdf(targetType: $targetType, key: $key) {
+    message
+    code
+  }
+}
+`
+
+const UdvDocument = `
+query udv($targetType: UDFTargetType!, $targetId: String!) {
+  udv(targetType: $targetType, targetId: $targetId) {
+    key
+    dataType
+    value
+    label
+  }
+}
+`
