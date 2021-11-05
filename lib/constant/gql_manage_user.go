@@ -753,3 +753,11 @@ mutation setUdv($targetType: UDFTargetType!, $targetId: String!, $key: String!, 
   }
 }
 `
+const SendFirstLoginVerifyEmailDocument = `
+mutation sendFirstLoginVerifyEmail($userId: String!, $appId: String!) {
+  sendFirstLoginVerifyEmail(userId: $userId, appId: $appId) {
+    message
+    code
+  }
+}
+`

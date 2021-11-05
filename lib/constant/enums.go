@@ -40,6 +40,7 @@ const (
 
 	// TokenCacheKeyPrefix token缓存key前缀
 	TokenCacheKeyPrefix = "token_"
+	UserCacheKeyPrefix  = "user_"
 )
 
 type ProtocolEnum string
@@ -59,12 +60,86 @@ const (
 	None              = "none"
 )
 
-type ResourceTypeEnum string
+type ResourceTargetTypeEnum string
 
 const (
-	DATA   ResourceTypeEnum = "DATA"
-	API    ResourceTypeEnum = "API"
-	MENU   ResourceTypeEnum = "MENU"
-	UI     ResourceTypeEnum = "UI"
-	BUTTON ResourceTypeEnum = "BUTTON"
+	USER  ResourceTargetTypeEnum = "USER"
+	ROLE  ResourceTargetTypeEnum = "ROLE"
+	GROUP ResourceTargetTypeEnum = "GROUP"
+	ORG   ResourceTargetTypeEnum = "ORG"
+)
+
+type ApplicationDefaultAccessPolicies string
+
+const (
+	AllowAll ApplicationDefaultAccessPolicies = "ALLOW_ALL"
+	DenyAll  ApplicationDefaultAccessPolicies = "DENY_ALL"
+)
+
+type GetAuthorizedTargetsOpt string
+
+const (
+	AND GetAuthorizedTargetsOpt = "AND"
+	OR  GetAuthorizedTargetsOpt = "OR"
+)
+
+type ProviderTypeEnum string
+
+const (
+	DingTalk   ProviderTypeEnum = "dingtalk"
+	WechatWork ProviderTypeEnum = "wechatwork"
+	AD         ProviderTypeEnum = "ad"
+)
+
+type PrincipalAuthenticateType string
+
+const (
+	P PrincipalAuthenticateType = "P"
+	E PrincipalAuthenticateType = "E"
+)
+
+type MfaSource string
+
+const (
+	Self        MfaSource = "SELF"
+	Application MfaSource = "APPLICATION"
+)
+
+type SocialProviderType string
+
+const (
+	WECHATPC            SocialProviderType = "wechat:pc"
+	GITHUB              SocialProviderType = "github"
+	GOOGLE              SocialProviderType = "google"
+	QQ                  SocialProviderType = "qq"
+	APPLE               SocialProviderType = "apple"
+	BAIDU               SocialProviderType = "baidu"
+	ALIPAY              SocialProviderType = "alipay"
+	LARK_APP_STORE      SocialProviderType = "lark:app-store"
+	LARK_CUSTOM_APP     SocialProviderType = "lark:custom-app"
+	WEIBO               SocialProviderType = "weibo"
+	DINGTALK            SocialProviderType = "dingtalk"
+	WECHAT_WEB          SocialProviderType = "wechat:webpage-authorization"
+	ALIPAY_MOBILE       SocialProviderType = "alipay"
+	WECHAT_MQ_DEFAULT   SocialProviderType = "wechat:miniprogram:default"
+	WECHAT_MOBILE       SocialProviderType = "wechat:mobile"
+	WECHATWORK_SP_AUTHZ SocialProviderType = "wechatwork:service-provider:authorization"
+	WECHATWORK_SP_QR    SocialProviderType = "wechatwork:service-provider:qrconnect"
+	WECHATWORK_CORP_QR  SocialProviderType = "wechatwork:corp:qrconnect"
+	WECHAT_MP_AL        SocialProviderType = "wechat:miniprogram:app-launch"
+	WECHAT_MP_QR        SocialProviderType = "wechat:miniprogram:qrconnect"
+)
+
+type GenerateCodeChallengeMethod string
+
+const (
+	PLAIN GenerateCodeChallengeMethod = "plain"
+	S256  GenerateCodeChallengeMethod = "S256"
+)
+
+type TicketFormat string
+
+const (
+	XML  TicketFormat = "XML"
+	JSON TicketFormat = "JSON"
 )

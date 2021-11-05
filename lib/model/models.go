@@ -3,14 +3,16 @@
 
 package model
 
+import "time"
+
 type EnumEmailTemplateType string
 
-const EnumEmailTemplateTypeRESET_PASSWORD EnumEmailTemplateType = "RESET_PASSWORD"
-const EnumEmailTemplateTypePASSWORD_RESETED_NOTIFICATION EnumEmailTemplateType = "PASSWORD_RESETED_NOTIFICATION"
-const EnumEmailTemplateTypeCHANGE_PASSWORD EnumEmailTemplateType = "CHANGE_PASSWORD"
-const EnumEmailTemplateTypeWELCOME EnumEmailTemplateType = "WELCOME"
-const EnumEmailTemplateTypeVERIFY_EMAIL EnumEmailTemplateType = "VERIFY_EMAIL"
-const EnumEmailTemplateTypeCHANGE_EMAIL EnumEmailTemplateType = "CHANGE_EMAIL"
+const EnumEmailTemplateTypeResetPassword EnumEmailTemplateType = "RESET_PASSWORD"
+const EnumEmailTemplateTypePasswordResetedNotification EnumEmailTemplateType = "PASSWORD_RESETED_NOTIFICATION"
+const EnumEmailTemplateTypeChangePassword EnumEmailTemplateType = "CHANGE_PASSWORD"
+const EnumEmailTemplateTypeWelcome EnumEmailTemplateType = "WELCOME"
+const EnumEmailTemplateTypeVerifyEmail EnumEmailTemplateType = "VERIFY_EMAIL"
+const EnumEmailTemplateTypeChangeEmail EnumEmailTemplateType = "CHANGE_EMAIL"
 
 type EnumResourceType string
 
@@ -36,39 +38,39 @@ const EnumUserStatusArchived EnumUserStatus = "Archived"
 
 type Enum__TypeKind string
 
-const Enum__TypeKindSCALAR Enum__TypeKind = "SCALAR"
-const Enum__TypeKindOBJECT Enum__TypeKind = "OBJECT"
-const Enum__TypeKindINTERFACE Enum__TypeKind = "INTERFACE"
-const Enum__TypeKindUNION Enum__TypeKind = "UNION"
-const Enum__TypeKindENUM Enum__TypeKind = "ENUM"
-const Enum__TypeKindINPUT_OBJECT Enum__TypeKind = "INPUT_OBJECT"
-const Enum__TypeKindLIST Enum__TypeKind = "LIST"
-const Enum__TypeKindNON_NULL Enum__TypeKind = "NON_NULL"
+const TypeKindScalar Enum__TypeKind = "SCALAR"
+const TypeKindObject Enum__TypeKind = "OBJECT"
+const TypeKindInterface Enum__TypeKind = "INTERFACE"
+const TypeKindUnion Enum__TypeKind = "UNION"
+const TypeKindEnum Enum__TypeKind = "ENUM"
+const TypeKindInputObject Enum__TypeKind = "INPUT_OBJECT"
+const TypeKindList Enum__TypeKind = "LIST"
+const TypeKindNonNull Enum__TypeKind = "NON_NULL"
 
 type EnumEmailScene string
 
-const EnumEmailSceneRESET_PASSWORD EnumEmailScene = "RESET_PASSWORD"
-const EnumEmailSceneVERIFY_EMAIL EnumEmailScene = "VERIFY_EMAIL"
-const EnumEmailSceneCHANGE_EMAIL EnumEmailScene = "CHANGE_EMAIL"
-const EnumEmailSceneMFA_VERIFY EnumEmailScene = "MFA_VERIFY"
+const EnumEmailSceneResetPassword EnumEmailScene = "RESET_PASSWORD"
+const EnumEmailSceneVerifyEmail EnumEmailScene = "VERIFY_EMAIL"
+const EnumEmailSceneChangeEmail EnumEmailScene = "CHANGE_EMAIL"
+const EnumEmailSceneMfaVerify EnumEmailScene = "MFA_VERIFY"
 
 type EnumOperator string
 
-const EnumOperatorAND EnumOperator = "AND"
-const EnumOperatorOR EnumOperator = "OR"
+const EnumOperatorAnd EnumOperator = "AND"
+const EnumOperatorOr EnumOperator = "OR"
 
 type EnumPolicyAssignmentTargetType string
 
-const EnumPolicyAssignmentTargetTypeUSER EnumPolicyAssignmentTargetType = "USER"
-const EnumPolicyAssignmentTargetTypeROLE EnumPolicyAssignmentTargetType = "ROLE"
-const EnumPolicyAssignmentTargetTypeGROUP EnumPolicyAssignmentTargetType = "GROUP"
-const EnumPolicyAssignmentTargetTypeORG EnumPolicyAssignmentTargetType = "ORG"
-const EnumPolicyAssignmentTargetTypeAK_SK EnumPolicyAssignmentTargetType = "AK_SK"
+const EnumPolicyAssignmentTargetTypeUser EnumPolicyAssignmentTargetType = "USER"
+const EnumPolicyAssignmentTargetTypeRole EnumPolicyAssignmentTargetType = "ROLE"
+const EnumPolicyAssignmentTargetTypeGroup EnumPolicyAssignmentTargetType = "GROUP"
+const EnumPolicyAssignmentTargetTypeOrg EnumPolicyAssignmentTargetType = "ORG"
+const EnumPolicyAssignmentTargetTypeAkSk EnumPolicyAssignmentTargetType = "AK_SK"
 
 type EnumPolicyEffect string
 
-const EnumPolicyEffectALLOW EnumPolicyEffect = "ALLOW"
-const EnumPolicyEffectDENY EnumPolicyEffect = "DENY"
+const EnumPolicyEffectAllow EnumPolicyEffect = "ALLOW"
+const EnumPolicyEffectDeny EnumPolicyEffect = "DENY"
 
 type EnumUDFDataType string
 
@@ -90,31 +92,31 @@ const EnumUDFTargetTypeAPPLICATION EnumUDFTargetType = "APPLICATION"
 
 type EnumWhitelistType string
 
-const EnumWhitelistTypeUSERNAME EnumWhitelistType = "USERNAME"
-const EnumWhitelistTypeEMAIL EnumWhitelistType = "EMAIL"
-const EnumWhitelistTypePHONE EnumWhitelistType = "PHONE"
+const EnumWhitelistTypeUsername EnumWhitelistType = "USERNAME"
+const EnumWhitelistTypeEmail EnumWhitelistType = "EMAIL"
+const EnumWhitelistTypePhone EnumWhitelistType = "PHONE"
 
 type Enum__DirectiveLocation string
 
-const Enum__DirectiveLocationQUERY Enum__DirectiveLocation = "QUERY"
-const Enum__DirectiveLocationMUTATION Enum__DirectiveLocation = "MUTATION"
-const Enum__DirectiveLocationSUBSCRIPTION Enum__DirectiveLocation = "SUBSCRIPTION"
-const Enum__DirectiveLocationFIELD Enum__DirectiveLocation = "FIELD"
-const Enum__DirectiveLocationFRAGMENT_DEFINITION Enum__DirectiveLocation = "FRAGMENT_DEFINITION"
-const Enum__DirectiveLocationFRAGMENT_SPREAD Enum__DirectiveLocation = "FRAGMENT_SPREAD"
-const Enum__DirectiveLocationINLINE_FRAGMENT Enum__DirectiveLocation = "INLINE_FRAGMENT"
-const Enum__DirectiveLocationVARIABLE_DEFINITION Enum__DirectiveLocation = "VARIABLE_DEFINITION"
-const Enum__DirectiveLocationSCHEMA Enum__DirectiveLocation = "SCHEMA"
-const Enum__DirectiveLocationSCALAR Enum__DirectiveLocation = "SCALAR"
-const Enum__DirectiveLocationOBJECT Enum__DirectiveLocation = "OBJECT"
-const Enum__DirectiveLocationFIELD_DEFINITION Enum__DirectiveLocation = "FIELD_DEFINITION"
-const Enum__DirectiveLocationARGUMENT_DEFINITION Enum__DirectiveLocation = "ARGUMENT_DEFINITION"
-const Enum__DirectiveLocationINTERFACE Enum__DirectiveLocation = "INTERFACE"
-const Enum__DirectiveLocationUNION Enum__DirectiveLocation = "UNION"
-const Enum__DirectiveLocationENUM Enum__DirectiveLocation = "ENUM"
-const Enum__DirectiveLocationENUM_VALUE Enum__DirectiveLocation = "ENUM_VALUE"
-const Enum__DirectiveLocationINPUT_OBJECT Enum__DirectiveLocation = "INPUT_OBJECT"
-const Enum__DirectiveLocationINPUT_FIELD_DEFINITION Enum__DirectiveLocation = "INPUT_FIELD_DEFINITION"
+const DirectiveLocationQuery Enum__DirectiveLocation = "QUERY"
+const DirectiveLocationMutation Enum__DirectiveLocation = "MUTATION"
+const DirectiveLocationSubscription Enum__DirectiveLocation = "SUBSCRIPTION"
+const DirectiveLocationField Enum__DirectiveLocation = "FIELD"
+const DirectiveLocationFragmentDefinition Enum__DirectiveLocation = "FRAGMENT_DEFINITION"
+const DirectiveLocationFragmentSpread Enum__DirectiveLocation = "FRAGMENT_SPREAD"
+const DirectiveLocationInlineFragment Enum__DirectiveLocation = "INLINE_FRAGMENT"
+const DirectiveLocationVariableDefinition Enum__DirectiveLocation = "VARIABLE_DEFINITION"
+const DirectiveLocationSchema Enum__DirectiveLocation = "SCHEMA"
+const DirectiveLocationScalar Enum__DirectiveLocation = "SCALAR"
+const DirectiveLocationObject Enum__DirectiveLocation = "OBJECT"
+const DirectiveLocationFieldDefinition Enum__DirectiveLocation = "FIELD_DEFINITION"
+const DirectiveLocationArgumentDefinition Enum__DirectiveLocation = "ARGUMENT_DEFINITION"
+const DirectiveLocationInterface Enum__DirectiveLocation = "INTERFACE"
+const DirectiveLocationUnion Enum__DirectiveLocation = "UNION"
+const DirectiveLocationEnum Enum__DirectiveLocation = "ENUM"
+const DirectiveLocationEnumValue Enum__DirectiveLocation = "ENUM_VALUE"
+const DirectiveLocationInputObject Enum__DirectiveLocation = "INPUT_OBJECT"
+const DirectiveLocationInputFieldDefinition Enum__DirectiveLocation = "INPUT_FIELD_DEFINITION"
 
 type __Schema struct {
 	Types            []__Type      `json:"types"`
@@ -179,8 +181,8 @@ type App2WxappLoginStrategy struct {
 }
 
 type App2WxappLoginStrategyInput struct {
-	TicketExpriresAfter              *int64 `json:"ticketExpriresAfter"`
-	TicketExchangeUserInfoNeedSecret *bool  `json:"ticketExchangeUserInfoNeedSecret"`
+	TicketExpriresAfter              *int64 `json:"ticketExpriresAfter,omitempty"`
+	TicketExchangeUserInfoNeedSecret *bool  `json:"ticketExchangeUserInfoNeedSecret,omitempty"`
 }
 
 type AuthorizedResource struct {
@@ -208,19 +210,19 @@ type BatchOperationResult struct {
 }
 
 type ChangeEmailStrategy struct {
-	VerifyOldEmail *bool `json:"verifyOldEmail"`
+	VerifyOldEmail *bool `json:"verifyOldEmail,omitempty"`
 }
 
 type ChangeEmailStrategyInput struct {
-	VerifyOldEmail *bool `json:"verifyOldEmail"`
+	VerifyOldEmail *bool `json:"verifyOldEmail,omitempty"`
 }
 
 type ChangePhoneStrategy struct {
-	VerifyOldPhone *bool `json:"verifyOldPhone"`
+	VerifyOldPhone *bool `json:"verifyOldPhone,omitempty"`
 }
 
 type ChangePhoneStrategyInput struct {
-	VerifyOldPhone *bool `json:"verifyOldPhone"`
+	VerifyOldPhone *bool `json:"verifyOldPhone,omitempty"`
 }
 
 type CheckPasswordStrengthResult struct {
@@ -276,9 +278,9 @@ type CustomSMSProvider struct {
 }
 
 type CustomSMSProviderInput struct {
-	Enabled  *bool   `json:"enabled"`
-	Provider *string `json:"provider"`
-	Config   *string `json:"config"`
+	Enabled  *bool   `json:"enabled,omitempty"`
+	Provider *string `json:"provider,omitempty"`
+	Config   *string `json:"config,omitempty"`
 }
 
 type EmailTemplate struct {
@@ -301,9 +303,9 @@ type FrequentRegisterCheckConfig struct {
 }
 
 type FrequentRegisterCheckConfigInput struct {
-	TimeInterval *int64 `json:"timeInterval"`
-	Limit        *int64 `json:"limit"`
-	Enabled      *bool  `json:"enabled"`
+	TimeInterval *int64 `json:"timeInterval,omitempty"`
+	Limit        *int64 `json:"limit,omitempty"`
+	Enabled      *bool  `json:"enabled,omitempty"`
 }
 
 type Function struct {
@@ -402,21 +404,21 @@ type LoginFailCheckConfig struct {
 }
 
 type LoginFailCheckConfigInput struct {
-	TimeInterval *int64 `json:"timeInterval"`
-	Limit        *int64 `json:"limit"`
-	Enabled      *bool  `json:"enabled"`
+	TimeInterval *int64 `json:"timeInterval,omitempty"`
+	Limit        *int64 `json:"limit,omitempty"`
+	Enabled      *bool  `json:"enabled,omitempty"`
 }
 
 type LoginPasswordFailCheckConfig struct {
-	TimeInterval *int64 `json:"timeInterval"`
-	Limit        *int64 `json:"limit"`
-	Enabled      *bool  `json:"enabled"`
+	TimeInterval *int64 `json:"timeInterval,omitempty"`
+	Limit        *int64 `json:"limit,omitempty"`
+	Enabled      *bool  `json:"enabled,omitempty"`
 }
 
 type LoginPasswordFailCheckConfigInput struct {
-	TimeInterval *int64 `json:"timeInterval"`
-	Limit        *int64 `json:"limit"`
-	Enabled      *bool  `json:"enabled"`
+	TimeInterval *int64 `json:"timeInterval,omitempty"`
+	Limit        *int64 `json:"limit,omitempty"`
+	Enabled      *bool  `json:"enabled,omitempty"`
 }
 
 type Mfa struct {
@@ -425,33 +427,6 @@ type Mfa struct {
 	UserPoolId string  `json:"userPoolId"`
 	Enable     bool    `json:"enable"`
 	Secret     *string `json:"secret"`
-}
-
-type Node struct {
-	Id                  string                        `json:"id"`
-	OrgId               *string                       `json:"orgId"`
-	Name                string                        `json:"name"`
-	NameI18n            *string                       `json:"nameI18n"`
-	Description         *string                       `json:"description"`
-	DescriptionI18n     *string                       `json:"descriptionI18n"`
-	Order               *int64                        `json:"order"`
-	Code                *string                       `json:"code"`
-	Root                *bool                         `json:"root"`
-	Depth               *int64                        `json:"depth"`
-	Path                []string                      `json:"path"`
-	CodePath            []*string                     `json:"codePath"`
-	NamePath            []string                      `json:"namePath"`
-	CreatedAt           *string                       `json:"createdAt"`
-	UpdatedAt           *string                       `json:"updatedAt"`
-	Children            []string                      `json:"children"`
-	Users               PaginatedUsers                `json:"users"`
-	AuthorizedResources *PaginatedAuthorizedResources `json:"authorizedResources"`
-}
-
-type Org struct {
-	Id       string `json:"id"`
-	RootNode Node   `json:"rootNode"`
-	Nodes    []Node `json:"nodes"`
 }
 
 type PaginatedAuthorizedResources struct {
@@ -479,21 +454,6 @@ type PaginatedGroups struct {
 	List       []Group `json:"list"`
 }
 
-type PaginatedOrgs struct {
-	TotalCount int64 `json:"totalCount"`
-	List       []Org `json:"list"`
-}
-
-type PaginatedPolicies struct {
-	TotalCount int64    `json:"totalCount"`
-	List       []Policy `json:"list"`
-}
-
-type PaginatedPolicyAssignments struct {
-	TotalCount int64              `json:"totalCount"`
-	List       []PolicyAssignment `json:"list"`
-}
-
 type PaginatedRoles struct {
 	TotalCount int64  `json:"totalCount"`
 	List       []Role `json:"list"`
@@ -509,50 +469,6 @@ type PaginatedUsers struct {
 	List       []User `json:"list"`
 }
 
-type Policy struct {
-	Namespace        string             `json:"namespace"`
-	Code             string             `json:"code"`
-	IsDefault        bool               `json:"isDefault"`
-	Description      *string            `json:"description"`
-	Statements       []PolicyStatement  `json:"statements"`
-	CreatedAt        *string            `json:"createdAt"`
-	UpdatedAt        *string            `json:"updatedAt"`
-	AssignmentsCount int64              `json:"assignmentsCount"`
-	Assignments      []PolicyAssignment `json:"assignments"`
-}
-
-type PolicyAssignment struct {
-	Code             string                         `json:"code"`
-	TargetType       EnumPolicyAssignmentTargetType `json:"targetType"`
-	TargetIdentifier string                         `json:"targetIdentifier"`
-}
-
-type PolicyStatement struct {
-	Resource  string                     `json:"resource"`
-	Actions   []string                   `json:"actions"`
-	Effect    *EnumPolicyEffect          `json:"effect"`
-	Condition []PolicyStatementCondition `json:"condition"`
-}
-
-type PolicyStatementCondition struct {
-	Param    string `json:"param"`
-	Operator string `json:"operator"`
-	//Value    Object `json:"value"`
-}
-
-type PolicyStatementConditionInput struct {
-	Param    string `json:"param"`
-	Operator string `json:"operator"`
-	//Value    Object `json:"value"`
-}
-
-type PolicyStatementInput struct {
-	Resource  string                          `json:"resource"`
-	Actions   []string                        `json:"actions"`
-	Effect    *EnumPolicyEffect               `json:"effect"`
-	Condition []PolicyStatementConditionInput `json:"condition"`
-}
-
 type QrcodeLoginStrategy struct {
 	QrcodeExpiresAfter               *int64 `json:"qrcodeExpiresAfter"`
 	ReturnFullUserInfo               *bool  `json:"returnFullUserInfo"`
@@ -561,10 +477,10 @@ type QrcodeLoginStrategy struct {
 }
 
 type QrcodeLoginStrategyInput struct {
-	QrcodeExpiresAfter               *int64 `json:"qrcodeExpiresAfter"`
-	ReturnFullUserInfo               *bool  `json:"returnFullUserInfo"`
-	AllowExchangeUserInfoFromBrowser *bool  `json:"allowExchangeUserInfoFromBrowser"`
-	TicketExpiresAfter               *int64 `json:"ticketExpiresAfter"`
+	QrcodeExpiresAfter               *int64 `json:"qrcodeExpiresAfter,omitempty"`
+	ReturnFullUserInfo               *bool  `json:"returnFullUserInfo,omitempty"`
+	AllowExchangeUserInfoFromBrowser *bool  `json:"allowExchangeUserInfoFromBrowser,omitempty"`
+	TicketExpiresAfter               *int64 `json:"ticketExpiresAfter,omitempty"`
 }
 
 type RefreshAccessTokenRes struct {
@@ -582,12 +498,12 @@ type RefreshToken struct {
 type RegisterByEmailInput struct {
 	Email         string           `json:"email"`
 	Password      string           `json:"password"`
-	Profile       *RegisterProfile `json:"profile"`
-	ForceLogin    *bool            `json:"forceLogin"`
-	GenerateToken *bool            `json:"generateToken"`
-	ClientIp      *string          `json:"clientIp"`
-	Params        *string          `json:"params"`
-	Context       *string          `json:"context"`
+	Profile       *RegisterProfile `json:"profile,omitempty"`
+	ForceLogin    *bool            `json:"forceLogin,omitempty"`
+	GenerateToken *bool            `json:"generateToken,omitempty"`
+	ClientIp      *string          `json:"clientIp,omitempty"`
+	Params        *string          `json:"params,omitempty"`
+	Context       *string          `json:"context,omitempty"`
 }
 
 type RegisterByPhoneCodeInput struct {
@@ -650,9 +566,9 @@ type RegisterWhiteListConfig struct {
 }
 
 type RegisterWhiteListConfigInput struct {
-	PhoneEnabled    *bool `json:"phoneEnabled"`
-	EmailEnabled    *bool `json:"emailEnabled"`
-	UsernameEnabled *bool `json:"usernameEnabled"`
+	PhoneEnabled    *bool `json:"phoneEnabled,omitempty"`
+	EmailEnabled    *bool `json:"emailEnabled,omitempty"`
+	UsernameEnabled *bool `json:"usernameEnabled,omitempty"`
 }
 
 type ResourcePermissionAssignment struct {
@@ -725,29 +641,29 @@ type UpdateFunctionInput struct {
 }
 
 type UpdateUserpoolInput struct {
-	Name                      *string                            `json:"name"`
-	Logo                      *string                            `json:"logo"`
-	Domain                    *string                            `json:"domain"`
-	Description               *string                            `json:"description"`
-	UserpoolTypes             []string                           `json:"userpoolTypes"`
-	EmailVerifiedDefault      *bool                              `json:"emailVerifiedDefault"`
-	SendWelcomeEmail          *bool                              `json:"sendWelcomeEmail"`
-	RegisterDisabled          *bool                              `json:"registerDisabled"`
-	AppSsoEnabled             *bool                              `json:"appSsoEnabled"`
-	AllowedOrigins            *string                            `json:"allowedOrigins"`
-	TokenExpiresAfter         *int64                             `json:"tokenExpiresAfter"`
-	FrequentRegisterCheck     *FrequentRegisterCheckConfigInput  `json:"frequentRegisterCheck"`
-	LoginFailCheck            *LoginFailCheckConfigInput         `json:"loginFailCheck"`
-	LoginFailStrategy         *string                            `json:"loginFailStrategy"`
-	LoginPasswordFailCheck    *LoginPasswordFailCheckConfigInput `json:"loginPasswordFailCheck"`
-	ChangePhoneStrategy       *ChangePhoneStrategyInput          `json:"changePhoneStrategy"`
-	ChangeEmailStrategy       *ChangeEmailStrategyInput          `json:"changeEmailStrategy"`
-	QrcodeLoginStrategy       *QrcodeLoginStrategyInput          `json:"qrcodeLoginStrategy"`
-	App2WxappLoginStrategy    *App2WxappLoginStrategyInput       `json:"app2WxappLoginStrategy"`
-	Whitelist                 *RegisterWhiteListConfigInput      `json:"whitelist"`
-	CustomSMSProvider         *CustomSMSProviderInput            `json:"customSMSProvider"`
-	LoginRequireEmailVerified *bool                              `json:"loginRequireEmailVerified"`
-	VerifyCodeLength          *int64                             `json:"verifyCodeLength"`
+	Name                      *string                            `json:"name,omitempty"`
+	Logo                      *string                            `json:"logo,omitempty"`
+	Domain                    *string                            `json:"domain,omitempty"`
+	Description               *string                            `json:"description,omitempty"`
+	UserpoolTypes             []string                           `json:"userpoolTypes,omitempty"`
+	EmailVerifiedDefault      *bool                              `json:"emailVerifiedDefault,omitempty"`
+	SendWelcomeEmail          *bool                              `json:"sendWelcomeEmail,omitempty"`
+	RegisterDisabled          *bool                              `json:"registerDisabled,omitempty"`
+	AppSsoEnabled             *bool                              `json:"appSsoEnabled,omitempty"`
+	AllowedOrigins            *string                            `json:"allowedOrigins,omitempty"`
+	TokenExpiresAfter         *int64                             `json:"tokenExpiresAfter,omitempty"`
+	FrequentRegisterCheck     *FrequentRegisterCheckConfigInput  `json:"frequentRegisterCheck,omitempty"`
+	LoginFailCheck            *LoginFailCheckConfigInput         `json:"loginFailCheck,omitempty"`
+	LoginFailStrategy         *string                            `json:"loginFailStrategy,omitempty"`
+	LoginPasswordFailCheck    *LoginPasswordFailCheckConfigInput `json:"loginPasswordFailCheck,omitempty"`
+	ChangePhoneStrategy       *ChangePhoneStrategyInput          `json:"changePhoneStrategy,omitempty"`
+	ChangeEmailStrategy       *ChangeEmailStrategyInput          `json:"changeEmailStrategy,omitempty"`
+	QrcodeLoginStrategy       *QrcodeLoginStrategyInput          `json:"qrcodeLoginStrategy,omitempty"`
+	App2WxappLoginStrategy    *App2WxappLoginStrategyInput       `json:"app2WxappLoginStrategy,omitempty"`
+	Whitelist                 *RegisterWhiteListConfigInput      `json:"whitelist,omitempty"`
+	CustomSMSProvider         *CustomSMSProviderInput            `json:"customSMSProvider,omitempty"`
+	LoginRequireEmailVerified *bool                              `json:"loginRequireEmailVerified,omitempty"`
+	VerifyCodeLength          *int64                             `json:"verifyCodeLength,omitempty"`
 }
 
 type UserDepartment struct {
@@ -823,4 +739,56 @@ type GqlCommonErrors struct {
 type CommonMessageAndCode struct {
 	Message string `json:"message"`
 	Code    int64  `json:"code"`
+}
+
+type UserPoolEnv struct {
+	UserPoolId string    `json:"userPoolId"`
+	Key        string    `json:"key"`
+	CreatedAt  time.Time `json:"createdAt"`
+	UpdatedAt  time.Time `json:"updatedAt"`
+	Id         string    `json:"id"`
+}
+
+type UserOrgs []struct {
+	Type            string        `json:"type"`
+	Id              string        `json:"id"`
+	CreatedAt       time.Time     `json:"createdAt"`
+	UpdatedAt       time.Time     `json:"updatedAt"`
+	UserPoolId      string        `json:"userPoolId"`
+	RootNodeId      string        `json:"rootNodeId,omitempty"`
+	Logo            string        `json:"logo"`
+	OrgId           string        `json:"orgId,omitempty"`
+	Name            string        `json:"name,omitempty"`
+	NameI18N        string        `json:"nameI18n"`
+	Description     *string       `json:"description,omitempty"`
+	DescriptionI18N string        `json:"descriptionI18n"`
+	Order           string        `json:"order"`
+	Code            *string       `json:"code,omitempty"`
+	LeaderUserId    string        `json:"leaderUserId"`
+	Source          []interface{} `json:"source,omitempty"`
+	DataVersion     interface{}   `json:"dataVersion"`
+	SourceData      interface{}   `json:"sourceData"`
+}
+
+type GetSecurityLevelResponse struct {
+	Score                 int  `json:"score"`
+	Email                 bool `json:"email"`
+	Phone                 bool `json:"phone"`
+	Password              bool `json:"password"`
+	PasswordSecurityLevel int  `json:"passwordSecurityLevel"`
+	Mfa                   bool `json:"mfa"`
+}
+
+type LoginBySubAccountRequest struct {
+	Account     string `json:"account"`
+	Password    string `json:"password"`
+	CaptchaCode string `json:"captchaCode,omitempty"`
+	ClientIp    string `json:"clientIp,omitempty"`
+}
+
+type IsUserExistsRequest struct {
+	Username   *string `json:"username,omitempty"`
+	Email      *string `json:"email,omitempty"`
+	Phone      *string `json:"phone,omitempty"`
+	ExternalId *string `json:"externalId,omitempty"`
 }
