@@ -56,7 +56,7 @@ func TestClient_RefreshApplicationSecret(t *testing.T) {
 func TestClient_ListApplicationActiveUsers(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========获取应用下登录用户==========")
-	resp, err := client.ListApplicationActiveUsers("614bf4af279893d5ab645e58", 1, 10)
+	resp, err := client.ListApplicationActiveUsers("61527e0124a5f0df0eed7af2", 1, 100)
 	if err != nil {
 		fmt.Println(err)
 	}

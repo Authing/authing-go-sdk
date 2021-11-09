@@ -10,12 +10,12 @@ import (
 )
 
 const (
-	//UserPool="60c17b3d72b925097a738d86"
-	//Secret="6a350fe221596e96125e9375452da606"
-	//AppId ="60c17b536f0f06def12dfec4"
-	AppId    = "6168f95e81d5e20f9cb72f22"
-	Secret   = "ff053c05e4fb664a560556ea7c2cb715"
-	UserPool = "61384d3e302f1f75e69ce95a"
+	//UserPool=""
+	//Secret=""
+	//AppId =""
+	AppId    = ""
+	Secret   = ""
+	UserPool = ""
 )
 
 func TestClient_BuildAuthorizeUrlByOidc(t *testing.T) {
@@ -290,7 +290,7 @@ func TestClient_SendSmsCode(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
 	authenticationClient.userPoolId = UserPool
 
-	resp, err := authenticationClient.SendSmsCode("18910471835")
+	resp, err := authenticationClient.SendSmsCode("18515006338")
 	log.Println(resp, err)
 }
 

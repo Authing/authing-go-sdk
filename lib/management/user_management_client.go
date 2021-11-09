@@ -39,6 +39,7 @@ func (c *Client) GetUserList(request model.QueryListRequest) (*model.PaginatedUs
 	if err != nil {
 		return nil, err
 	}
+	log.Println(string(b))
 	result := model.ListUserResponse{}
 	err = json.Unmarshal(b, &result)
 	if err != nil {
