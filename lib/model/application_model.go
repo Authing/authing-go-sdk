@@ -194,7 +194,7 @@ type ApplicationActiveUsers struct {
 	LastMfaTime               string      `json:"lastMfaTime"`
 	PasswordSecurityLevel     int         `json:"passwordSecurityLevel"`
 	ResetPasswordOnFirstLogin bool        `json:"resetPasswordOnFirstLogin"`
-	SyncExtInfo               string      `json:"syncExtInfo"`
+	SyncExtInfo               interface{} `json:"syncExtInfo"`
 	PhoneCountryCode          string      `json:"phoneCountryCode"`
 	Source                    interface{} `json:"source"`
 	LastIP                    string      `json:"lastIP"`

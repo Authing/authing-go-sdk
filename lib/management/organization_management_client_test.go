@@ -11,10 +11,12 @@ import (
 const (
 	// prod
 
-	userPoolId = "61384d3e302f1f75e69ce95a"
-	appSecret  = "ff053c05e4fb664a560556ea7c2cb715"
-	//userPoolId = "616fcf8a9447f3ad59ebc1af"
-	//appSecret = "7e3f194a2c7d1a0dab17fe4c434ca6b0"
+	//userPoolId = ""
+	//appSecret  = ""
+	//userPoolId = ""
+	//appSecret = ""
+	userPoolId = ""
+	appSecret  = ""
 )
 
 func TestClient_ExportAll(t *testing.T) {

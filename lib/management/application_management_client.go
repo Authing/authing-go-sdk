@@ -110,7 +110,7 @@ func (c *Client) ListApplicationActiveUsers(appId string, page, limit int) (*str
 	List       []model.ApplicationActiveUsers `json:"list"`
 	TotalCount int64                          `json:"totalCount"`
 }, error) {
-	url := fmt.Sprintf("%s/api/v2/applications/%s/active-users?page=%v&%v", c.Host, appId, page, limit)
+	url := fmt.Sprintf("%s/api/v2/applications/%s/active-users?page=%v&limit=%v", c.Host, appId, page, limit)
 	b, err := c.SendHttpRestRequest(url, http.MethodGet, nil)
 	if err != nil {
 		return nil, err
