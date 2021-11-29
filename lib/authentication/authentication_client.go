@@ -29,7 +29,7 @@ type Client struct {
 	Secret                  string
 	Host                    string
 	RedirectUri             string
-	userPoolId              string
+	UserPoolId              string
 	TokenEndPointAuthMethod constant.AuthMethodEnum
 
 	ClientToken *string
@@ -418,7 +418,7 @@ func (c *Client) SendHttpRequestManage(url string, method string, query string, 
 		token := c.ClientToken
 		req.Header.Add("Authorization", "Bearer "+*token)
 	}
-	req.Header.Add("x-authing-userpool-id", ""+c.userPoolId)
+	req.Header.Add("x-authing-userpool-id", ""+c.UserPoolId)
 	req.Header.Add("x-authing-request-from", constant.SdkType)
 	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
 	req.Header.Add("x-authing-app-id", ""+constant.AppId)
@@ -442,7 +442,7 @@ func QueryAccessToken(client *Client) (*model.AccessTokenRes, error) {
 	}
 
 	variables := map[string]interface{}{
-		"userPoolId": client.userPoolId,
+		"userPoolId": client.UserPoolId,
 		"secret":     client.Secret,
 	}
 
@@ -461,7 +461,7 @@ func QueryAccessToken(client *Client) (*model.AccessTokenRes, error) {
 // 获取访问Token
 func GetAccessToken(client *Client) (string, error) {
 	// 从缓存获取token
-	cacheToken, b := cacheutil.GetCache(constant.TokenCacheKeyPrefix + client.userPoolId)
+	cacheToken, b := cacheutil.GetCache(constant.TokenCacheKeyPrefix + client.UserPoolId)
 	if b && cacheToken != nil {
 		return cacheToken.(string), nil
 	}
@@ -469,7 +469,7 @@ func GetAccessToken(client *Client) (string, error) {
 	var mutex sync.Mutex
 	mutex.Lock()
 	defer mutex.Unlock()
-	cacheToken, b = cacheutil.GetCache(constant.TokenCacheKeyPrefix + client.userPoolId)
+	cacheToken, b = cacheutil.GetCache(constant.TokenCacheKeyPrefix + client.UserPoolId)
 	if b && cacheToken != nil {
 		return cacheToken.(string), nil
 	}
@@ -478,7 +478,7 @@ func GetAccessToken(client *Client) (string, error) {
 		return "", err
 	}
 	var expire = *(token.Exp) - time.Now().Unix() - 43200
-	cacheutil.SetCache(constant.TokenCacheKeyPrefix+client.userPoolId, *token.AccessToken, time.Duration(expire*int64(time.Second)))
+	cacheutil.SetCache(constant.TokenCacheKeyPrefix+client.UserPoolId, *token.AccessToken, time.Duration(expire*int64(time.Second)))
 	return *token.AccessToken, nil
 }
 
@@ -512,7 +512,7 @@ func (c *Client) SendHttpRestRequest(url string, method string, token *string, v
 	}
 	req.Header.Add("Authorization", "Bearer "+*token)
 
-	req.Header.Add("x-authing-userpool-id", ""+c.userPoolId)
+	req.Header.Add("x-authing-userpool-id", ""+c.UserPoolId)
 	req.Header.Add("x-authing-request-from", constant.SdkType)
 	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
 	req.Header.Add("x-authing-app-id", ""+constant.AppId)
@@ -549,7 +549,7 @@ func (c *Client) SendHttpRestRequestNotToken(url string, method string, variable
 		req.Header.Add("Content-Type", "application/json")
 	}
 
-	req.Header.Add("x-authing-userpool-id", ""+c.userPoolId)
+	req.Header.Add("x-authing-userpool-id", ""+c.UserPoolId)
 	req.Header.Add("x-authing-request-from", constant.SdkType)
 	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
 	req.Header.Add("x-authing-app-id", ""+constant.AppId)
@@ -585,7 +585,7 @@ func (c *Client) GetCurrentUser(token *string) (*model.User, error) {
 }
 
 func (c *Client) getCurrentUser() (*model.User, error) {
-	k, e := cacheutil.GetCache(constant.UserCacheKeyPrefix + c.userPoolId)
+	k, e := cacheutil.GetCache(constant.UserCacheKeyPrefix + c.UserPoolId)
 	if !e {
 		return nil, errors.New("未登录")
 	}
@@ -1063,7 +1063,7 @@ func (c *Client) SendHttpRequestCustomTokenManage(url string, method string, tok
 		req.Header.Add("Authorization", "Bearer "+*token)
 
 	}
-	req.Header.Add("x-authing-userpool-id", ""+c.userPoolId)
+	req.Header.Add("x-authing-userpool-id", ""+c.UserPoolId)
 	req.Header.Add("x-authing-request-from", constant.SdkType)
 	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
 	req.Header.Add("x-authing-app-id", ""+constant.AppId)
@@ -1223,7 +1223,7 @@ func (c *Client) UnBindEmail() (*model.User, error) {
 // Logout
 // 退出登录
 func (c *Client) Logout() (*model.CommonMessageAndCode, error) {
-	cacheToken, _ := cacheutil.GetCache(constant.TokenCacheKeyPrefix + c.userPoolId)
+	cacheToken, _ := cacheutil.GetCache(constant.TokenCacheKeyPrefix + c.UserPoolId)
 	if cacheToken == nil {
 		return nil, errors.New("Please login first")
 	}
@@ -1234,13 +1234,26 @@ func (c *Client) Logout() (*model.CommonMessageAndCode, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := model.CommonMessageAndCode{}
 	jsoniter.Unmarshal(b, &resp)
 	if resp.Code != 200 {
 		return nil, errors.New(resp.Message)
 	}
 	c.ClearUser()
+	return &resp, nil
+}
+
+func (c *Client) LogoutByToken(token string) (*model.CommonMessageAndCode, error) {
+	url := fmt.Sprintf("%s/api/v2/logout?app_id=%s", c.Host, c.AppId)
+	b, err := c.SendHttpRestRequest(url, http.MethodGet, &token, nil)
+	if err != nil {
+		return nil, err
+	}
+	resp := model.CommonMessageAndCode{}
+	jsoniter.Unmarshal(b, &resp)
+	if resp.Code != 200 {
+		return nil, errors.New(resp.Message)
+	}
 	return &resp, nil
 }
 

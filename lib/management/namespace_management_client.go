@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
-	"log"
 	"net/http"
 )
 
@@ -21,7 +20,6 @@ func (c *Client) CreateNamespace(request *model.EditNamespaceRequest) (*model.Na
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string          `json:"message"`
 		Code    int64           `json:"code"`
@@ -47,7 +45,6 @@ func (c *Client) UpdateNamespace(id string, request *model.EditNamespaceRequest)
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string          `json:"message"`
 		Code    int64           `json:"code"`
@@ -69,7 +66,6 @@ func (c *Client) DeleteNamespace(id string) (*string, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -93,7 +89,6 @@ func (c *Client) ListNamespace(page, limit int) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`

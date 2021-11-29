@@ -39,7 +39,6 @@ func (c *Client) GetUserList(request model.QueryListRequest) (*model.PaginatedUs
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	result := model.ListUserResponse{}
 	err = json.Unmarshal(b, &result)
 	if err != nil {
@@ -58,7 +57,6 @@ func (c *Client) GetUserDepartments(request model.GetUserDepartmentsRequest) (*m
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	result := model.GetUserDepartmentsResponse{}
 	err = json.Unmarshal(b, &result)
 	if err != nil {
@@ -103,7 +101,6 @@ func (c *Client) CreateUser(request model.CreateUserRequest) (*model.User, error
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			CreateUser model.User `json:"createUser"`
@@ -131,7 +128,6 @@ func (c *Client) UpdateUser(id string, updateInfo model.UpdateUserInput) (*model
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UpdateUser model.User `json:"updateUser"`
@@ -156,7 +152,6 @@ func (c *Client) DeleteUser(id string) (*model.CommonMessageAndCode, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			DeleteUser model.CommonMessageAndCode `json:"deleteUser"`
@@ -179,7 +174,6 @@ func (c *Client) BatchDeleteUser(ids []string) (*model.CommonMessageAndCode, err
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			DeleteUsers model.CommonMessageAndCode `json:"deleteUsers"`
@@ -208,7 +202,6 @@ func (c *Client) BatchGetUser(ids []string, queryField string, withCustomData bo
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			BatchGetUsers []model.User `json:"userBatch"`

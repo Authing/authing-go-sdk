@@ -9,7 +9,7 @@ import (
 
 func TestClient_GetMfaAuthenticators(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	loginReq := model.LoginByEmailInput{
 		Email:    "fptvmzqyxn@authing.cn",
 		Password: "12345678",
@@ -29,7 +29,7 @@ func TestClient_GetMfaAuthenticators(t *testing.T) {
 
 func TestClient_AssociateMfaAuthenticator(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	loginReq := model.LoginByEmailInput{
 		Email:    "fptvmzqyxn@authing.cn",
 		Password: "12345678",
@@ -48,7 +48,7 @@ func TestClient_AssociateMfaAuthenticator(t *testing.T) {
 
 func TestClient_DeleteMfaAuthenticator(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	resp, err := authenticationClient.DeleteMfaAuthenticator()
 	if err != nil {
 		fmt.Println(err)
@@ -59,7 +59,7 @@ func TestClient_DeleteMfaAuthenticator(t *testing.T) {
 
 func TestClient_ConfirmAssociateMfaAuthenticator(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	//loginReq:= model.LoginByEmailInput{
 	//	Email: "fptvmzqyxn@authing.cn",
 	//	Password: "12345678",
@@ -80,7 +80,7 @@ func TestClient_ConfirmAssociateMfaAuthenticator(t *testing.T) {
 
 func TestClient_VerifyTotpMfa(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	mfaToken := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJQb29sSWQiOiI2MGMxN2IzZDcyYjkyNTA5N2E3MzhkODYiLCJ1c2VySWQiOiI2MTc2NWYxMDI5MThhOGZjNjUyNDU2NDAiLCJhcm4iOiJhcm46Y246YXV0aGluZzo2MGMxN2IzZDcyYjkyNTA5N2E3MzhkODY6dXNlcjo2MTc2NWYxMDI5MThhOGZjNjUyNDU2NDAiLCJzdGFnZSI6MX0sImlhdCI6MTYzNTE0OTQ2MiwiZXhwIjoxNjM1MTQ5ODIyfQ.2DbmVf1-JQeiRMpZBk-3y-uPIN15FL-ranE4UlMKMoM"
 
 	resp, err := authenticationClient.VerifyTotpMfa("q", mfaToken)
@@ -93,7 +93,7 @@ func TestClient_VerifyTotpMfa(t *testing.T) {
 
 func TestClient_VerifyAppSmsMfa(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	loginReq := model.LoginByEmailInput{
 		Email:    "gosdk@mail.com",
 		Password: "123456789",
@@ -110,7 +110,7 @@ func TestClient_VerifyAppSmsMfa(t *testing.T) {
 
 func TestClient_VerifyAppEmailMfa(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	loginReq := model.LoginByEmailInput{
 		Email:    "gosdk@mail.com",
 		Password: "123456789",
@@ -129,7 +129,7 @@ func TestClient_VerifyAppEmailMfa(t *testing.T) {
 
 func TestClient_PhoneOrEmailBindable(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	mfaToken := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJQb29sSWQiOiI2MGMxN2IzZDcyYjkyNTA5N2E3MzhkODYiLCJ1c2VySWQiOiI2MTc2NWYxMDI5MThhOGZjNjUyNDU2NDAiLCJhcm4iOiJhcm46Y246YXV0aGluZzo2MGMxN2IzZDcyYjkyNTA5N2E3MzhkODY6dXNlcjo2MTc2NWYxMDI5MThhOGZjNjUyNDU2NDAiLCJzdGFnZSI6MX0sImlhdCI6MTYzNTE0OTQ2MiwiZXhwIjoxNjM1MTQ5ODIyfQ.2DbmVf1-JQeiRMpZBk-3y-uPIN15FL-ranE4UlMKMoM"
 	email := "gosdk@mail.com"
 	resp, err := authenticationClient.PhoneOrEmailBindable(&email, nil, mfaToken)
@@ -142,7 +142,7 @@ func TestClient_PhoneOrEmailBindable(t *testing.T) {
 
 func TestClient_VerifyFaceMfa(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 
 	mfaToken := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJQb29sSWQiOiI2MGMxN2IzZDcyYjkyNTA5N2E3MzhkODYiLCJ1c2VySWQiOiI2MTc2NWYxMDI5MThhOGZjNjUyNDU2NDAiLCJhcm4iOiJhcm46Y246YXV0aGluZzo2MGMxN2IzZDcyYjkyNTA5N2E3MzhkODY6dXNlcjo2MTc2NWYxMDI5MThhOGZjNjUyNDU2NDAiLCJzdGFnZSI6MX0sImlhdCI6MTYzNTE0OTQ2MiwiZXhwIjoxNjM1MTQ5ODIyfQ.2DbmVf1-JQeiRMpZBk-3y-uPIN15FL-ranE4UlMKMoM"
 
@@ -156,7 +156,7 @@ func TestClient_VerifyFaceMfa(t *testing.T) {
 
 func TestClient_AssociateFaceByUrl(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 
 	mfaToken := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJQb29sSWQiOiI2MGMxN2IzZDcyYjkyNTA5N2E3MzhkODYiLCJ1c2VySWQiOiI2MTc2NWYxMDI5MThhOGZjNjUyNDU2NDAiLCJhcm4iOiJhcm46Y246YXV0aGluZzo2MGMxN2IzZDcyYjkyNTA5N2E3MzhkODY6dXNlcjo2MTc2NWYxMDI5MThhOGZjNjUyNDU2NDAiLCJzdGFnZSI6MX0sImlhdCI6MTYzNTE0OTQ2MiwiZXhwIjoxNjM1MTQ5ODIyfQ.2DbmVf1-JQeiRMpZBk-3y-uPIN15FL-ranE4UlMKMoM"
 
@@ -170,7 +170,7 @@ func TestClient_AssociateFaceByUrl(t *testing.T) {
 
 func TestClient_VerifyTotpRecoveryCode(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 
 	mfaToken := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJQb29sSWQiOiI2MGMxN2IzZDcyYjkyNTA5N2E3MzhkODYiLCJ1c2VySWQiOiI2MTc2NWYxMDI5MThhOGZjNjUyNDU2NDAiLCJhcm4iOiJhcm46Y246YXV0aGluZzo2MGMxN2IzZDcyYjkyNTA5N2E3MzhkODY6dXNlcjo2MTc2NWYxMDI5MThhOGZjNjUyNDU2NDAiLCJzdGFnZSI6MX0sImlhdCI6MTYzNTE0OTQ2MiwiZXhwIjoxNjM1MTQ5ODIyfQ.2DbmVf1-JQeiRMpZBk-3y-uPIN15FL-ranE4UlMKMoM"
 

@@ -20,7 +20,6 @@ func (c *Client) CreatePolicy(req *model.PolicyRequest) (*model.CreatePolicyResp
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			CreatePolicy model.CreatePolicyResponse `json:"createPolicy"`
@@ -44,7 +43,6 @@ func (c *Client) ListPolicy(page, limit int) (*model.PaginatedPolicies, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Policies model.PaginatedPolicies `json:"policies"`

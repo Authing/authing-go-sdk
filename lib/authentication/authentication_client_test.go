@@ -135,7 +135,7 @@ func TestClient_RevokeToken(t *testing.T) {
 
 func TestClient_LoginByUserName(t *testing.T) {
 	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
-	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.UserPoolId = "60e043f8cd91b87d712b6365"
 	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
 	req := model.LoginByUsernameInput{
 		Username:     "luojielin",
@@ -152,7 +152,7 @@ func TestClient_LoginByUserName(t *testing.T) {
 
 func TestClient_LoginByEmail(t *testing.T) {
 	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
-	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.UserPoolId = "60e043f8cd91b87d712b6365"
 	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
 	req := model.LoginByEmailInput{
 		Email:        "luojielin@authing.cn",
@@ -169,7 +169,7 @@ func TestClient_LoginByEmail(t *testing.T) {
 
 func TestClient_LoginByPhonePassword(b *testing.T) {
 	authenticationClient := NewClient("60a6f980dd9a9a7642da768a", "5cd4ea7b3603b792aea9a00da9e18f44")
-	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.UserPoolId = "60e043f8cd91b87d712b6365"
 	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
 	req := model.LoginByPhonePasswordInput{
 		Phone:        "18310641137",
@@ -186,7 +186,7 @@ func TestClient_LoginByPhonePassword(b *testing.T) {
 
 /*func TestClient_LoginByPhoneCode(b *testing.T) {
 	authenticationClient := NewClient("60a6f980dd9a9a7642da768a","5cd4ea7b3603b792aea9a00da9e18f44")
-	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.UserPoolId = "60e043f8cd91b87d712b6365"
 	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
 	req := model.LoginByPhoneCodeInput{
 		Phone:        "18310641137",
@@ -202,7 +202,7 @@ func TestClient_LoginByPhonePassword(b *testing.T) {
 
 func TestClient_SendSmsCode(t *testing.T) {
 	authenticationClient := NewClient("60a6f980dd9a9a7642da768a","5cd4ea7b3603b792aea9a00da9e18f44")
-	authenticationClient.userPoolId = "60e043f8cd91b87d712b6365"
+	authenticationClient.UserPoolId = "60e043f8cd91b87d712b6365"
 	authenticationClient.Secret = "158c7679333bc196b524d78d745813e5"
 	resp,err := authenticationClient.SendSmsCode("15566416161")
 	log.Println(resp,err)
@@ -210,7 +210,7 @@ func TestClient_SendSmsCode(t *testing.T) {
 
 func TestClient_GetCurrentUser(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 
 	req := &model.LoginByPhoneCodeInput{
 		Code:  "3289",
@@ -223,7 +223,7 @@ func TestClient_GetCurrentUser(t *testing.T) {
 
 func TestClient_RegisterByEmail(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	data, e := jsoniter.Marshal([]model.KeyValuePair{{Key: "custom", Value: "qq"}})
 	log.Println(data, e)
 	p := string(data)
@@ -242,7 +242,7 @@ func TestClient_RegisterByEmail(t *testing.T) {
 
 func TestClient_RegisterByUsername(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	data, e := jsoniter.Marshal([]model.KeyValuePair{{Key: "custom", Value: "qq"}})
 	log.Println(data, e)
 	p := string(data)
@@ -257,7 +257,7 @@ func TestClient_RegisterByUsername(t *testing.T) {
 
 func TestClient_RegisterByPhoneCode(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	data, e := jsoniter.Marshal([]model.KeyValuePair{{Key: "custom", Value: "qq"}})
 	log.Println(data, e)
 	p := string(data)
@@ -278,7 +278,7 @@ func TestClient_RegisterByPhoneCode(t *testing.T) {
 
 func TestClient_CheckPasswordStrength(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	data, e := jsoniter.Marshal([]model.KeyValuePair{{Key: "custom", Value: "qq"}})
 	log.Println(data, e)
 
@@ -288,7 +288,7 @@ func TestClient_CheckPasswordStrength(t *testing.T) {
 
 func TestClient_SendSmsCode(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 
 	resp, err := authenticationClient.SendSmsCode("18515006338")
 	log.Println(resp, err)
@@ -296,7 +296,7 @@ func TestClient_SendSmsCode(t *testing.T) {
 
 func TestClient_LoginByPhoneCode(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByPhoneCodeInput{
 		Code:  "3289",
 		Phone: "18910471835",
@@ -307,7 +307,7 @@ func TestClient_LoginByPhoneCode(t *testing.T) {
 
 func TestClient_CheckLoginStatus(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	reginter := &model.RegisterByUsernameInput{
 		Username: "testGoSDK",
 		Password: "123456789",
@@ -326,7 +326,7 @@ func TestClient_CheckLoginStatus(t *testing.T) {
 
 func TestClient_SendEmail(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 
 	resp, err := authenticationClient.SendEmail(" mail@qq.com", model.EnumEmailSceneChangeEmail)
 	log.Println(resp, err)
@@ -334,7 +334,7 @@ func TestClient_SendEmail(t *testing.T) {
 
 func TestClient_UpdateProfile(t *testing.T) {
 	authenticationClient := NewClient("6139c4d24e78a4d706b7545b", Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 
 	req := &model.LoginByUsernameInput{
 		Username: "updateProfile",
@@ -352,7 +352,7 @@ func TestClient_UpdateProfile(t *testing.T) {
 
 func TestClient_UpdatePassword(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "goSdkTestUpdateProfile",
 		Password: "654321",
@@ -370,7 +370,7 @@ func TestClient_UpdatePassword(t *testing.T) {
 
 func TestClient_UpdatePhone(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "goSdkTestUpdateProfile",
 		Password: "654321",
@@ -385,7 +385,7 @@ func TestClient_UpdatePhone(t *testing.T) {
 
 func TestClient_UpdateEmail(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "goSdkTestUpdateProfile",
 		Password: "654321",
@@ -400,7 +400,7 @@ func TestClient_UpdateEmail(t *testing.T) {
 
 func TestClient_RefreshToken(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "goSdkTestUpdateProfile",
 		Password: "654321",
@@ -418,7 +418,7 @@ func TestClient_RefreshToken(t *testing.T) {
 
 func TestClient_LinkAccount(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "goSdkTestUpdateProfile",
 		Password: "654321",
@@ -434,7 +434,7 @@ func TestClient_LinkAccount(t *testing.T) {
 
 func TestClient_UnLinkAccount(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "goSdkTestUpdateProfile",
 		Password: "654321",
@@ -450,7 +450,7 @@ func TestClient_UnLinkAccount(t *testing.T) {
 
 func TestClient_BindPhone(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -462,14 +462,14 @@ func TestClient_BindPhone(t *testing.T) {
 }
 func TestClient_SendSmsCode2(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	d, e := authenticationClient.SendSmsCode("18515006338")
 	log.Println(d, e)
 }
 
 func TestClient_UnBindPhone(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -482,7 +482,7 @@ func TestClient_UnBindPhone(t *testing.T) {
 
 func TestClient_BindEmail(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -495,7 +495,7 @@ func TestClient_BindEmail(t *testing.T) {
 
 func TestClient_UnBindEmail(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -508,7 +508,7 @@ func TestClient_UnBindEmail(t *testing.T) {
 
 func TestClient_Logout(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -521,7 +521,7 @@ func TestClient_Logout(t *testing.T) {
 
 func TestClient_ListUdv(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -534,7 +534,7 @@ func TestClient_ListUdv(t *testing.T) {
 
 func TestClient_SetUdv(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -549,7 +549,7 @@ func TestClient_SetUdv(t *testing.T) {
 
 func TestClient_RemoveUdv(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -562,7 +562,7 @@ func TestClient_RemoveUdv(t *testing.T) {
 
 func TestClient_ListOrg(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -575,21 +575,21 @@ func TestClient_ListOrg(t *testing.T) {
 
 func TestClient_LoginByLdap(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	resp, err := authenticationClient.LoginByLdap("18515006338", "123456")
 	log.Println(resp, err)
 }
 
 func TestClient_LoginByAd(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	resp, err := authenticationClient.LoginByAd("18515006338", "123456")
 	log.Println(resp, err)
 }
 
 func TestClient_GetSecurityLevel(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -601,7 +601,7 @@ func TestClient_GetSecurityLevel(t *testing.T) {
 
 func TestClient_ListAuthorizedResources(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -613,7 +613,7 @@ func TestClient_ListAuthorizedResources(t *testing.T) {
 
 func TestClient_BuildAuthorizeUrlByOauth(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	authenticationClient.Protocol = constant.OAUTH
 	resp, ee := authenticationClient.BuildAuthorizeUrlByOauth("email", "qq", "ww", "cc")
 	log.Println(resp, ee)
@@ -621,7 +621,7 @@ func TestClient_BuildAuthorizeUrlByOauth(t *testing.T) {
 
 func TestClient_ValidateTicketV1(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	authenticationClient.Protocol = constant.OAUTH
 	resp, ee := authenticationClient.ValidateTicketV1("email", "qq")
 	log.Println(resp, ee)
@@ -629,7 +629,7 @@ func TestClient_ValidateTicketV1(t *testing.T) {
 
 func TestClient_ListRole(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -640,7 +640,7 @@ func TestClient_ListRole(t *testing.T) {
 }
 func TestClient_HasRole(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -651,7 +651,7 @@ func TestClient_HasRole(t *testing.T) {
 }
 func TestClient_ListApplications(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -663,7 +663,7 @@ func TestClient_ListApplications(t *testing.T) {
 
 func TestClient_GetCodeChallengeDigest(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 
 	resp, err := authenticationClient.GetCodeChallengeDigest("wpaiscposrovkquicztfmftripjocybgmphyqtucmoz", constant.S256)
 
@@ -672,7 +672,7 @@ func TestClient_GetCodeChallengeDigest(t *testing.T) {
 
 func TestClient_LoginBySubAccount(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginBySubAccountRequest{
 		Account:  "123456789",
 		Password: "8558781",
@@ -684,7 +684,7 @@ func TestClient_LoginBySubAccount(t *testing.T) {
 
 func TestClient_ListDepartments(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -696,7 +696,7 @@ func TestClient_ListDepartments(t *testing.T) {
 
 func TestClient_IsUserExists(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 	req := &model.LoginByUsernameInput{
 		Username: "18515006338",
 		Password: "123456",
@@ -711,7 +711,7 @@ func TestClient_IsUserExists(t *testing.T) {
 
 func TestClient_ValidateTicketV2(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
-	authenticationClient.userPoolId = UserPool
+	authenticationClient.UserPoolId = UserPool
 
 	resp, err := authenticationClient.ValidateTicketV2("ss", "ss", constant.XML)
 	log.Println(resp, err)

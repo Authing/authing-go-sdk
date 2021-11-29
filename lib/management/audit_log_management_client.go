@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
-	"log"
 	"net/http"
 )
 
@@ -31,7 +30,6 @@ func (c *Client) ListAuditLogs(req *model.ListAuditLogsRequest) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -69,7 +67,6 @@ func (c *Client) ListUserAction(req *model.ListUserActionRequest) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
