@@ -6,7 +6,6 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
-	"log"
 	"net/http"
 )
 
@@ -50,7 +49,6 @@ func (c *Client) CreateApplication(name, identifier, redirectUris string, logo *
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string            `json:"message"`
 		Code    int64             `json:"code"`
@@ -71,7 +69,6 @@ func (c *Client) DeleteApplication(appId string) (*string, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -91,7 +88,6 @@ func (c *Client) RefreshApplicationSecret(appId string) (*model.Application, err
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string            `json:"message"`
 		Code    int64             `json:"code"`
@@ -115,7 +111,6 @@ func (c *Client) ListApplicationActiveUsers(appId string, page, limit int) (*str
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -139,7 +134,6 @@ func (c *Client) FindApplicationById(appId string) (*model.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string            `json:"message"`
 		Code    int64             `json:"code"`
@@ -173,7 +167,6 @@ func (c *Client) CreateApplicationAgreement(appId, title string, lang *string, r
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                     `json:"message"`
 		Code    int64                      `json:"code"`
@@ -198,7 +191,6 @@ func (c *Client) ListApplicationAgreement(appId string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -235,7 +227,6 @@ func (c *Client) ModifyApplicationAgreement(appId, agreementId, title string, la
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                     `json:"message"`
 		Code    int64                      `json:"code"`
@@ -257,7 +248,6 @@ func (c *Client) DeleteApplicationAgreement(appId, agreementId string) (*string,
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -278,7 +268,6 @@ func (c *Client) SortApplicationAgreement(appId string, ids []string) (*string, 
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`

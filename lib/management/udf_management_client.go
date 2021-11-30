@@ -5,7 +5,6 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
-	"log"
 	"net/http"
 )
 
@@ -18,7 +17,6 @@ func (c *Client) ListUdf(targetType model.EnumUDFTargetType) (*[]model.UserDefin
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Udf []model.UserDefinedField `json:"udf"`
@@ -44,7 +42,6 @@ func (c *Client) SetUdf(req *model.SetUdfInput) (*model.UserDefinedField, error)
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SetUdf model.UserDefinedField `json:"setUdf"`
@@ -69,7 +66,6 @@ func (c *Client) RemoveUdf(targetType model.EnumUDFTargetType, key string) (*mod
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RemoveUdf model.CommonMessageAndCode `json:"removeUdf"`
@@ -94,7 +90,6 @@ func (c *Client) ListUdfValue(targetType model.EnumUDFTargetType, targetId strin
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Udv []model.UserDefinedData `json:"udv"`
@@ -122,7 +117,6 @@ func (c *Client) SetUdvBatch(id string, targetType model.EnumUDFTargetType, udv 
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SetUdvBatch []model.UserDefinedData `json:"setUdvBatch"`

@@ -14,7 +14,6 @@ import (
 	simplejson "github.com/bitly/go-simplejson"
 	jsoniter "github.com/json-iterator/go"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"regexp"
 	"strings"
@@ -571,7 +570,6 @@ func (c *Client) GetCurrentUser(token *string) (*model.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string     `json:"message"`
 		Code    int64      `json:"code"`
@@ -623,7 +621,6 @@ func (c *Client) RegisterByEmail(request *model.RegisterByEmailInput) (*model.Us
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RegisterByEmail model.User `json:"registerByEmail"`
@@ -652,7 +649,6 @@ func (c *Client) RegisterByUsername(request *model.RegisterByUsernameInput) (*mo
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RegisterByUsername model.User `json:"registerByUsername"`
@@ -681,7 +677,6 @@ func (c *Client) RegisterByPhoneCode(request *model.RegisterByPhoneCodeInput) (*
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RegisterByPhoneCode model.User `json:"registerByPhoneCode"`
@@ -709,7 +704,6 @@ func (c *Client) CheckPasswordStrength(password string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			CheckPasswordStrength struct {
@@ -742,7 +736,6 @@ func (c *Client) SendSmsCode(phone string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -767,7 +760,6 @@ func (c *Client) LoginByPhoneCode(req *model.LoginByPhoneCodeInput) (*model.User
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			LoginByPhoneCode model.User `json:"loginByPhoneCode"`
@@ -792,7 +784,6 @@ func (c *Client) CheckLoginStatus(token string) (*model.CheckLoginStatusResponse
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			CheckLoginStatus model.CheckLoginStatusResponse `json:"checkLoginStatus"`
@@ -816,7 +807,6 @@ func (c *Client) SendEmail(email string, scene model.EnumEmailScene) (*model.Com
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SendMail model.CommonMessageAndCode `json:"sendEmail"`
@@ -840,7 +830,6 @@ func (c *Client) ResetPasswordByPhoneCode(phone, code, newPassword string) (*mod
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			ResetPassword model.CommonMessageAndCode `json:"resetPassword"`
@@ -864,7 +853,6 @@ func (c *Client) ResetPasswordByEmailCode(email, code, newPassword string) (*mod
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			ResetPassword model.CommonMessageAndCode `json:"resetPassword"`
@@ -895,7 +883,6 @@ func (c *Client) UpdateProfile(req *model.UpdateUserInput) (*model.User, error) 
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UpdateUser model.User `json:"updateUser"`
@@ -925,7 +912,6 @@ func (c *Client) UpdatePassword(oldPassword *string, newPassword string) (*model
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UpdatePassword model.User `json:"updatePassword"`
@@ -955,7 +941,6 @@ func (c *Client) UpdatePhone(phone, code string, oldPhone, oldPhoneCode *string)
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UpdatePhone model.User `json:"updatePhone"`
@@ -985,7 +970,6 @@ func (c *Client) UpdateEmail(email, code string, oldEmail, oldEmailCode *string)
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UpdateEmail model.User `json:"updateEmail"`
@@ -1010,7 +994,6 @@ func (c *Client) RefreshToken(token *string) (*model.RefreshToken, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RefreshToken model.RefreshToken `json:"refreshToken"`
@@ -1089,7 +1072,6 @@ func (c *Client) LinkAccount(primaryUserToken, secondaryUserToken string) (*mode
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := model.CommonMessageAndCode{}
 	jsoniter.Unmarshal(b, &resp)
 	if resp.Code != 200 {
@@ -1110,7 +1092,6 @@ func (c *Client) UnLinkAccount(primaryUserToken string, provider constant.Social
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := model.CommonMessageAndCode{}
 	jsoniter.Unmarshal(b, &resp)
 	if resp.Code != 200 {
@@ -1128,7 +1109,6 @@ func (c *Client) BindPhone(phone, phoneCode string) (*model.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			BindPhone model.User `json:"bindPhone"`
@@ -1152,7 +1132,6 @@ func (c *Client) UnBindPhone() (*model.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UnbindPhone model.User `json:"unbindPhone"`
@@ -1180,7 +1159,6 @@ func (c *Client) BindEmail(email, emailCode string) (*model.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			BindEmail model.User `json:"bindEmail"`
@@ -1204,7 +1182,6 @@ func (c *Client) UnBindEmail() (*model.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UnbindEmail model.User `json:"unbindEmail"`
@@ -1290,7 +1267,6 @@ func (c *Client) ListUdv() (*[]model.UserDefinedData, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Udv []model.UserDefinedData `json:"udv"`
@@ -1322,7 +1298,6 @@ func (c *Client) SetUdv(udvList []model.KeyValuePair) (*[]model.UserDefinedData,
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SetUdvBatch []model.UserDefinedData `json:"setUdvBatch"`
@@ -1353,7 +1328,6 @@ func (c *Client) RemoveUdv(key string) (*[]model.UserDefinedData, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RemoveUdv []model.UserDefinedData `json:"removeUdv"`
@@ -1386,7 +1360,6 @@ func (c *Client) ListOrg() (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Code    int64            `json:"code"`
 		Message string           `json:"message"`
@@ -1415,7 +1388,6 @@ func (c *Client) LoginByLdap(username, password string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Code    int64      `json:"code"`
 		Message string     `json:"message"`
@@ -1454,7 +1426,6 @@ func (c *Client) LoginByAd(username, password string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Code    int64      `json:"code"`
 		Message string     `json:"message"`
@@ -1488,7 +1459,6 @@ func (c *Client) GetSecurityLevel() (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Code    int64                          `json:"code"`
 		Message string                         `json:"message"`
@@ -1517,7 +1487,6 @@ func (c *Client) ListAuthorizedResources(namespace string, resourceType model.En
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			User struct {
@@ -1585,7 +1554,6 @@ func (c *Client) ValidateTicketV1(ticket, service string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	sps := strings.Split(string(b), "\n")
 	var username, message string
 
@@ -1656,7 +1624,6 @@ func (c *Client) ListRole(namespace string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			User model.GetUserRolesResponse `json:"user"`
@@ -1709,7 +1676,6 @@ func (c *Client) ListApplications(page, limit int) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Code    int64  `json:"code"`
 		Message string `json:"message"`
@@ -1763,7 +1729,6 @@ func (c *Client) LoginBySubAccount(req *model.LoginBySubAccountRequest) (*model.
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			LoginBySubAccount model.User `json:"loginBySubAccount"`
@@ -1791,7 +1756,6 @@ func (c *Client) ResetPasswordByFirstLoginToken(token, password string) (*model.
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			ResetPasswordByFirstLoginToken model.CommonMessageAndCode `json:"resetPasswordByFirstLoginToken"`
@@ -1820,7 +1784,6 @@ func (c *Client) ResetPasswordByForceResetToken(token, password, newPassword str
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			ResetPasswordByForceResetToken model.CommonMessageAndCode `json:"resetPasswordByForceResetToken"`
@@ -1847,7 +1810,6 @@ func (c *Client) ListDepartments() (*model.PaginatedDepartments, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 
 	var response = &struct {
 		Data   model.UserDepartmentsData `json:"data"`
@@ -1874,7 +1836,6 @@ func (c *Client) IsUserExists(req *model.IsUserExistsRequest) (*bool, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 
 	var response = &struct {
 		Data struct {
@@ -1907,7 +1868,6 @@ func (c *Client) ValidateTicketV2(ticket, service string, format constant.Ticket
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Code    int64       `json:"code"`
 		Message string      `json:"message"`
@@ -1942,7 +1902,6 @@ func (c *Client) TrackSession(code string, country, lang, state *string) (*struc
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Code    int64       `json:"code"`
 		Message string      `json:"message"`

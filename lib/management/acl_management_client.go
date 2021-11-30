@@ -9,7 +9,6 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/util"
 	"github.com/bitly/go-simplejson"
 	jsoniter "github.com/json-iterator/go"
-	"log"
 	"net/http"
 )
 
@@ -23,7 +22,6 @@ func (c *Client) IsAllowed(request model.IsAllowedRequest) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	log.Println(string(b))
 	resultJson, err := simplejson.NewJson(b)
 	result, err := resultJson.Get("data").Get("isActionAllowed").Bool()
 	if err != nil {
@@ -42,7 +40,6 @@ func (c *Client) Allow(request model.AllowRequest) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	log.Println(string(b))
 	resultJson, err := simplejson.NewJson(b)
 	result, err := resultJson.Get("data").Get("isActionAllowed").Bool()
 	if err != nil {
@@ -62,7 +59,6 @@ func (c *Client) AuthorizeResource(request model.AuthorizeResourceRequest) (bool
 	if err != nil {
 		return false, err
 	}
-	log.Println(string(b))
 	resultJson, err := simplejson.NewJson(b)
 	result, err := resultJson.Get("data").Get("authorizeResource").Get("code").Int64()
 	if err != nil {
@@ -78,7 +74,6 @@ func (c *Client) RevokeResource(request model.RevokeResourceRequest) (bool, erro
 	variables := make(map[string]interface{})
 	json.Unmarshal(data, &variables)
 	b, err := c.SendHttpRequest(c.Host+"/api/v2/acl/revoke-resource", constant.HttpMethodPost, constant.StringEmpty, variables)
-	log.Println(string(b))
 	resultJson, err := simplejson.NewJson(b)
 	result, err := resultJson.Get("code").Int64()
 	if err != nil {
@@ -102,7 +97,6 @@ func (c *Client) ListAuthorizedResourcesForCustom(request model.ListAuthorizedRe
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			AuthorizedResources struct {
@@ -133,7 +127,6 @@ func (c *Client) ProgrammaticAccessAccountList(appId string, page, limit int) (*
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -167,7 +160,6 @@ func (c *Client) CreateProgrammaticAccessAccount(appId string, remark *string, t
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                          `json:"message"`
 		Code    int64                           `json:"code"`
@@ -192,7 +184,6 @@ func (c *Client) DisableProgrammaticAccessAccount(programmaticAccessAccountId st
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                          `json:"message"`
 		Code    int64                           `json:"code"`
@@ -217,7 +208,6 @@ func (c *Client) EnableProgrammaticAccessAccount(programmaticAccessAccountId str
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                          `json:"message"`
 		Code    int64                           `json:"code"`
@@ -247,7 +237,6 @@ func (c *Client) RefreshProgrammaticAccessAccountSecret(programmaticAccessAccoun
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                          `json:"message"`
 		Code    int64                           `json:"code"`
@@ -269,7 +258,6 @@ func (c *Client) DeleteProgrammaticAccessAccount(programmaticAccessAccountId str
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -293,7 +281,6 @@ func (c *Client) ListNamespaceResources(req model.ListResourceRequest) (*model.L
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                              `json:"message"`
 		Code    int64                               `json:"code"`
@@ -314,7 +301,6 @@ func (c *Client) GetResourceById(id string) (*model.ResourceResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                 `json:"message"`
 		Code    int64                  `json:"code"`
@@ -338,7 +324,6 @@ func (c *Client) GetResourceByCode(code, namespace string) (*model.ResourceRespo
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                 `json:"message"`
 		Code    int64                  `json:"code"`
@@ -363,7 +348,6 @@ func (c *Client) CreateResource(req *model.CreateResourceRequest) (*model.Resour
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                 `json:"message"`
 		Code    int64                  `json:"code"`
@@ -387,7 +371,6 @@ func (c *Client) UpdateResource(code string, req *model.UpdateResourceRequest) (
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                 `json:"message"`
 		Code    int64                  `json:"code"`
@@ -409,7 +392,6 @@ func (c *Client) DeleteResource(code, namespace string) (*string, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -433,7 +415,6 @@ func (c *Client) GetApplicationAccessPolicies(appId string, page, limit int) (*m
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                                     `json:"message"`
 		Code    int64                                      `json:"code"`
@@ -457,7 +438,6 @@ func (c *Client) EnableApplicationAccessPolicies(appId string, req *model.Applic
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -480,7 +460,6 @@ func (c *Client) DisableApplicationAccessPolicies(appId string, req *model.Appli
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -503,7 +482,6 @@ func (c *Client) DeleteApplicationAccessPolicies(appId string, req *model.Applic
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -526,7 +504,6 @@ func (c *Client) AllowApplicationAccessPolicies(appId string, req *model.Applica
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -549,7 +526,6 @@ func (c *Client) DenyApplicationAccessPolicies(appId string, req *model.Applicat
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -574,7 +550,6 @@ func (c *Client) UpdateDefaultApplicationAccessPolicy(appId string, strategy con
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string            `json:"message"`
 		Code    int64             `json:"code"`
@@ -604,7 +579,6 @@ func (c *Client) GetAuthorizedTargets(req *model.GetAuthorizedTargetsRequest) (*
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			AuthorizedTargets struct {
@@ -631,7 +605,6 @@ func (c *Client) GetAuthorizedTargets(req *model.GetAuthorizedTargetsRequest) (*
 	variables := make(map[string]interface{})
 	json.Unmarshal(data, &variables)
 	b, err := c.SendHttpRequest(c.Host+"/api/v2/acl/check-resource-permission-batch", constant.HttpMethodPost, constant.StringEmpty, variables)
-	log.Println(string(b))
 	resultJson, err := simplejson.NewJson(b)
 	result, err := resultJson.Get("code").Int64()
 	if err != nil {
@@ -645,7 +618,6 @@ func (c *Client) GetAuthorizedResourcesOfResourceKind(request model.GetAuthorize
 	variables := make(map[string]interface{})
 	json.Unmarshal(data, &variables)
 	b, err := c.SendHttpRequest(c.Host+"/api/v2/acl/get-authorized-resources-of-resource-kind", constant.HttpMethodPost, constant.StringEmpty, variables)
-	log.Println(string(b))
 	resultJson, err := simplejson.NewJson(b)
 	result, err := resultJson.Get("code").Int64()
 	if err != nil {

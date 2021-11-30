@@ -5,7 +5,6 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
-	"log"
 	"net/http"
 )
 
@@ -20,7 +19,6 @@ func (c *Client) CreateGroups(req *model.CreateGroupsRequest) (*model.GroupModel
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			CreateGroup model.GroupModel `json:"createGroup"`
@@ -46,7 +44,6 @@ func (c *Client) UpdateGroups(req *model.UpdateGroupsRequest) (*model.GroupModel
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UpdateGroup model.GroupModel `json:"updateGroup"`
@@ -71,7 +68,6 @@ func (c *Client) DetailGroups(code string) (*model.GroupModel, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Group model.GroupModel `json:"group"`
@@ -106,7 +102,6 @@ func (c *Client) ListGroups(page, limit int) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Groups struct {
@@ -133,7 +128,6 @@ func (c *Client) BatchDeleteGroups(codes []string) (*model.CommonMessageAndCode,
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			DeleteGroups model.CommonMessageAndCode `json:"deleteGroups"`
@@ -167,7 +161,6 @@ func (c *Client) ListGroupsUser(code string, page, limit int, withCustomData boo
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Group model.GetGroupUserResponse `json:"group"`
@@ -193,7 +186,6 @@ func (c *Client) AddUserToGroups(code string, userIds []string) (*model.CommonMe
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			AddUserToGroup model.CommonMessageAndCode `json:"addUserToGroup"`
@@ -220,7 +212,6 @@ func (c *Client) RemoveGroupUsers(code string, userIds []string) (*model.CommonM
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RemoveUserFromGroup model.CommonMessageAndCode `json:"removeUserFromGroup"`
@@ -248,7 +239,6 @@ func (c *Client) ListGroupsAuthorizedResources(req *model.ListGroupsAuthorizedRe
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Group struct {

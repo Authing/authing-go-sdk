@@ -5,7 +5,6 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
-	"log"
 	"net/http"
 )
 
@@ -66,7 +65,6 @@ func (c *Client) DetailPolicy(code string) (*model.Policy, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Policy model.Policy `json:"policy"`
@@ -92,7 +90,6 @@ func (c *Client) UpdatePolicy(req *model.PolicyRequest) (*model.UpdatePolicyResp
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UpdatePolicy model.UpdatePolicyResponse `json:"updatePolicy"`
@@ -116,7 +113,6 @@ func (c *Client) DeletePolicy(code string) (*model.CommonMessageAndCode, error) 
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			DeletePolicy model.CommonMessageAndCode `json:"deletePolicy"`
@@ -140,7 +136,6 @@ func (c *Client) BatchDeletePolicy(codeList []string) (*model.CommonMessageAndCo
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			DeletePolicies model.CommonMessageAndCode `json:"deletePolicies"`
@@ -164,7 +159,6 @@ func (c *Client) ListAssignments(code string, page, limit int) (*model.Paginated
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			PolicyAssignments model.PaginatedPolicyAssignments `json:"policyAssignments"`
@@ -190,7 +184,6 @@ func (c *Client) AddAssignments(req *model.PolicyAssignmentsRequest) (*model.Com
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			AddPolicyAssignments model.CommonMessageAndCode `json:"addPolicyAssignments"`
@@ -216,7 +209,6 @@ func (c *Client) RemoveAssignments(req *model.PolicyAssignmentsRequest) (*model.
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RemovePolicyAssignments model.CommonMessageAndCode `json:"removePolicyAssignments"`
@@ -242,7 +234,6 @@ func (c *Client) EnableAssignments(req *model.SwitchPolicyAssignmentsRequest) (*
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			EnablePolicyAssignment model.CommonMessageAndCode `json:"enablePolicyAssignment"`
@@ -268,7 +259,6 @@ func (c *Client) DisableAssignments(req *model.SwitchPolicyAssignmentsRequest) (
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			DisablePolicyAssignment model.CommonMessageAndCode `json:"disbalePolicyAssignment"`

@@ -5,7 +5,6 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
-	"log"
 	"net/http"
 )
 
@@ -19,7 +18,6 @@ func (c *Client) GetWhileList(whileListType model.EnumWhitelistType) (*[]model.W
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			WhileList []model.WhiteList `json:"whitelist"`
@@ -43,7 +41,6 @@ func (c *Client) AddWhileList(whileListType model.EnumWhitelistType, ids []strin
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			WhileList []model.WhiteList `json:"addWhitelist"`
@@ -67,7 +64,6 @@ func (c *Client) RemoveWhileList(whileListType model.EnumWhitelistType, ids []st
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			WhileList []model.WhiteList `json:"removeWhitelist"`

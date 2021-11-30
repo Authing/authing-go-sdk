@@ -6,7 +6,6 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
-	"log"
 	"net/http"
 )
 
@@ -19,7 +18,6 @@ func (c *Client) UserPoolDetail() (*model.UserPool, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string         `json:"message"`
 		Code    int64          `json:"code"`
@@ -41,7 +39,6 @@ func (c *Client) UpdateUserPool(request model.UpdateUserpoolInput) (*model.UserP
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UpdateUserPool model.UserPool `json:"updateUserpool"`
@@ -67,7 +64,6 @@ func (c *Client) ListUserPoolEnv() (*[]model.UserPoolEnv, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string              `json:"message"`
 		Code    int64               `json:"code"`
@@ -89,7 +85,6 @@ func (c *Client) RemoveUserPoolEnv(key string) (*model.CommonMessageAndCode, err
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var resp model.CommonMessageAndCode
 	jsoniter.Unmarshal(b, &resp)
 	if resp.Code != 200 {
@@ -109,7 +104,6 @@ func (c *Client) AddUserPoolEnv(key, value string) (*model.UserPoolEnv, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string            `json:"message"`
 		Code    int64             `json:"code"`

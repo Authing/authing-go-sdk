@@ -6,7 +6,6 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
-	"log"
 	"net/http"
 )
 
@@ -34,7 +33,6 @@ func (c *Client) GetMfaAuthenticators(req *model.MfaInput) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                               `json:"message"`
 		Code    int64                                `json:"code"`
@@ -71,7 +69,6 @@ func (c *Client) AssociateMfaAuthenticator(req *model.MfaInput) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string                                  `json:"message"`
 		Code    int64                                   `json:"code"`
@@ -93,7 +90,6 @@ func (c *Client) DeleteMfaAuthenticator() (*model.CommonMessageAndCode, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var resp model.CommonMessageAndCode
 	jsoniter.Unmarshal(b, &resp)
 	if resp.Code != 200 {
@@ -127,7 +123,6 @@ func (c *Client) ConfirmAssociateMfaAuthenticator(req *model.ConfirmAssociateMfa
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string      `json:"message"`
 		Code    int64       `json:"code"`
@@ -156,7 +151,6 @@ func (c *Client) VerifyTotpMfa(totp, token string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string      `json:"message"`
 		Code    int64       `json:"code"`
@@ -187,7 +181,6 @@ func (c *Client) VerifyAppSmsMfa(phone, code, token string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string      `json:"message"`
 		Code    int64       `json:"code"`
@@ -218,7 +211,6 @@ func (c *Client) VerifyAppEmailMfa(email, code, token string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string      `json:"message"`
 		Code    int64       `json:"code"`
@@ -252,7 +244,6 @@ func (c *Client) PhoneOrEmailBindable(email, phone *string, token string) (*stru
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string      `json:"message"`
 		Code    int64       `json:"code"`
@@ -281,7 +272,6 @@ func (c *Client) VerifyTotpRecoveryCode(code, token string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string      `json:"message"`
 		Code    int64       `json:"code"`
@@ -312,7 +302,6 @@ func (c *Client) AssociateFaceByUrl(baseFaceUrl, CompareFaceUrl, token string) (
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string      `json:"message"`
 		Code    int64       `json:"code"`
@@ -341,7 +330,6 @@ func (c *Client) VerifyFaceMfa(faceUrl, token string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string      `json:"message"`
 		Code    int64       `json:"code"`

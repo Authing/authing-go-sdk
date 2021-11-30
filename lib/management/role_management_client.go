@@ -6,7 +6,6 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
-	"log"
 	"net/http"
 )
 
@@ -20,7 +19,6 @@ func (c *Client) GetRoleList(request model.GetRoleListRequest) (*model.Paginated
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response model.GetRoleListResponse
 	jsoniter.Unmarshal(b, &response)
 	return &response.Data.Roles, nil
@@ -39,7 +37,6 @@ func (c *Client) GetRoleUserList(request model.GetRoleUserListRequest) (*struct 
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Role struct {
@@ -65,7 +62,6 @@ func (c *Client) CreateRole(request model.CreateRoleRequest) (*model.Role, error
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	//var response model.CreateRoleResponse
 	var response = &struct {
 		Data struct {
@@ -92,7 +88,6 @@ func (c *Client) DeleteRole(request model.DeleteRoleRequest) (*model.CommonMessa
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data   struct{ DeleteRole model.CommonMessageAndCode } `json:"data"`
 		Errors []model.GqlCommonErrors                         `json:"errors"`
@@ -116,7 +111,6 @@ func (c *Client) BatchDeleteRole(request model.BatchDeleteRoleRequest) (*model.C
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data   struct{ DeleteRoles model.CommonMessageAndCode } `json:"data"`
 		Errors []model.GqlCommonErrors                          `json:"errors"`
@@ -140,7 +134,6 @@ func (c *Client) RoleDetail(request model.RoleDetailRequest) (*model.Role, error
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Role model.Role `json:"role"`
@@ -166,7 +159,6 @@ func (c *Client) UpdateRole(request model.UpdateRoleRequest) (*model.Role, error
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data   struct{ UpdateRole model.Role } `json:"data"`
 		Errors []model.GqlCommonErrors         `json:"errors"`
@@ -190,7 +182,6 @@ func (c *Client) AssignRole(request model.AssignAndRevokeRoleRequest) (*model.Co
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data   struct{ AssignRole model.CommonMessageAndCode } `json:"data"`
 		Errors []model.GqlCommonErrors                         `json:"errors"`
@@ -214,7 +205,6 @@ func (c *Client) RevokeRole(request model.AssignAndRevokeRoleRequest) (*model.Co
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data   struct{ RevokeRole model.CommonMessageAndCode } `json:"data"`
 		Errors []model.GqlCommonErrors                         `json:"errors"`
@@ -248,7 +238,6 @@ func (c *Client) ListRolePolicies(request model.ListPoliciesRequest) (*model.Lis
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			PolicyAssignments model.ListPoliciesResponse `json:"policyAssignments"`
@@ -278,7 +267,6 @@ func (c *Client) AddRolePolicies(code string, policiesCode []string) (*model.Com
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			AddPolicyAssignments model.CommonMessageAndCode `json:"addPolicyAssignments"`
@@ -308,7 +296,6 @@ func (c *Client) RemoveRolePolicies(code string, policiesCode []string) (*model.
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			AddPolicyAssignments model.CommonMessageAndCode `json:"removePolicyAssignments"`
@@ -338,7 +325,6 @@ func (c *Client) ListRoleAuthorizedResources(code, namespace string, resourceTyp
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Role struct {
@@ -369,7 +355,6 @@ func (c *Client) GetRoleUdfValue(id string) (*[]model.UserDefinedData, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Udv []model.UserDefinedData `json:"udv"`
@@ -404,7 +389,6 @@ func (c *Client) BatchGetRoleUdfValue(ids []string) (map[string][]model.UserDefi
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UdfValueBatch []model.BatchRoleUdv `json:"udfValueBatch"`
@@ -437,7 +421,6 @@ func (c *Client) SetRoleUdfValue(id string, udv *model.KeyValuePair) (*[]model.U
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SetUdvBatch []model.UserDefinedData `json:"setUdvBatch"`
@@ -463,7 +446,6 @@ func (c *Client) BatchSetRoleUdfValue(request *[]model.SetUdfValueBatchInput) (*
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SetUdfValueBatch model.CommonMessageAndCode `json:"setUdfValueBatch"`
@@ -491,7 +473,6 @@ func (c *Client) RemoveRoleUdfValue(id, key string) (*[]model.UserDefinedData, e
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RemoveUdv []model.UserDefinedData `json:"removeUdv"`

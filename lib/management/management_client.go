@@ -301,7 +301,6 @@ func QueryAccessToken(client *Client) (*model.AccessTokenRes, error) {
 	if b != nil {
 		json.Unmarshal(b, &r)
 	}
-	log.Println(string(b))
 	return &r.Data.AccessToken, nil
 }
 
@@ -344,7 +343,6 @@ func (c *Client) SendEmail(email string, scene model.EnumEmailScene) (*model.Com
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SendMail model.CommonMessageAndCode `json:"sendEmail"`
@@ -368,7 +366,6 @@ func (c *Client) CheckLoginStatusByToken(token string) (*model.CheckLoginStatusR
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			CheckLoginStatus model.CheckLoginStatusResponse `json:"checkLoginStatus"`
@@ -395,7 +392,6 @@ func (c *Client) IsPasswordValid(password string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`

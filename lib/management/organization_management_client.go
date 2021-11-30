@@ -21,7 +21,6 @@ func (c *Client) ExportAll() ([]model.OrgNode, error) {
 		return q, err
 	}
 	var response model.ExportAllOrganizationResponse
-	log.Println(string(b))
 	err = jsoniter.Unmarshal(b, &response)
 	if err != nil {
 		log.Println(err)
@@ -52,7 +51,6 @@ func (c *Client) ListMembers(req *model.ListMemberRequest) (*model.Node, error) 
 	if err != nil {
 		return nil, err
 	}
-	log.Println("___" + string(b))
 	var response model.NodeByIdResponse
 	jsoniter.Unmarshal(b, &response)
 	return &response.Data.NodeById, nil
@@ -83,7 +81,6 @@ func (c *Client) GetOrganizationById(orgId string) (*model.Org, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response model.GetOrganizationByIdResponse
 	jsoniter.Unmarshal(b, &response)
 	return &response.Data.Org, nil
@@ -101,7 +98,6 @@ func (c *Client) GetOrganizationChildren(nodeId string, depth int) (*[]model.Nod
 	if err != nil {
 		return result, err
 	}
-	log.Println(string(b))
 	var response model.GetOrganizationChildrenResponse
 	jsoniter.Unmarshal(b, &response)
 	return &response.Data, nil
@@ -118,7 +114,6 @@ func (c *Client) CreateOrg(req *model.CreateOrgRequest) (*model.OrgResponse, err
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			CreateOrg model.OrgResponse `json:"createOrg"`
@@ -143,7 +138,6 @@ func (c *Client) DeleteOrgById(id string) (*model.CommonMessageAndCode, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			DeleteOrg model.CommonMessageAndCode `json:"deleteOrg"`
@@ -169,7 +163,6 @@ func (c *Client) ListOrg(page, limit int) (*model.PaginatedOrgs, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Orgs model.PaginatedOrgs `json:"orgs"`
@@ -195,7 +188,6 @@ func (c *Client) AddOrgNode(req *model.AddOrgNodeRequest) (*model.AddNodeOrg, er
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			AddNode model.AddNodeOrg `json:"addNode"`
@@ -220,7 +212,6 @@ func (c *Client) GetOrgNodeById(id string) (*model.OrgNodeChildStr, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			NodeById model.OrgNodeChildStr `json:"nodeById"`
@@ -246,7 +237,6 @@ func (c *Client) UpdateOrgNode(req *model.UpdateOrgNodeRequest) (*model.Node, er
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UpdateNode model.Node `json:"updateNode"`
@@ -272,7 +262,6 @@ func (c *Client) DeleteOrgNode(orgId, nodeId string) (*model.CommonMessageAndCod
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			DeleteNode model.CommonMessageAndCode `json:"deleteNode"`
@@ -298,7 +287,6 @@ func (c *Client) IsRootNode(orgId, nodeId string) (*bool, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			IsRootNode bool `json:"isRootNode"`
@@ -325,7 +313,6 @@ func (c *Client) MoveOrgNode(orgId, nodeId, targetParentId string) (*model.AddNo
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			MoveNode model.AddNodeOrg `json:"moveNode"`
@@ -350,7 +337,6 @@ func (c *Client) GetRootNode(orgId string) (*model.OrgNodeChildStr, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RootNode model.OrgNodeChildStr `json:"rootNode"`
@@ -377,7 +363,6 @@ func (c *Client) ImportNodeByJSON(jsonStr string) (*string, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string `json:"message"`
 		Code    int64  `json:"code"`
@@ -400,7 +385,6 @@ func (c *Client) AddMembers(nodeId string, userIds []string) (*model.Node, error
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			AddMember model.Node `json:"addMember"`
@@ -427,7 +411,6 @@ func (c *Client) MoveNodeMembers(nodeId, targetNodeId string, userIds []string) 
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			MoveMembers model.CommonMessageAndCode `json:"moveMembers"`
@@ -453,7 +436,6 @@ func (c *Client) DeleteNodeMembers(nodeId string, userIds []string) (*model.Node
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RemoveMembers model.Node `json:"removeMember"`
@@ -479,7 +461,6 @@ func (c *Client) SetMainDepartment(departmentId, userId string) (*model.CommonMe
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SetMainDepartment model.CommonMessageAndCode `json:"setMainDepartment"`
@@ -503,7 +484,6 @@ func (c *Client) ExportByOrgId(orgId string) (*model.OrgNode, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	resp := &struct {
 		Message string        `json:"message"`
 		Code    int64         `json:"code"`
@@ -529,7 +509,6 @@ func (c *Client) ListAuthorizedResourcesByNodeId(req *model.ListAuthorizedResour
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			NodeByCode struct {
@@ -562,7 +541,6 @@ func (c *Client) ListAuthorizedResourcesByNodeCode(req *model.ListAuthorizedReso
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			NodeById struct {
@@ -591,7 +569,6 @@ func (c *Client) SearchNodes(keywords string) (*[]model.OrgNodeChildStr, error) 
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SearchNodes []model.OrgNodeChildStr `json:"searchNodes"`
@@ -621,7 +598,6 @@ func (c *Client) SearchNodes(keywords string) (*[]model.OrgNodeChildStr, error) 
 //	if err != nil {
 //		return nil, err
 //	}
-//	log.Println(string(b))
 //	resp :=&struct {
 //		Message string `json:"message"`
 //		Code    int64  `json:"code"`

@@ -9,7 +9,6 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/util"
 	"github.com/bitly/go-simplejson"
 	jsoniter "github.com/json-iterator/go"
-	"log"
 	"net/http"
 )
 
@@ -226,7 +225,6 @@ func (c *Client) ListArchivedUsers(request model.CommonPageRequest) (*model.Comm
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			ArchivedUsers model.CommonPageUsersResponse `json:"archivedUsers"`
@@ -256,7 +254,6 @@ func (c *Client) FindUser(request *model.FindUserRequest) (*model.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			FindUser model.User `json:"findUser"`
@@ -292,7 +289,6 @@ func (c *Client) SearchUser(request *model.SearchUserRequest) (*model.CommonPage
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SearchUser model.CommonPageUsersResponse `json:"searchUser"`
@@ -316,7 +312,6 @@ func (c *Client) RefreshUserToken(userId string) (*model.RefreshToken, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RefreshToken model.RefreshToken `json:"refreshToken"`
@@ -343,7 +338,6 @@ func (c *Client) GetUserGroups(userId string) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			User model.GetUserGroupsResponse `json:"user"`
@@ -368,7 +362,6 @@ func (c *Client) AddUserToGroup(userId, groupCode string) (*model.CommonMessageA
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			AddUserToGroup model.CommonMessageAndCode `json:"addUserToGroup"`
@@ -393,7 +386,6 @@ func (c *Client) RemoveUserInGroup(userId, groupCode string) (*model.CommonMessa
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RemoveUserFromGroup model.CommonMessageAndCode `json:"removeUserFromGroup"`
@@ -422,7 +414,6 @@ func (c *Client) GetUserRoles(request model.GetUserRolesRequest) (*struct {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			User model.GetUserRolesResponse `json:"user"`
@@ -446,7 +437,6 @@ func (c *Client) AddUserToRoles(request model.UserRoleOptRequest) (*model.Common
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			AssignRole model.CommonMessageAndCode `json:"assignRole"`
@@ -470,7 +460,6 @@ func (c *Client) RemoveUserInRoles(request model.UserRoleOptRequest) (*model.Com
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RevokeRole model.CommonMessageAndCode `json:"revokeRole"`
@@ -493,7 +482,6 @@ func (c *Client) ListUserOrg(userId string) (*[][]model.OrgModel, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 
 	var response [][]model.OrgModel
 	var resultMap map[string]interface{}
@@ -519,7 +507,6 @@ func (c *Client) GetUserUdfValue(userId string) (*[]model.UserDefinedData, error
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			Udv []model.UserDefinedData `json:"udv"`
@@ -547,7 +534,6 @@ func (c *Client) ListUserAuthorizedResources(request model.ListUserAuthResourceR
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			User struct {
@@ -578,7 +564,6 @@ func (c *Client) BatchGetUserUdfValue(ids []string) (map[string][]model.UserDefi
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			UdfValueBatch []model.BatchRoleUdv `json:"udfValueBatch"`
@@ -612,7 +597,6 @@ func (c *Client) SetUserUdfValue(id string, udv *model.KeyValuePair) (*[]model.U
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SetUdvBatch []model.UserDefinedData `json:"setUdv"`
@@ -638,7 +622,6 @@ func (c *Client) BatchSetUserUdfValue(request *[]model.SetUdfValueBatchInput) (*
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SetUdfValueBatch model.CommonMessageAndCode `json:"setUdfValueBatch"`
@@ -666,7 +649,6 @@ func (c *Client) RemoveUserUdfValue(id, key string) (*[]model.UserDefinedData, e
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			RemoveUdv []model.UserDefinedData `json:"removeUdv"`
@@ -701,7 +683,6 @@ func (c *Client) ListUserPolicies(request model.ListPoliciesOnIdRequest) (*model
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			PolicyAssignments model.ListPoliciesResponse `json:"policyAssignments"`
@@ -731,7 +712,6 @@ func (c *Client) AddUserPolicies(userId string, policiesCode []string) (*model.C
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			AddPolicyAssignments model.CommonMessageAndCode `json:"addPolicyAssignments"`
@@ -761,7 +741,6 @@ func (c *Client) RemoveUserPolicies(userId string, policiesCode []string) (*mode
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			AddPolicyAssignments model.CommonMessageAndCode `json:"removePolicyAssignments"`
@@ -812,7 +791,6 @@ func (c *Client) KickUser(userIds []string) (*model.CommonMessageAndCode, error)
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response model.CommonMessageAndCode
 	jsoniter.Unmarshal(b, &response)
 	return &response, nil
@@ -826,7 +804,6 @@ func (c *Client) ListAuthorizedResources(request model.ListAuthorizedResourcesBy
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	result := model.User{}
 	resultJson, err := simplejson.NewJson(b)
 	byteUser, err := resultJson.Get("data").Get("user").MarshalJSON()
@@ -843,7 +820,6 @@ func (c *Client) GetUserRoleList(request model.GetUserRoleListRequest) (*model.P
 		variables["namespace"] = *request.Namespace
 	}
 	b, err := c.SendHttpRequest(c.Host+"/api/v2/users/"+request.UserId+"/roles", constant.HttpMethodGet, constant.StringEmpty, variables)
-	log.Println(string(b))
 	result := model.PaginatedRoles{}
 	resultJson, err := simplejson.NewJson(b)
 	byteUser, err := resultJson.Get("data").MarshalJSON()
@@ -861,7 +837,6 @@ func (c *Client) GetUserGroupList(userId string) (*model.PaginatedGroups, error)
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	result := model.PaginatedGroups{}
 	resultJson, err := simplejson.NewJson(b)
 	byteUser, err := resultJson.Get("data").Get("user").Get("groups").MarshalJSON()
@@ -886,7 +861,6 @@ func (c *Client) CheckLoginStatus(userId string, appId, deviceId *string) (*mode
 
 	url := fmt.Sprintf("%v/api/v2/users/login-status", c.Host)
 	b, err := c.SendHttpRequest(url, constant.HttpMethodGet, constant.StringEmpty, variables)
-	log.Println(string(b))
 	result := model.CommonMessageAndCode{}
 
 	err = json.Unmarshal(b, &result)
@@ -908,7 +882,6 @@ func (c *Client) LogOut(userId string, appId *string) (*model.CommonMessageAndCo
 
 	url := fmt.Sprintf("%v/logout", c.Host)
 	b, err := c.SendHttpRequest(url, http.MethodGet, constant.StringEmpty, variables)
-	log.Println(string(b))
 	result := model.CommonMessageAndCode{}
 
 	err = json.Unmarshal(b, &result)
@@ -930,7 +903,6 @@ func (c *Client) SendFirstLoginVerifyEmail(userId, appId string) (*model.CommonM
 	if err != nil {
 		return nil, err
 	}
-	log.Println(string(b))
 	var response = &struct {
 		Data struct {
 			SendFirstLoginVerifyEmail model.CommonMessageAndCode `json:"sendFirstLoginVerifyEmail"`
