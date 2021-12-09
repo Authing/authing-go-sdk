@@ -336,6 +336,7 @@ type Identity struct {
 	UserPoolId   *string `json:"userPoolId"`
 	RefreshToken *string `json:"refreshToken"`
 	AccessToken  *string `json:"accessToken"`
+	Type         *string `json:"type"`
 }
 
 type JWTTokenStatus struct {

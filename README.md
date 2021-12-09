@@ -7,7 +7,7 @@ GitHub 地址：[https://github.com/authing/authing-go-sdk](https://github.com/a
 ## 安装
 
 ```bash
-go get github.com/authing/authing-go-sdk
+go get github.com/Authing/authing-go-sdk
 ```
 
 ## 快速开始
