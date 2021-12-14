@@ -420,7 +420,7 @@ func (c *Client) SendHttpRequestManage(url string, method string, query string, 
 	req.Header.Add("x-authing-userpool-id", ""+c.UserPoolId)
 	req.Header.Add("x-authing-request-from", constant.SdkType)
 	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
-	req.Header.Add("x-authing-app-id", ""+constant.AppId)
+	req.Header.Add("x-authing-app-id", ""+c.AppId)
 
 	res, err := c.HttpClient.Do(req)
 	if err != nil {
@@ -510,11 +510,10 @@ func (c *Client) SendHttpRestRequest(url string, method string, token *string, v
 		token = &selfToken
 	}
 	req.Header.Add("Authorization", "Bearer "+*token)
-
 	req.Header.Add("x-authing-userpool-id", ""+c.UserPoolId)
 	req.Header.Add("x-authing-request-from", constant.SdkType)
 	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
-	req.Header.Add("x-authing-app-id", ""+constant.AppId)
+	req.Header.Add("x-authing-app-id", ""+c.AppId)
 	res, err := c.HttpClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -551,7 +550,7 @@ func (c *Client) SendHttpRestRequestNotToken(url string, method string, variable
 	req.Header.Add("x-authing-userpool-id", ""+c.UserPoolId)
 	req.Header.Add("x-authing-request-from", constant.SdkType)
 	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
-	req.Header.Add("x-authing-app-id", ""+constant.AppId)
+	req.Header.Add("x-authing-app-id", ""+c.AppId)
 	res, err := c.HttpClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -1049,7 +1048,7 @@ func (c *Client) SendHttpRequestCustomTokenManage(url string, method string, tok
 	req.Header.Add("x-authing-userpool-id", ""+c.UserPoolId)
 	req.Header.Add("x-authing-request-from", constant.SdkType)
 	req.Header.Add("x-authing-sdk-version", constant.SdkVersion)
-	req.Header.Add("x-authing-app-id", ""+constant.AppId)
+	req.Header.Add("x-authing-app-id", ""+c.AppId)
 
 	res, err := c.HttpClient.Do(req)
 	if err != nil {
@@ -1222,7 +1221,11 @@ func (c *Client) Logout() (*model.CommonMessageAndCode, error) {
 
 func (c *Client) LogoutByToken(token string) (*model.CommonMessageAndCode, error) {
 	url := fmt.Sprintf("%s/api/v2/logout?app_id=%s", c.Host, c.AppId)
-	b, err := c.SendHttpRestRequest(url, http.MethodGet, &token, nil)
+	variables := make(map[string]interface{})
+
+	variables["withCredentials"] = true
+	fmt.Println(url)
+	b, err := c.SendHttpRestRequest(url, http.MethodGet, &token, variables)
 	if err != nil {
 		return nil, err
 	}

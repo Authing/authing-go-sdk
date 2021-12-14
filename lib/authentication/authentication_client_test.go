@@ -18,6 +18,22 @@ const (
 	UserPool = ""
 )
 
+func TestClient_LogoutByToken(t *testing.T) {
+	authenticationClient := NewClient(AppId, Secret, "https://hfggf.authing.cn")
+	authenticationClient.UserPoolId = UserPool
+	model := model.LoginByEmailInput{}
+	model.Email = "zy@pm.com"
+	model.Password = "zy"
+	user, err := authenticationClient.LoginByEmail(model)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(*user.Token)
+	res, err := authenticationClient.LogoutByToken(*(user.Token))
+	fmt.Println(res, err)
+	fmt.Println(authenticationClient.CheckLoginStatus(*(user.Token)))
+}
+
 func TestClient_BuildAuthorizeUrlByOidc(t *testing.T) {
 	authenticationClient := NewClient(AppId, Secret)
 	authenticationClient.Protocol = constant.OIDC
