@@ -196,7 +196,7 @@ type ExtIdpConnection struct {
 	DisplayName     string      `json:"displayName"`
 	Fields          interface{} `json:"fields"`
 	Logo            string      `json:"logo,omitempty"`
-	UserMatchFields interface{} `json:"userMatchFields,omitempty"`
+	UserMatchFields []string    `json:"userMatchFields,omitempty"`
 }
 
 type ExtIdpConnectionDetails struct {
@@ -222,14 +222,14 @@ type CreateExtIdpConnectionRequest struct {
 	DisplayName     string      `json:"displayName"`
 	Fields          interface{} `json:"fields"`
 	Logo            string      `json:"logo,omitempty"`
-	UserMatchFields interface{} `json:"userMatchFields,omitempty"`
+	UserMatchFields []string    `json:"userMatchFields,omitempty"`
 }
 
 type UpdateExtIdpConnectionRequest struct {
 	DisplayName     string      `json:"displayName"`
 	Fields          interface{} `json:"fields"`
 	Logo            string      `json:"logo,omitempty"`
-	UserMatchFields interface{} `json:"userMatchFields,omitempty"`
+	UserMatchFields []string    `json:"userMatchFields,omitempty"`
 }
 
 type ChangeExtIdpConnectionStateRequest struct {

@@ -56,7 +56,6 @@ func (c *Client) GetTenantDetails(tenantId string) (*model.TenantDetails, error)
 // CreateTenant
 // 创建租户
 func (c *Client) CreateTenant(request *model.CreateTenantRequest) (*model.TenantDetails, error) {
-
 	data, _ := jsoniter.Marshal(request)
 	variables := make(map[string]interface{})
 	jsoniter.Unmarshal(data, &variables)
@@ -80,7 +79,7 @@ func (c *Client) CreateTenant(request *model.CreateTenantRequest) (*model.Tenant
 
 // UpdateTenant
 // 修改租户
-func (c *Client) UpdateTenant(tenantId string, request *model.CreateTenantRequest) (*bool, error) {
+func (c *Client) UpdateTenant(tenantId string, request *model.CreateTenantRequest) (bool, error) {
 
 	data, _ := jsoniter.Marshal(request)
 	variables := make(map[string]interface{})
@@ -89,7 +88,7 @@ func (c *Client) UpdateTenant(tenantId string, request *model.CreateTenantReques
 	url := fmt.Sprintf("%s/api/v2/tenant/%s", c.Host, tenantId)
 	b, err := c.SendHttpRestRequest(url, http.MethodPost, variables)
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 	resp := &struct {
 		Message string `json:"message"`
@@ -98,9 +97,9 @@ func (c *Client) UpdateTenant(tenantId string, request *model.CreateTenantReques
 	}{}
 	jsoniter.Unmarshal(b, &resp)
 	if resp.Code != 200 {
-		return nil, errors.New(resp.Message)
+		return false, errors.New(resp.Message)
 	}
-	return &resp.Data, nil
+	return true, nil
 }
 
 // RemoveTenant
@@ -125,7 +124,7 @@ func (c *Client) RemoveTenant(tenantId string) (*string, error) {
 
 // ConfigTenant
 // 配置租户品牌化
-func (c *Client) ConfigTenant(tenantId string, request *model.ConfigTenantRequest) (*string, error) {
+func (c *Client) ConfigTenant(tenantId string, request *model.ConfigTenantRequest) (bool, error) {
 
 	data, _ := jsoniter.Marshal(request)
 	variables := make(map[string]interface{})
@@ -134,7 +133,7 @@ func (c *Client) ConfigTenant(tenantId string, request *model.ConfigTenantReques
 	url := fmt.Sprintf("%s/api/v2/tenant/%s", c.Host, tenantId)
 	b, err := c.SendHttpRestRequest(url, http.MethodPost, variables)
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 	resp := &struct {
 		Message string `json:"message"`
@@ -143,9 +142,9 @@ func (c *Client) ConfigTenant(tenantId string, request *model.ConfigTenantReques
 	}{}
 	jsoniter.Unmarshal(b, &resp)
 	if resp.Code != 200 {
-		return nil, errors.New(resp.Message)
+		return resp.Data, errors.New(resp.Message)
 	}
-	return &resp.Message, nil
+	return resp.Data, nil
 }
 
 // GetTenantMembers
@@ -434,7 +433,7 @@ func (c *Client) CheckExtIdpConnectionIdentifierUnique(identifier string) (bool,
 
 // ChangeExtIdpConnectionState
 // 开关身份源连接
-func (c *Client) ChangeExtIdpConnectionState(extIdpConnectionId string, request *model.ChangeExtIdpConnectionStateRequest) (*string, error) {
+func (c *Client) ChangeExtIdpConnectionState(extIdpConnectionId string, request *model.ChangeExtIdpConnectionStateRequest) (bool, error) {
 
 	data, _ := jsoniter.Marshal(request)
 	variables := make(map[string]interface{})
@@ -444,7 +443,7 @@ func (c *Client) ChangeExtIdpConnectionState(extIdpConnectionId string, request 
 	b, err := c.SendHttpRestRequest(url, http.MethodPut, variables)
 
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
 	resp := &struct {
@@ -454,14 +453,14 @@ func (c *Client) ChangeExtIdpConnectionState(extIdpConnectionId string, request 
 
 	jsoniter.Unmarshal(b, &resp)
 	if resp.Code != 200 {
-		return nil, errors.New(resp.Message)
+		return false, errors.New(resp.Message)
 	}
-	return &resp.Message, nil
+	return true, nil
 }
 
 // BatchChangeExtIdpConnectionState
 // 批量开关身份源连接
-func (c *Client) BatchChangeExtIdpConnectionState(extIdpId string, request *model.ChangeExtIdpConnectionStateRequest) (*string, error) {
+func (c *Client) BatchChangeExtIdpConnectionState(extIdpId string, request *model.ChangeExtIdpConnectionStateRequest) (bool, error) {
 
 	data, _ := jsoniter.Marshal(request)
 	variables := make(map[string]interface{})
@@ -471,7 +470,7 @@ func (c *Client) BatchChangeExtIdpConnectionState(extIdpId string, request *mode
 	b, err := c.SendHttpRestRequest(url, http.MethodPut, variables)
 
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
 	resp := &struct {
@@ -481,7 +480,7 @@ func (c *Client) BatchChangeExtIdpConnectionState(extIdpId string, request *mode
 
 	jsoniter.Unmarshal(b, &resp)
 	if resp.Code != 200 {
-		return nil, errors.New(resp.Message)
+		return false, errors.New(resp.Message)
 	}
-	return &resp.Message, nil
+	return true, nil
 }
