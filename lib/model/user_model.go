@@ -272,3 +272,8 @@ type ListUserAuthResourceRequest struct {
 	Namespace    string           `json:"namespace"`
 	ResourceType EnumResourceType `json:"resourceType"`
 }
+
+type GetUserTenantsResponse struct {
+	User
+	Tenants []Tenant `json:"tenants"`
+}

@@ -2,9 +2,10 @@ package management
 
 import (
 	"fmt"
-	"github.com/Authing/authing-go-sdk/lib/model"
 	"log"
 	"testing"
+
+	"github.com/Authing/authing-go-sdk/lib/model"
 )
 
 func TestClient_ListApplication(t *testing.T) {
@@ -118,6 +119,16 @@ func TestClient_SortApplicationAgreement(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========删除应用策略==========")
 	resp, err := client.SortApplicationAgreement("614bf4af279893d5ab645e58", []string{"238"})
+	if err != nil {
+		fmt.Println(err)
+	}
+	log.Printf("%+v\n", resp)
+}
+
+func TestClient_ApplicationTenants(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========获取应用关联租户==========")
+	resp, err := client.ApplicationTenants("61b8366efa768b57d65b6394")
 	if err != nil {
 		fmt.Println(err)
 	}

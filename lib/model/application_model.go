@@ -211,3 +211,16 @@ type ApplicationAgreement struct {
 	Order      int    `json:"order"`
 	Id         int    `json:"id"`
 }
+
+type ApplicationTenantDetails struct {
+	ID          string    `json:"id"`
+	Name        string    `json:"name"`
+	Logo        string    `json:"logo"`
+	Domain      string    `json:"domain"`
+	Description string    `json:"description"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+	Protocol    string    `json:"protocol"`
+	IsIntegrate bool      `json:"isIntegrate"`
+	Tenants     []Tenant  `json:"tenants"`
+}
