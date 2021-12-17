@@ -3,10 +3,11 @@ package management
 import (
 	"errors"
 	"fmt"
+	"net/http"
+
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	jsoniter "github.com/json-iterator/go"
-	"net/http"
 )
 
 // ListApplication
@@ -277,4 +278,25 @@ func (c *Client) SortApplicationAgreement(appId string, ids []string) (*string, 
 		return nil, errors.New(resp.Message)
 	}
 	return &resp.Message, nil
+}
+
+// ApplicationTenants
+// 获取应用关联租户
+func (c *Client) ApplicationTenants(appId string) (*model.ApplicationTenantDetails, error) {
+
+	url := fmt.Sprintf("%s/api/v2/application/%v/tenants", c.Host, appId)
+	b, err := c.SendHttpRestRequest(url, http.MethodGet, nil)
+	if err != nil {
+		return nil, err
+	}
+	resp := &struct {
+		Message string                         `json:"message"`
+		Code    int64                          `json:"code"`
+		Data    model.ApplicationTenantDetails `json:"data"`
+	}{}
+	jsoniter.Unmarshal(b, &resp)
+	if resp.Code != 200 {
+		return nil, errors.New(resp.Message)
+	}
+	return &resp.Data, nil
 }

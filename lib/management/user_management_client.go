@@ -4,12 +4,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/http"
+
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	"github.com/Authing/authing-go-sdk/lib/util"
 	"github.com/bitly/go-simplejson"
 	jsoniter "github.com/json-iterator/go"
-	"net/http"
 )
 
 // Detail
@@ -916,4 +917,28 @@ func (c *Client) SendFirstLoginVerifyEmail(userId, appId string) (*model.CommonM
 		return nil, errors.New(response.Errors[0].Message.Message)
 	}
 	return &response.Data.SendFirstLoginVerifyEmail, nil
+}
+
+// GetUserTenants
+// 获取用户所在租户
+func (c *Client) GetUserTenants(userId string) (*model.GetUserTenantsResponse, error) {
+
+	url := fmt.Sprintf("%s/api/v2/users/%v/tenants", c.Host, userId)
+	b, err := c.SendHttpRestRequest(url, http.MethodGet, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp := &struct {
+		Message string                       `json:"message"`
+		Code    int64                        `json:"code"`
+		Data    model.GetUserTenantsResponse `json:"data"`
+	}{}
+
+	jsoniter.Unmarshal(b, &resp)
+
+	if resp.Code != 200 {
+		return nil, errors.New(resp.Message)
+	}
+	return &resp.Data, nil
 }

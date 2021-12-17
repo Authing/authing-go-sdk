@@ -1,11 +1,12 @@
 package management
 
 import (
-	"github.com/Authing/authing-go-sdk/lib/enum"
-	"github.com/Authing/authing-go-sdk/lib/model"
 	"log"
 	"reflect"
 	"testing"
+
+	"github.com/Authing/authing-go-sdk/lib/enum"
+	"github.com/Authing/authing-go-sdk/lib/model"
 )
 
 func TestClient_GetUserList(t *testing.T) {
@@ -447,4 +448,15 @@ func TestClient_IsPasswordValid(t *testing.T) {
 	resp, err := client.IsPasswordValid("tx")
 	log.Println(resp)
 	log.Println(err)
+}
+
+func TestClient_GetUserTenants(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========获取用户所在租户==========")
+
+	resp, err := client.GetUserTenants("61b85b945468e9865acae737")
+	if err != nil {
+		log.Println(err)
+	}
+	log.Printf("%+v\n", resp)
 }
