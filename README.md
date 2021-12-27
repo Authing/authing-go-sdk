@@ -1,6 +1,6 @@
 # SDK for Go
 
-<div align=center><img src="https://files.authing.co/authing-console/authing-logo-new-20210924.svg"></div>
+<div align=center><img width="300" src="https://files.authing.co/authing-console/authing-logo-new-20210924.svg"></div>
 <br/>
 
 Authing Go SDK 目前支持 Golang 1.8+ 版本。
