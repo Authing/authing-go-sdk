@@ -47,5 +47,3 @@ client := management.NewClient(userPoolId, appSecret)
 resp, _ := client.Detail("60a6f9ad5bcccc51834950c5")
 ```
 
-### 
-
