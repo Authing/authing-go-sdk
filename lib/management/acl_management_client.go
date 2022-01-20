@@ -41,11 +41,11 @@ func (c *Client) Allow(request model.AllowRequest) (bool, error) {
 		return false, err
 	}
 	resultJson, err := simplejson.NewJson(b)
-	result, err := resultJson.Get("data").Get("isActionAllowed").Bool()
+	result, err := resultJson.Get("data").Get("allow").Get("code").Int64()
 	if err != nil {
 		return false, err
 	}
-	return result, nil
+	return result == 200, nil
 
 }
 
