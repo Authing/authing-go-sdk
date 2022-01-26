@@ -9,11 +9,11 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	"github.com/Authing/authing-go-sdk/lib/util/cacheutil"
+	"github.com/bitly/go-simplejson"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/valyala/fasthttp"
 	"golang.org/x/oauth2"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 	"sync"
@@ -49,7 +49,6 @@ func NewClient(userPoolId string, secret string, host ...string) *Client {
 		c.HttpClient = &http.Client{}
 		accessToken, err := GetAccessToken(c)
 		if err != nil {
-			log.Println(err)
 			return nil
 		}
 		src := oauth2.StaticTokenSource(
@@ -58,6 +57,38 @@ func NewClient(userPoolId string, secret string, host ...string) *Client {
 		c.HttpClient = oauth2.NewClient(context.Background(), src)
 	}
 	return c
+}
+
+func NewClientWithError(userPoolId string, secret string, host ...string) (*Client, error) {
+	if userPoolId == "" {
+		return nil, errors.New("请填写 userPoolId 参数")
+	}
+	if secret == "" {
+		return nil, errors.New("请填写 secret 参数")
+	}
+	var clientHost string
+	if len(host) == 0 {
+		clientHost = constant.CoreAuthingDefaultUrl
+	} else {
+		clientHost = host[0]
+	}
+	c := &Client{
+		userPoolId: userPoolId,
+		secret:     secret,
+		Host:       clientHost,
+	}
+	if c.HttpClient == nil {
+		c.HttpClient = &http.Client{}
+		accessToken, err := GetAccessToken(c)
+		if err != nil {
+			return nil, err
+		}
+		src := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: accessToken},
+		)
+		c.HttpClient = oauth2.NewClient(context.Background(), src)
+	}
+	return c, nil
 }
 
 // NewHttpClient creates a new Authing user endpoint GraphQL API client
@@ -297,11 +328,38 @@ func QueryAccessToken(client *Client) (*model.AccessTokenRes, error) {
 	if err != nil {
 		return nil, err
 	}
+	err = checkError(b)
+	if err != nil {
+		return nil, err
+	}
 	var r Result
 	if b != nil {
 		json.Unmarshal(b, &r)
 	}
 	return &r.Data.AccessToken, nil
+}
+
+func checkError(b []byte) error {
+	json, err := simplejson.NewJson(b)
+	if err != nil {
+		return err
+	}
+	repErrors, exist := json.CheckGet("errors")
+	if !exist {
+		return nil
+	}
+	result, err := repErrors.Array()
+	if err != nil {
+		return err
+	}
+	if result != nil && len(result) > 0 {
+		reason, err := json.Get("errors").GetIndex(0).Get("message").Get("message").String()
+		if err != nil {
+			return err
+		}
+		return errors.New(reason)
+	}
+	return nil
 }
 
 func GetAccessToken(client *Client) (string, error) {

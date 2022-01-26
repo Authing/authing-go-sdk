@@ -1,6 +1,7 @@
 package management
 
 import (
+	"fmt"
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
 	"log"
@@ -8,7 +9,11 @@ import (
 )
 
 func TestClient_IsAllowed(t *testing.T) {
-	client := NewClient(userPoolId, appSecret)
+	client, err := NewClientWithError(userPoolId, appSecret)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	log.Println("==========判断某个用户是否对某个资源有某个操作权限==========")
 
 	req := model.IsAllowedRequest{
