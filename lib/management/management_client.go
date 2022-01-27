@@ -206,6 +206,9 @@ func (c *Client) SendHttpRequest(url string, method string, query string, variab
 	}
 	defer res.Body.Close()
 	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
 	return body, nil
 }
 
@@ -380,8 +383,8 @@ func GetAccessToken(client *Client) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	var expire = *(token.Exp) - time.Now().Unix() - 43200
-	cacheutil.SetCache(constant.TokenCacheKeyPrefix+client.userPoolId, *token.AccessToken, time.Duration(expire*int64(time.Second)))
+	var expire = (*(token.Exp) - time.Now().Unix() - 259200) * int64(time.Second)
+	cacheutil.SetCache(constant.TokenCacheKeyPrefix+client.userPoolId, *token.AccessToken, time.Duration(expire))
 	return *token.AccessToken, nil
 }
 
