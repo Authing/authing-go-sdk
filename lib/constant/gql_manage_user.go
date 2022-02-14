@@ -201,7 +201,7 @@ query userBatch($ids: [String!]!, $type: String) {
       openid
       userIdInIdp
       userId
-      connectionId
+      extIdpId
       isSocial
       provider
       type
@@ -268,7 +268,7 @@ query userBatchWithCustomData($ids: [String!]!, $type: String) {
       openid
       userIdInIdp
       userId
-      connectionId
+      extIdpId
       isSocial
       provider
       type

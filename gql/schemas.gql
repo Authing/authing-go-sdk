@@ -333,7 +333,7 @@ type Identity {
     openid: String
     userIdInIdp: String
     userId: String
-    connectionId: String
+    extIdpId: String
     isSocial: Boolean
     provider: String
     userPoolId: String

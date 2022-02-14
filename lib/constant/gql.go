@@ -510,7 +510,7 @@ const UsersWithCustomDocument = `
         openid
         userIdInIdp
         userId
-        connectionId
+        extIdpId
         isSocial
         provider
         type
