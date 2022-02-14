@@ -330,7 +330,7 @@ type Identity struct {
 	Openid       *string `json:"openid"`
 	UserIdInIdp  *string `json:"userIdInIdp"`
 	UserId       *string `json:"userId"`
-	ConnectionId *string `json:"connectionId"`
+	ExtIdpId     *string `json:"extIdpId"`
 	IsSocial     *bool   `json:"isSocial"`
 	Provider     *string `json:"provider"`
 	UserPoolId   *string `json:"userPoolId"`

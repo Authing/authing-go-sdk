@@ -43,8 +43,12 @@ func TestClient_All(t *testing.T) {
 	}
 	resp1, _ := client.ListMembers(req)
 	log.Printf("%+v\n", resp1)
+}
+
+func TestClient_Detail(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
 	log.Println("==========通过 ID 获取用户信息==========")
-	resp2, _ := client.Detail("60a6f9ad5bcccc51834950c5")
+	resp2, _ := client.Detail("611a149db64310ca4764ab15")
 	log.Printf("%+v\n", resp2)
 }
 func TestClient_GetOrganizationList(t *testing.T) {
