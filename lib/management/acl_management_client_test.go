@@ -286,8 +286,8 @@ func TestClient_GetAuthorizedTargets(t *testing.T) {
 	log.Println("==========获取拥有资源的对象列表==========")
 
 	req := &model.GetAuthorizedTargetsRequest{
-		TargetType:   constant.ROLE,
-		Resource:     "cccccc",
+		TargetType:   constant.GROUP,
+		Resource:     "open",
 		Namespace:    "default",
 		ResourceType: model.EnumResourceTypeAPI,
 	}

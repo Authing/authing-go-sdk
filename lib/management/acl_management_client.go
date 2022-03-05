@@ -567,9 +567,9 @@ func (c *Client) UpdateDefaultApplicationAccessPolicy(appId string, strategy con
 func (c *Client) GetAuthorizedTargets(req *model.GetAuthorizedTargetsRequest) (*struct {
 	TotalCount int64 `json:"totalCount"`
 	List       []struct {
-		Actions          string `json:"actions"`
-		TargetType       string `json:"targetType"`
-		TargetIdentifier string `json:"targetIdentifier"`
+		Actions          []string `json:"actions"`
+		TargetType       string   `json:"targetType"`
+		TargetIdentifier string   `json:"targetIdentifier"`
 	} `json:"list"`
 }, error) {
 	data, _ := json.Marshal(&req)
@@ -584,9 +584,9 @@ func (c *Client) GetAuthorizedTargets(req *model.GetAuthorizedTargetsRequest) (*
 			AuthorizedTargets struct {
 				TotalCount int64 `json:"totalCount"`
 				List       []struct {
-					Actions          string `json:"actions"`
-					TargetType       string `json:"targetType"`
-					TargetIdentifier string `json:"targetIdentifier"`
+					Actions          []string `json:"actions"`
+					TargetType       string   `json:"targetType"`
+					TargetIdentifier string   `json:"targetIdentifier"`
 				} `json:"list"`
 			} `json:"authorizedTargets"`
 		} `json:"data"`
