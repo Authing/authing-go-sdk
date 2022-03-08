@@ -282,7 +282,7 @@ func TestClient_UpdateDefaultApplicationAccessPolicy(t *testing.T) {
 }
 
 func TestClient_GetAuthorizedTargets(t *testing.T) {
-	client := NewClient(userPoolId, appSecret, "https://core.pre.authing.cn")
+	client := NewClient(userPoolId, appSecret)
 	log.Println("==========获取拥有资源的对象列表==========")
 
 	req := &model.GetAuthorizedTargetsRequest{
