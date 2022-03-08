@@ -731,6 +731,20 @@ query authorizedTargets($namespace: String!, $resourceType: ResourceType!, $reso
   }
 }
 `
+
+const GetAuthorizedTargetsCodeDocument = `
+query authorizedTargetsCode($namespace: String!, $resourceType: ResourceType!, $resource: String!, $targetType: PolicyAssignmentTargetType, $actions: AuthorizedTargetsActionsInput) {
+  authorizedTargetsCode(namespace: $namespace, resource: $resource, resourceType: $resourceType, targetType: $targetType, actions: $actions) {
+    totalCount
+    list {
+      targetType
+      targetIdentifier
+      actions
+    }
+  }
+}
+`
+
 const SendMailDocument = `
 mutation sendEmail($email: String!, $scene: EmailScene!) {
   sendEmail(email: $email, scene: $scene) {

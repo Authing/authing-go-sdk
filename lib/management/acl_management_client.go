@@ -600,6 +600,44 @@ func (c *Client) GetAuthorizedTargets(req *model.GetAuthorizedTargetsRequest) (*
 	return &response.Data.AuthorizedTargets, nil
 }
 
+// GetAuthorizedTargetsCode
+// 获取具备某些资源操作权限的主体, 分组返回 Code
+func (c *Client) GetAuthorizedTargetsCode(req *model.GetAuthorizedTargetsRequest) (*struct {
+	TotalCount int64 `json:"totalCount"`
+	List       []struct {
+		Actions          []string `json:"actions"`
+		TargetType       string   `json:"targetType"`
+		TargetIdentifier string   `json:"targetIdentifier"`
+	} `json:"list"`
+}, error) {
+	data, _ := json.Marshal(&req)
+	variables := make(map[string]interface{})
+	json.Unmarshal(data, &variables)
+	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.GetAuthorizedTargetsCodeDocument, variables)
+	if err != nil {
+		return nil, err
+	}
+	var response = &struct {
+		Data struct {
+			AuthorizedTargets struct {
+				TotalCount int64 `json:"totalCount"`
+				List       []struct {
+					Actions          []string `json:"actions"`
+					TargetType       string   `json:"targetType"`
+					TargetIdentifier string   `json:"targetIdentifier"`
+				} `json:"list"`
+			} `json:"authorizedTargetsCode"`
+		} `json:"data"`
+		Errors []model.GqlCommonErrors `json:"errors"`
+	}{}
+
+	jsoniter.Unmarshal(b, &response)
+	if len(response.Errors) > 0 {
+		return nil, errors.New(response.Errors[0].Message.Message)
+	}
+	return &response.Data.AuthorizedTargets, nil
+}
+
 /*func (c *Client) CheckResourcePermissionBatch(request model.CheckResourcePermissionBatchRequest) (bool, error) {
 	data, _ := json.Marshal(&request)
 	variables := make(map[string]interface{})

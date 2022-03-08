@@ -67,16 +67,16 @@ func TestClient_RevokeResource(t *testing.T) {
 	var actions []string
 	actions = append(actions, "*")
 	opt := model.AuthorizeResourceOpt{
-		TargetType:       model.EnumPolicyAssignmentTargetTypeUser,
-		TargetIdentifier: "61090ca34e01a3968d3e3b76",
+		TargetType:       model.EnumPolicyAssignmentTargetTypeGroup,
+		TargetIdentifier: "74wr2RzVV0",
 		Actions:          actions,
 	}
 	var opts []model.AuthorizeResourceOpt
 	opts = append(opts, opt)
 	req := model.RevokeResourceRequest{
 		Namespace:    "default",
-		Resource:     "7629:read",
-		ResourceType: model.EnumResourceTypeBUTTON,
+		Resource:     "open",
+		ResourceType: model.EnumResourceTypeAPI,
 		Opts:         opts,
 	}
 	resp, _ := client.RevokeResource(req)
@@ -282,7 +282,7 @@ func TestClient_UpdateDefaultApplicationAccessPolicy(t *testing.T) {
 }
 
 func TestClient_GetAuthorizedTargets(t *testing.T) {
-	client := NewClient(userPoolId, appSecret)
+	client := NewClient(userPoolId, appSecret, "https://core.pre.authing.cn")
 	log.Println("==========获取拥有资源的对象列表==========")
 
 	req := &model.GetAuthorizedTargetsRequest{
@@ -291,7 +291,7 @@ func TestClient_GetAuthorizedTargets(t *testing.T) {
 		Namespace:    "default",
 		ResourceType: model.EnumResourceTypeAPI,
 	}
-	resp, _ := client.GetAuthorizedTargets(req)
+	resp, _ := client.GetAuthorizedTargetsCode(req)
 	log.Printf("%+v\n", resp)
 }
 
