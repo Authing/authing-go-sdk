@@ -45,6 +45,11 @@ type QueryListRequest struct {
 	WithCustomData *bool
 }
 
+type QueryUserInfoRequest struct {
+	UserId         string `json:"user_id"`
+	WithCustomData bool
+}
+
 type Users struct {
 	Users PaginatedUsers `json:"users"`
 }
@@ -117,10 +122,10 @@ type GetUserDepartmentsRequest struct {
 }
 
 type CheckUserExistsRequest struct {
-	Email      *string `json:"email"`
-	Phone      *string `json:"phone"`
-	Username   *string `json:"username"`
-	ExternalId *string `json:"externalId"`
+	Email      *string `json:"email,omitempty"`
+	Phone      *string `json:"phone,omitempty"`
+	Username   *string `json:"username,omitempty"`
+	ExternalId *string `json:"externalId,omitempty"`
 }
 
 type CheckUserExistsResponse struct {

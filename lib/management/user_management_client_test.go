@@ -9,6 +9,24 @@ import (
 	"github.com/Authing/authing-go-sdk/lib/model"
 )
 
+func TestClient_Detail(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========通过 ID 获取用户信息==========")
+	resp2, _ := client.Detail("618154277c11794e8cf63bc3")
+	log.Printf("%+v\n", resp2)
+}
+
+func TestClient_GetUserInfo(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========通过 ID 获取用户信息==========")
+	req := model.QueryUserInfoRequest{
+		UserId:         "618154277c11794e8cf63bc3",
+		WithCustomData: false,
+	}
+	resp2, _ := client.GetUserInfo(req)
+	log.Printf("%+v\n", resp2)
+}
+
 func TestClient_GetUserList(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========导出所有组织机构数据==========")
@@ -36,15 +54,13 @@ func TestClient_GetUserDepartments(t *testing.T) {
 }
 
 func TestClient_CheckUserExists(t *testing.T) {
+	// client := NewClient("62263a89959fb81af270caf0", "3c9eb5950608582d6ff17fd88e5c32dc", "http://localhost:3000")
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========检查用户是否存在==========")
-	//email := "t041gyqw0b@gmail.com"
-	phone := "15761403457"
+	email := "994004397@qq.com"
+	//phone := ""
 	req := model.CheckUserExistsRequest{
-		Email:      nil,
-		Phone:      &phone,
-		Username:   nil,
-		ExternalId: nil,
+		Email: &email,
 	}
 	resp, _ := client.CheckUserExists(req)
 	log.Println(resp)

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
@@ -17,6 +18,19 @@ import (
 // 获取用户详情
 func (c *Client) Detail(userId string) (*model.User, error) {
 	b, err := c.SendHttpRequest(c.Host+"/api/v2/users/"+userId, constant.HttpMethodGet, "", nil)
+	if err != nil {
+		return nil, err
+	}
+	var userDetail model.UserDetailResponse
+	jsoniter.Unmarshal(b, &userDetail)
+	return &userDetail.Data, nil
+}
+
+// Detail
+// 获取用户详情
+func (c *Client) GetUserInfo(request model.QueryUserInfoRequest) (*model.User, error) {
+	url := c.Host + "/api/v2/users/" + request.UserId + "?with_custom_data=" + strconv.FormatBool(request.WithCustomData)
+	b, err := c.SendHttpRequest(url, constant.HttpMethodGet, "", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +84,8 @@ func (c *Client) GetUserDepartments(request model.GetUserDepartmentsRequest) (*m
 func (c *Client) CheckUserExists(request model.CheckUserExistsRequest) (bool, error) {
 	data, _ := json.Marshal(&request)
 	variables := make(map[string]interface{})
-	json.Unmarshal(data, &variables)
+	//json.Unmarshal(data, &variables)
+	jsoniter.Unmarshal(data, &variables)
 	b, err := c.SendHttpRequest(c.Host+"/api/v2/users/is-user-exists", constant.HttpMethodGet, constant.StringEmpty, variables)
 	result := model.CheckUserExistsResponse{}
 	err = json.Unmarshal(b, &result)

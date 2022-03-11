@@ -327,16 +327,18 @@ type Group struct {
 }
 
 type Identity struct {
-	Openid       *string `json:"openid"`
-	UserIdInIdp  *string `json:"userIdInIdp"`
-	UserId       *string `json:"userId"`
-	ExtIdpId     *string `json:"extIdpId"`
-	IsSocial     *bool   `json:"isSocial"`
-	Provider     *string `json:"provider"`
-	UserPoolId   *string `json:"userPoolId"`
-	RefreshToken *string `json:"refreshToken"`
-	AccessToken  *string `json:"accessToken"`
-	Type         *string `json:"type"`
+	Id            *string      `json:"id"`
+	Openid        *string      `json:"openid"`
+	UserIdInIdp   *string      `json:"userIdInIdp"`
+	UserId        *string      `json:"userId"`
+	ExtIdpId      *string      `json:"extIdpId"`
+	IsSocial      *bool        `json:"isSocial"`
+	Provider      *string      `json:"provider"`
+	UserPoolId    *string      `json:"userPoolId"`
+	RefreshToken  *string      `json:"refreshToken"`
+	AccessToken   *string      `json:"accessToken"`
+	Type          *string      `json:"type"`
+	UserInfoInIdp *interface{} `json:"userInfoInIdp"`
 }
 
 type JWTTokenStatus struct {
