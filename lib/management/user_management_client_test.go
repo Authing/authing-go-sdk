@@ -5,7 +5,6 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Authing/authing-go-sdk/lib/enum"
 	"github.com/Authing/authing-go-sdk/lib/model"
 )
 
@@ -30,12 +29,10 @@ func TestClient_GetUserInfo(t *testing.T) {
 func TestClient_GetUserList(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========导出所有组织机构数据==========")
-	custom := true
+	//custom := true
 	req := model.QueryListRequest{
-		Page:           1,
-		Limit:          10,
-		SortBy:         enum.SortByCreatedAtAsc,
-		WithCustomData: &custom,
+		Page:  1,
+		Limit: 10,
 	}
 	resp, _ := client.GetUserList(req)
 	log.Printf("%+v\n", resp)
@@ -471,6 +468,39 @@ func TestClient_GetUserTenants(t *testing.T) {
 	log.Println("==========获取用户所在租户==========")
 
 	resp, err := client.GetUserTenants("61b85b945468e9865acae737")
+	if err != nil {
+		log.Println(err)
+	}
+	log.Printf("%+v\n", resp)
+}
+
+func TestClient_SuspendUser(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========停用账号==========")
+
+	resp, err := client.SuspendUser("623946dd3615b3a2ee65832d")
+	if err != nil {
+		log.Println(err)
+	}
+	log.Printf("%+v\n", resp)
+}
+
+func TestClient_ActivateUser(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========停用账号==========")
+
+	resp, err := client.ActivateUser("623946dd3615b3a2ee65832d")
+	if err != nil {
+		log.Println(err)
+	}
+	log.Printf("%+v\n", resp)
+}
+
+func TestClient_ResignUser(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========停用账号==========")
+
+	resp, err := client.ResignUser("623946dd3615b3a2ee65832d")
 	if err != nil {
 		log.Println(err)
 	}

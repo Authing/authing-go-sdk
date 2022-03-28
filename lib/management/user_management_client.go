@@ -957,3 +957,45 @@ func (c *Client) GetUserTenants(userId string) (*model.GetUserTenantsResponse, e
 	}
 	return &resp.Data, nil
 }
+
+//SuspendUser
+//停用账号
+func (c *Client) SuspendUser(userId string) (*model.CommonMessageAndCode, error) {
+	url := fmt.Sprintf("%v/api/v2/users/%v/suspend", c.Host, userId)
+	json := make(map[string]interface{})
+	b, err := c.SendHttpRequest(url, http.MethodPost, "", json)
+	if err != nil {
+		return nil, err
+	}
+	var response model.CommonMessageAndCode
+	jsoniter.Unmarshal(b, &response)
+	return &response, nil
+}
+
+//ActivateUser
+//解除停用账号
+func (c *Client) ActivateUser(userId string) (*model.CommonMessageAndCode, error) {
+	url := fmt.Sprintf("%v/api/v2/users/%v/activate", c.Host, userId)
+	json := make(map[string]interface{})
+	b, err := c.SendHttpRequest(url, http.MethodPost, "", json)
+	if err != nil {
+		return nil, err
+	}
+	var response model.CommonMessageAndCode
+	jsoniter.Unmarshal(b, &response)
+	return &response, nil
+}
+
+//ResignUser
+//离职用户
+func (c *Client) ResignUser(userId string) (*model.CommonMessageAndCode, error) {
+	url := fmt.Sprintf("%v/api/v2/users/%v/resign", c.Host, userId)
+	json := make(map[string]interface{})
+	b, err := c.SendHttpRequest(url, http.MethodPost, "", json)
+	if err != nil {
+		return nil, err
+	}
+	var response model.CommonMessageAndCode
+	jsoniter.Unmarshal(b, &response)
+	return &response, nil
+}
