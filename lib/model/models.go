@@ -357,8 +357,8 @@ type JWTTokenStatusDetail struct {
 }
 
 type KeyValuePair struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key   string      `json:"key"`
+	Value interface{} `json:"value"`
 }
 
 type LoginByEmailInput struct {
@@ -595,9 +595,9 @@ type SearchUserRoleOpt struct {
 }
 
 type SetUdfValueBatchInput struct {
-	TargetId string `json:"targetId"`
-	Key      string `json:"key"`
-	Value    string `json:"value"`
+	TargetId string      `json:"targetId"`
+	Key      string      `json:"key"`
+	Value    interface{} `json:"value"`
 }
 
 type SocialConnection struct {

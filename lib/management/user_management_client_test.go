@@ -320,7 +320,7 @@ func TestClient_ListUserAuthorizedResources(t *testing.T) {
 func TestClient_BatchGetUserUdfValue(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========批量查询用户自定义字段==========")
-	resp, err := client.BatchGetUserUdfValue([]string{"616d41b7410a33da0cb70e65"})
+	resp, err := client.BatchGetUserUdfValue([]string{"621dcbede60e7b7eda97d82a"})
 	log.Println(resp)
 	log.Println(err)
 }
@@ -329,10 +329,31 @@ func TestClient_SetUserUdfValue(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========批量查询用户自定义字段==========")
 	udv := model.KeyValuePair{
-		Key:   "school",
-		Value: "1x1",
+		Key:   "runCount",
+		Value: 23,
 	}
-	resp, err := client.SetUserUdfValue("616d41b7410a33da0cb70e65", &udv)
+	resp, err := client.SetUserUdfValue("621dcbede60e7b7eda97d82a", &udv)
+	log.Println(resp)
+	log.Println(err)
+}
+
+func TestClient_BatchSetUserUdfValue(t *testing.T) {
+	client := NewClient(userPoolId, appSecret)
+	log.Println("==========批量设置用户自定义字段==========")
+	udvs := make([]model.SetUdfValueBatchInput, 0)
+	udv := model.SetUdfValueBatchInput{
+		TargetId: "621dcbede60e7b7eda97d82a",
+		Key:      "school",
+		Value:    "西财",
+	}
+	udv1 := model.SetUdfValueBatchInput{
+		TargetId: "621dcbede60e7b7eda97d82a",
+		Key:      "student",
+		Value:    true,
+	}
+	udvs = append(udvs, udv)
+	udvs = append(udvs, udv1)
+	resp, err := client.BatchSetUserUdfValue(&udvs)
 	log.Println(resp)
 	log.Println(err)
 }

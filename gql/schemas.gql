@@ -1641,7 +1641,7 @@ input SearchUserRoleOpt {
 input SetUdfValueBatchInput {
     targetId: String!
     key: String!
-    value: String!
+    value: Object!
 }
 
 type SocialConnection {

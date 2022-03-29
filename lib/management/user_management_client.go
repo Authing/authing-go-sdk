@@ -607,7 +607,8 @@ func (c *Client) SetUserUdfValue(id string, udv *model.KeyValuePair) (*[]model.U
 	variables["targetType"] = constant.USER
 	variables["targetId"] = id
 	variables["key"] = udv.Key
-	variables["value"] = udv.Value
+	v, _ := json.Marshal(udv.Value)
+	variables["value"] = string(v)
 
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.SetUdvDocument, variables)
 	if err != nil {
@@ -630,10 +631,15 @@ func (c *Client) SetUserUdfValue(id string, udv *model.KeyValuePair) (*[]model.U
 // BatchSetUserUdfValue
 // 批量设置自定义数据
 func (c *Client) BatchSetUserUdfValue(request *[]model.SetUdfValueBatchInput) (*model.CommonMessageAndCode, error) {
-
 	variables := make(map[string]interface{})
+	input := make([]model.SetUdfValueBatchInput, 0)
+	for _, req := range *request {
+		v, _ := json.Marshal(&req.Value)
+		req.Value = string(v)
+		input = append(input, req)
+	}
 	variables["targetType"] = constant.USER
-	variables["input"] = request
+	variables["input"] = input
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.BatchSetUdfValueDocument, variables)
 	if err != nil {
 		return nil, err

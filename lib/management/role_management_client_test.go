@@ -210,10 +210,10 @@ func TestClient_SetRoleUdfValue(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========设置角色自定义字段==========")
 	kv := &model.KeyValuePair{
-		Key:   "lhucskosfr",
-		Value: "123",
+		Key:   "school",
+		Value: "西财",
 	}
-	resp, err := client.SetRoleUdfValue("616d112b7e387494d1ed0676", kv)
+	resp, err := client.SetRoleUdfValue("624298162086c052b6dc8e5f", kv)
 	if err != nil {
 		fmt.Println(err)
 	}

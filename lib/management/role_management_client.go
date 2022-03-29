@@ -413,6 +413,8 @@ func (c *Client) SetRoleUdfValue(id string, udv *model.KeyValuePair) (*[]model.U
 
 	variables := make(map[string]interface{})
 
+	v, _ := json.Marshal(udv.Value)
+	udv.Value = string(v)
 	variables["targetType"] = constant.ROLE
 	variables["targetId"] = id
 	variables["udvList"] = []model.KeyValuePair{*udv}
@@ -440,8 +442,15 @@ func (c *Client) SetRoleUdfValue(id string, udv *model.KeyValuePair) (*[]model.U
 func (c *Client) BatchSetRoleUdfValue(request *[]model.SetUdfValueBatchInput) (*model.CommonMessageAndCode, error) {
 
 	variables := make(map[string]interface{})
+	input := make([]model.SetUdfValueBatchInput, 0)
+	for _, req := range *request {
+		v, _ := json.Marshal(&req.Value)
+		req.Value = string(v)
+		input = append(input, req)
+	}
+
 	variables["targetType"] = constant.ROLE
-	variables["input"] = request
+	variables["input"] = input
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.BatchSetUdfValueDocument, variables)
 	if err != nil {
 		return nil, err
