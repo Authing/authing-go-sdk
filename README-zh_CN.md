@@ -11,40 +11,41 @@
   <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/badge/License-MIT-success" alt="License"></a>
 </div>
 
-**English** | [简体中文](./README.zh-CN.md)
+**简体中文** | [English](./README.md)
 
-## Introduction
+## 简介
 
-Authing Go SDK currently supports Golang version 1.8+.
+Authing Go SDK 目前支持 Golang 1.8+ 版本。
 
-## Documentation
-- [Authing - Golang](https://docs.authing.cn/v2/en/reference/sdk-for-go/)
+## 参考文档
+- [Authing - Golang](https://docs.authing.cn/v2/reference/sdk-for-go/)
 
-## Install
+## 安装
 
-Install golang sdk, please run:
+安装 golang sdk 库，请运行：
 
 ```
 go get github.com/Authing/authing-go-sdk
 ```
 
-## Questions
+## 常见问题
 
-For questions and support please use the [official forum](https://forum.authing.cn/). The issue list of this repo is exclusively for bug reports and feature requests.
+如果需要在线技术支持，可访问[官方论坛](https://forum.authing.cn/). 此仓库的 issue 仅用于上报 Bug 和提交新功能特性。
 
-## Contribution
+## 开源共建
 
-- Fork it
-- Create your feature branch (git checkout -b my-new-feature)
-- Commit your changes (git commit -am 'Add some feature')
-- Push to the branch (git push -u origin my-new-feature)
-- Create new Pull Request
-## Contribute
+- Fork 此仓库
+- 创建自己的 git 分支 (git checkout -b my-new-feature)
+- 提交你的修改 (git commit -am 'Add some feature')
+- 将修改内容推送到远程分支 (git push -u origin my-new-feature)
+- 创建一个 Pull Request
 
-https://github.com/Authing/.github/blob/main/CONTRIBUTING.md#English
+## 贡献
+
+https://github.com/Authing/.github/blob/main/CONTRIBUTING.md
 
 
-## License
+## 开源许可
 
 [MIT](https://opensource.org/licenses/MIT)
 
