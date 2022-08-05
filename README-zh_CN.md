@@ -13,7 +13,7 @@
 
 ## 简介
 
-Authing Go SDK 目前支持 Golang 1.8+ 版本。
+你可以使用 Authing Go SDK 快速为新开发的或已有的后端应用集成认证能力
 
 ## 参考文档
 - [Authing - Golang](https://docs.authing.cn/v2/reference/sdk-for-go/)

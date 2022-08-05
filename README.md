@@ -13,7 +13,7 @@
 
 ## Introduction
 
-Authing Go SDK currently supports Golang version 1.8+.
+You can use the Authing Go SDK to quickly integrate authentication capabilities for new or existing Back End applications
 
 ## Documentation
 - [Authing - Golang](https://docs.authing.cn/v2/en/reference/sdk-for-go/)
