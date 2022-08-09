@@ -1,0 +1,6 @@
+coverage/
+*.exe
+.vscode/
+.idea/
+authing-go-sdk
+authing-golang-sdk
