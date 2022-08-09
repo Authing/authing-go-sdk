@@ -732,3 +732,22 @@ func TestClient_ValidateTicketV2(t *testing.T) {
 	resp, err := authenticationClient.ValidateTicketV2("ss", "ss", constant.XML)
 	log.Println(resp, err)
 }
+
+func TestClient_LoginByEmail2(t *testing.T) {
+	authenticationClient := NewClient(AppId, Secret)
+	user, err := authenticationClient.LoginByUserName(model.LoginByUsernameInput{
+		Username: "zy",
+		Password: "zy",
+	})
+	fmt.Println(user)
+	fmt.Println(err)
+	user1, err1 := authenticationClient.getCurrentUser()
+	fmt.Println(user1)
+	fmt.Println(err1)
+	nickName := "yy"
+	user2, err2 := authenticationClient.UpdateProfile(&model.UpdateUserInput{
+		Nickname: &nickName,
+	})
+	fmt.Println(user2)
+	fmt.Println(err2)
+}

@@ -563,7 +563,9 @@ func (c *Client) SendHttpRestRequestNotToken(url string, method string, variable
 // GetCurrentUser
 // 获取资源列表
 func (c *Client) GetCurrentUser(token *string) (*model.User, error) {
-
+	if token == nil {
+		token = c.ClientToken
+	}
 	url := fmt.Sprintf("%s/api/v2/users/me", c.Host)
 	b, err := c.SendHttpRestRequest(url, http.MethodGet, token, nil)
 	if err != nil {
@@ -582,11 +584,11 @@ func (c *Client) GetCurrentUser(token *string) (*model.User, error) {
 }
 
 func (c *Client) getCurrentUser() (*model.User, error) {
-	k, e := cacheutil.GetCache(constant.UserCacheKeyPrefix + c.UserPoolId)
-	if !e {
+	k := c.ClientUser
+	if k == nil {
 		return nil, errors.New("未登录")
 	}
-	return k.(*model.User), nil
+	return c.ClientUser, nil
 }
 
 // SetCurrentUser
