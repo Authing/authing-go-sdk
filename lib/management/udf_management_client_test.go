@@ -59,8 +59,9 @@ func TestClient_SetUdvBatch(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========某对象自定义字段列表==========")
 
-	resp, err := client.SetUdvBatch("616d41b7410a33da0cb70e65", model.EnumUDFTargetTypeUSER, &[]model.KeyValuePair{
-		{Key: "goSDK", Value: "goSDK"},
+	resp, err := client.SetUdvBatch("61bc4f2e083e0e9b1634e1f0", model.EnumUDFTargetTypeUSER, &[]model.KeyValuePair{
+		{Key: "school", Value: "sss111"},
+		{Key: "student", Value: false},
 	})
 	if err != nil {
 		fmt.Println(err)

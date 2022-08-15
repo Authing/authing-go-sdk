@@ -1,6 +1,7 @@
 package management
 
 import (
+	"encoding/json"
 	"errors"
 	"github.com/Authing/authing-go-sdk/lib/constant"
 	"github.com/Authing/authing-go-sdk/lib/model"
@@ -111,7 +112,13 @@ func (c *Client) SetUdvBatch(id string, targetType model.EnumUDFTargetType, udv 
 
 	variables["targetType"] = targetType
 	variables["targetId"] = id
-	variables["udvList"] = udv
+	var reqUdv []model.KeyValuePair
+	for _, v := range *udv {
+		v1, _ := json.Marshal(&v.Value)
+		v.Value = string(v1)
+		reqUdv = append(reqUdv, v)
+	}
+	variables["udvList"] = reqUdv
 
 	b, err := c.SendHttpRequest(c.Host+constant.CoreAuthingGraphqlPath, http.MethodPost, constant.SetRoleUdfValueDocument, variables)
 	if err != nil {

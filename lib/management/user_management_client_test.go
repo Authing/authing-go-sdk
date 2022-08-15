@@ -329,10 +329,10 @@ func TestClient_SetUserUdfValue(t *testing.T) {
 	client := NewClient(userPoolId, appSecret)
 	log.Println("==========批量查询用户自定义字段==========")
 	udv := model.KeyValuePair{
-		Key:   "runCount",
-		Value: 23,
+		Key:   "school",
+		Value: "sss1",
 	}
-	resp, err := client.SetUserUdfValue("621dcbede60e7b7eda97d82a", &udv)
+	resp, err := client.SetUserUdfValue("61bc4f2e083e0e9b1634e1f0", &udv)
 	log.Println(resp)
 	log.Println(err)
 }
