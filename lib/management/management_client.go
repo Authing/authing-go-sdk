@@ -59,6 +59,10 @@ func NewClient(userPoolId string, secret string, host ...string) *Client {
 	return c
 }
 
+func (c *Client) SetPublicKey(publicKey string) {
+	constant.PublicKey = publicKey
+}
+
 func NewClientWithError(userPoolId string, secret string, host ...string) (*Client, error) {
 	if userPoolId == "" {
 		return nil, errors.New("请填写 userPoolId 参数")

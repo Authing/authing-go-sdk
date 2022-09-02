@@ -61,6 +61,10 @@ func NewClient(appId string, secret string, host ...string) *Client {
 	return c
 }
 
+func (c *Client) SetPublicKey(publicKey string) {
+	constant.PublicKey = publicKey
+}
+
 // TODO
 func (c *Client) BuildAuthorizeUrlByOidc(params model.OidcParams) (string, error) {
 	if c.AppId == "" {
