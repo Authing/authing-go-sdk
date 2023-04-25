@@ -94,7 +94,8 @@ func (c *Client) BuildAuthorizeUrlByOidc(params model.OidcParams) (string, error
 }
 
 // GetAccessTokenByCode
-//  code 换取 accessToken
+//
+//	code 换取 accessToken
 func (c *Client) GetAccessTokenByCode(code string) (string, error) {
 	if c.AppId == "" {
 		return constant.StringEmpty, errors.New("请在初始化 AuthenticationClient 时传入 appId")
@@ -144,7 +145,8 @@ func (c *Client) GetUserInfoByAccessToken(accessToken string) (string, error) {
 }
 
 // GetNewAccessTokenByRefreshToken
-//   使用 Refresh token 获取新的 Access token
+//
+//	使用 Refresh token 获取新的 Access token
 func (c *Client) GetNewAccessTokenByRefreshToken(refreshToken string) (string, error) {
 	if c.Protocol != constant.OIDC && c.Protocol != constant.OAUTH {
 		return constant.StringEmpty, errors.New("初始化 AuthenticationClient 时传入的 protocol 参数必须为 ProtocolEnum.OAUTH 或 ProtocolEnum.OIDC，请检查参数")
@@ -338,7 +340,7 @@ func (c *Client) LoginByPhonePassword(request model.LoginByPhonePasswordInput) (
 	return c.loginGetUserInfo(b, "loginByPhonePassword")
 }
 
-//TODO
+// TODO
 func (c *Client) loginGetUserInfo(b []byte, userKey string) (*model.User, error) {
 	var result *simplejson.Json
 	result, err := simplejson.NewJson(b)
@@ -435,7 +437,7 @@ func (c *Client) SendHttpRequestManage(url string, method string, query string, 
 	return body, nil
 }
 
-//TODO
+// TODO
 func QueryAccessToken(client *Client) (*model.AccessTokenRes, error) {
 	type Data struct {
 		AccessToken model.AccessTokenRes `json:"accessToken"`
@@ -673,6 +675,10 @@ func (c *Client) RegisterByUsername(request *model.RegisterByUsernameInput) (*mo
 // 使用手机号及验证码注册
 func (c *Client) RegisterByPhoneCode(request *model.RegisterByPhoneCodeInput) (*model.User, error) {
 
+	if request.Password != nil {
+		var pwd = util.RsaEncrypt(*request.Password)
+		request.Password = &pwd
+	}
 	data, _ := jsoniter.Marshal(request)
 	variables := make(map[string]interface{})
 	jsoniter.Unmarshal(data, &variables)
@@ -1584,8 +1590,8 @@ func (c *Client) ValidateTicketV1(ticket, service string) (*struct {
 	return resp, nil
 }
 
-//BuildLogoutUrl
-//拼接登出 URL
+// BuildLogoutUrl
+// 拼接登出 URL
 func (c *Client) BuildLogoutUrl(expert, redirectUri, idToken *string) string {
 	var url string
 	if c.Protocol == constant.OIDC {
